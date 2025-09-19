@@ -8,7 +8,7 @@ spring:
     name: ev-dealer-management
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;databaseName=course_db;encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://${MSSQL_DB_HOST:localhost}:${MSSQL_DB_PORT:1433};databaseName=course_db;encrypt=true;trustServerCertificate=true
     username: sa
     password: 12345
   jpa:
