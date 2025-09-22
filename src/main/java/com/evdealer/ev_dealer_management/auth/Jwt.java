@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.security;
+package com.evdealer.ev_dealer_management.auth;
 
 public class Jwt {
 
