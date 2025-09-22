@@ -5,6 +5,7 @@ import com.evdealer.ev_dealer_management.auth.entity.User;
 import com.evdealer.ev_dealer_management.auth.repository.UserRepository;
 import com.evdealer.ev_dealer_management.enums.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,33 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Create a new user with hashed password and assigned roles.
+     * @param username: The UNIQUE username for the new user
+     * @param plainPassword: The plain - text password that admin typed in when creating account
+     * @param roles: The role that this user will be assigned to
+     * @return saved User entity
+     */
+    @PreAuthorize("hasRole('EVM_ADMIN')")
+    public User createUser(String username, String plainPassword, Set<Role> roles) {
+        if(userRepository.existsByUsername(username)) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        // Hash(password + salt (unique string per user)) -> Store in DB
+        // When login, retrieve salt from DB, do the same hash function on (password + salt)
+        // Compare the result with the hashed password stored in DB
+        // If match, login successful, else fail
+        String hashedPassword = passwordEncoder.encode(plainPassword);
+
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setHashedPassword(hashedPassword);
+        newUser.setRoles(roles);
+        newUser.setActive(true); // By default, set user as active
+
+        return userRepository.save(newUser);
+    }
     /**
      * When login, user will type in username and plain - text password.
      *
@@ -48,23 +76,5 @@ public class AuthService {
         //Login successful
         return user;
     }
-
-    /**
-     * Checks if the user has at least one of the required roles.
-     *
-     * @param user User entity
-     * @param requiredRoles Roles allowed for this action
-     * @throws RuntimeException if user does not have permission
-     */
-    public void checkRole(User user, Set<RoleType> requiredRoles) {
-        boolean hasRole = user.getRoles().stream()
-                .map(Role::getRoleName)
-                .anyMatch(requiredRoles::contains);
-
-        if (!hasRole) {
-            throw new RuntimeException("User does not have permission to perform this action");
-        }
-    }
-
 
 }
