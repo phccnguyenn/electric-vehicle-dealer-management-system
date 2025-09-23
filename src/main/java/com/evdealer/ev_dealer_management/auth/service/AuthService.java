@@ -3,7 +3,6 @@ package com.evdealer.ev_dealer_management.auth.service;
 import com.evdealer.ev_dealer_management.auth.entity.Role;
 import com.evdealer.ev_dealer_management.auth.entity.User;
 import com.evdealer.ev_dealer_management.auth.repository.UserRepository;
-import com.evdealer.ev_dealer_management.enums.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;

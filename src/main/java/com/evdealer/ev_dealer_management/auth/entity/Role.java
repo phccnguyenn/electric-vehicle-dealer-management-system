@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.auth.entity;
 
-import com.evdealer.ev_dealer_management.enums.RoleType;
+import com.evdealer.ev_dealer_management.auth.entity.enumeration.RoleType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
