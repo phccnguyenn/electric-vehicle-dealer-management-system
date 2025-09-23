@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+
+  evdealer-mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: "evdealer-mssql"
+    ports:
+      - "14335:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    volumes:
+      - ./sql:/var/opt/sql
+    networks:
+      - evdealer-network
+
+  mssql-tool:
+    image: mcr.microsoft.com/mssql-tools:latest
+    container_name: "mssql-tool"
+    depends_on:
+      - evdealer-mssql
+    command: /opt/sql/wait-for-mssql.sh
+    volumes:
+      - ./sql:/opt/sql
+    networks:
+      - evdealer-network
+
+networks:
+  evdealer-network:
+    driver: bridge
+    name: evdealer-network
