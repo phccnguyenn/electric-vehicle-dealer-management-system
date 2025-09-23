@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.auth.dto;
+package com.evdealer.ev_dealer_management.auth.entity.dto;
 
 import lombok.Getter;
 
