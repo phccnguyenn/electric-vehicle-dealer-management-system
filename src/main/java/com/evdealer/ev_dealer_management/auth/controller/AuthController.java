@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.auth.controller;
 
-import com.evdealer.ev_dealer_management.auth.entity.dto.AuthResponse;
+import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

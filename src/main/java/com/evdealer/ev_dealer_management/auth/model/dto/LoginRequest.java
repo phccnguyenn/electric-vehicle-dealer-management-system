@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.auth.entity.dto;
+package com.evdealer.ev_dealer_management.auth.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

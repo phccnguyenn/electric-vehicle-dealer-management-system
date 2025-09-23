@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.auth.security;
 
-import com.evdealer.ev_dealer_management.auth.entity.User;
+import com.evdealer.ev_dealer_management.auth.model.User;
 import com.evdealer.ev_dealer_management.auth.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.auth.entity;
+package com.evdealer.ev_dealer_management.auth.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

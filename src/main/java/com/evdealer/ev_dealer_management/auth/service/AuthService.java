@@ -1,7 +1,7 @@
 package com.evdealer.ev_dealer_management.auth.service;
 
-import com.evdealer.ev_dealer_management.auth.entity.Role;
-import com.evdealer.ev_dealer_management.auth.entity.User;
+import com.evdealer.ev_dealer_management.auth.model.Role;
+import com.evdealer.ev_dealer_management.auth.model.User;
 import com.evdealer.ev_dealer_management.auth.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

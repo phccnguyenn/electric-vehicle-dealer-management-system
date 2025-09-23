@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.auth.repository;
 
-import com.evdealer.ev_dealer_management.auth.entity.User;
+import com.evdealer.ev_dealer_management.auth.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
