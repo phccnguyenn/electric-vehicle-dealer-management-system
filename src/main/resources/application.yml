@@ -19,3 +19,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
 
+file:
+  directory: /upload/images/
+
+#  docker volume create media_data
+#  docker run -v media_data:/data/uploads my-app
