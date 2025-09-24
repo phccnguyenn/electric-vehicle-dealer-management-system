@@ -12,3 +12,5 @@ for file in /opt/sql/*.sql; do
     echo "Running $file..."
     /opt/mssql-tools/bin/sqlcmd -S $SERVER -U sa -P "$MSSQL_SA_PASSWORD" -i "$file"
 done
+
+echo "SQL scripts run successfully"
