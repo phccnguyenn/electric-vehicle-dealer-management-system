@@ -6,6 +6,8 @@ server:
 spring:
   application:
     name: ev-dealer-management
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
     url: jdbc:sqlserver://${MSSQL_DB_HOST:localhost}:${MSSQL_DB_PORT:1433};databaseName=evdealer_db;encrypt=true;trustServerCertificate=true
@@ -18,4 +20,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
+logging:
+  level:
+    org.springframework: TRACE
+    org.springframework.security: TRACE
 
+jwt:
+  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
+  expiration: 86400000
+  refresh-expiration: 604800000
