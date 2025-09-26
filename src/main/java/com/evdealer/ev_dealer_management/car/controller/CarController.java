@@ -18,6 +18,7 @@ public class CarController {
         this.carService = carService;
     }
 
+
     @GetMapping()
     public List<Car> getAllCars(@RequestParam(required = false) CarStatus carStatus ,
                                 @RequestParam(required = false) Integer year) {

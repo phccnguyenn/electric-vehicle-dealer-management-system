@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.car.service;
 
 import com.evdealer.ev_dealer_management.car.model.Car;
+import com.evdealer.ev_dealer_management.car.model.CarConfig;
 import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
 import com.evdealer.ev_dealer_management.car.repository.CarConfigRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarRepository;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 
 public class CarServiceImpl implements CarService {
+
 
     private final CarRepository carRepository;
     private final CarConfigRepository carConfigRepository;
@@ -63,5 +65,14 @@ public class CarServiceImpl implements CarService {
     @Override
     public void delete(Long id) {
 
+    }
+    @Override
+    public List<Car> getConfigsByCarId(Long carId) {
+        return List.of();
+    }
+
+    @Override
+    public CarConfig addConfigToCar(Long carId, CarConfig config) {
+        return null;
     }
 }
