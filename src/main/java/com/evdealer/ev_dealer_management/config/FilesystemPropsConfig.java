@@ -4,11 +4,11 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 @Getter
 public class FilesystemPropsConfig {
 
-    @Value("${file.directory}")
-    private String directory;
+//    @Value("${file.directory}")
+//    private String directory;
 
 }
