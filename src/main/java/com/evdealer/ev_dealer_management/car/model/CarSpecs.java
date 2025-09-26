@@ -15,25 +15,35 @@ public class CarSpecs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "specs_id", nullable = false, unique = true)
-    private String specsId ;
+    private Long specsId ;
+
     @Column(name = "maximum_capacity", nullable = false)
     private Integer maximumCapacity ;
+
     @Column(name = "maximum_torque", nullable = false)
     private Integer maximumTorque ;
+
     @Column(name = "light_system", nullable = false)
     private String lightSystem ;
+
     @Column(name = "speaker_system", nullable = false)
     private String speakerSystem ;
+
     @Column(name = "ground_learance", nullable = false)
     private Integer groundClearance ;
+
     @Column(name = "seat", nullable = false)
     private Short seat ;
+
     @Column(name = "air_conditioner", nullable = false)
     private String airConditioner ;
+
     @Column(name = "distance_run", nullable = false)
     private Integer distanceRun ;
+
     @Column(name = "wheel_base", nullable = false)
     private String wheelBase ;
+
     @Column(name = "drive", nullable = false)
     private String drive ;
 

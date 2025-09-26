@@ -14,7 +14,7 @@ import java.util.Optional;
  * - kiểm tra sự tồn tại của tên đăng nhập.
  * (Từ từ sẽ add thêm theo nhu cầu của thầy cô)
  */
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface   UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     boolean existsByUsername(String username);
 }

@@ -1,5 +1,6 @@
 package com.evdealer.ev_dealer_management.car.model;
 
+import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_id", nullable = false, unique = true)
-    private long carId;
+    private Long carId;
 
     @Column(name = "car_name",length = 50, nullable = false)
     private String carName;
@@ -30,7 +31,7 @@ public class Car {
     private String description;
 
     @Column(name = "status", nullable = false)
-    private Short status;
+    private CarStatus status;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CarConfig> carConfigs = new ArrayList<>() ;
