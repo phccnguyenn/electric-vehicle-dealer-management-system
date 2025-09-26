@@ -6,11 +6,13 @@ server:
 spring:
   application:
     name: ev-dealer-management
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://${MSSQL_DB_HOST:localhost}:${MSSQL_DB_PORT:1433};databaseName=evdealer_db;encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://localhost:14335;databaseName=evdealer_db;encrypt=true;trustServerCertificate=true
     username: sa
-    password: 12345
+    password: 6$3S6zPKpJ+Y2-*J
   jpa:
     hibernate:
       ddl-auto: create
@@ -18,9 +20,12 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
+logging:
+  level:
+    org.springframework: TRACE
+    org.springframework.security: TRACE
 
-file:
-  directory: /upload/images/
-
-#  docker volume create media_data
-#  docker run -v media_data:/data/uploads my-app
+jwt:
+  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
+  expiration: 86400000
+  refresh-expiration: 604800000

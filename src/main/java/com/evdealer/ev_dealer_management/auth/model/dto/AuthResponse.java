@@ -1,5 +1,8 @@
 package com.evdealer.ev_dealer_management.auth.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+
 /**
  * DTO for authentication response.
  * Lớp này sẽ được sử dụng bởi AuthController để gửi dữ liệu
@@ -7,28 +10,15 @@ package com.evdealer.ev_dealer_management.auth.model.dto;
  * về cho client sau khi xử lý đăng nhập hoặc đăng ký (chỉ có staff mới đăng ký)
  * từ AuthService.
  */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AuthResponse {
-    private String token;
-    private String role;
+    @JsonProperty("access_token")
+    private String accessToken;
 
-    public AuthResponse(String token, String role) {
-        this.token = token;
-        this.role = role;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public String setToken(String token) {
-        return this.token = token;
-    }
-
-    public String setRole(String role) {
-        return this.role = role;
-    }
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 }
