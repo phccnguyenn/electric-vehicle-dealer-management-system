@@ -4,11 +4,11 @@ import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;
 import jakarta.validation.constraints.NotBlank;
 
 public record RegisterRequest(
-        @NotBlank String username,
-        @NotBlank String password,
-        @NotBlank String fullName,
-        @NotBlank String email,
-        @NotBlank String phone,
+        @NotBlank(message = "Username must not be blank") String username,
+        @NotBlank(message = "Password must not be blank") String password,
+        @NotBlank(message = "Full name must not be blank") String fullName,
+        String email,
+        String phone,
         Boolean isActive,
         RoleType role
 ) {
