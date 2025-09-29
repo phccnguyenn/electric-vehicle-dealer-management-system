@@ -44,9 +44,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/authenticate").permitAll()
-                        .requestMatchers("/admin/**").hasRole("EVM_ADMIN")
-                        .requestMatchers("/dealer/**").hasAnyRole("DEALER_STAFF", "DEALER_MANAGER")
-                        .anyRequest().authenticated()
+//                        .requestMatchers("/admin/**").hasRole("EVM_ADMIN")
+//                        .requestMatchers("/dealer/**").hasAnyRole("DEALER_STAFF", "DEALER_MANAGER")
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(Customizer.withDefaults())
