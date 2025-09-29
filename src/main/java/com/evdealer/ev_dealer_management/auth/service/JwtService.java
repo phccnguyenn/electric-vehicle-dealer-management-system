@@ -1,5 +1,6 @@
 package com.evdealer.ev_dealer_management.auth.service;
 
+import com.evdealer.ev_dealer_management.auth.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -62,6 +63,7 @@ public class JwtService {
                 .builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
+                .claim("role", ((User) userDetails).getRole().name())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

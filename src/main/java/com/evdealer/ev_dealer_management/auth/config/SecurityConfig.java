@@ -6,6 +6,7 @@ import com.evdealer.ev_dealer_management.auth.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,6 +36,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final TokenRepository tokenRepository;
     private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -48,6 +50,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/dealer/**").hasAnyRole("DEALER_STAFF", "DEALER_MANAGER")
                         .anyRequest().permitAll()
                 )
+                .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
