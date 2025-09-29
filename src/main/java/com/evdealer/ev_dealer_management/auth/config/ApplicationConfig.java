@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.config;
+package com.evdealer.ev_dealer_management.auth.config;
 
 import com.evdealer.ev_dealer_management.auth.model.User;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
