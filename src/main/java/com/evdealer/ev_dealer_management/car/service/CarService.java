@@ -8,7 +8,7 @@ import java.util.List;
 public interface CarService {
     List<Car> getAll();
     List<Car> getByStatus(CarStatus status);
-    List<Car> getByYear(Integer year);
+    // List<Car> getByYear(Integer year);
     List<Car> searchByName(String keyword);
     List<Car> getConfigsByCarId(Long carId);
 

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Service
 public class AuthService {
 
@@ -86,7 +88,7 @@ public class AuthService {
     public RegisterResponse register(RegisterRequest request) {
 
         if (checkExistUsername(request.username()))
-            throw new DuplicatedException(Constants.ErrorCode.USERNAME_ALREADY_EXIST);
+            throw new DuplicatedException(Constants.ErrorCode.USERNAME_ALREADY_EXIST, request.username());
 
         User user = new User();
         user.setUsername(request.username());
@@ -104,6 +106,9 @@ public class AuthService {
         String jwtToken = jwtService.generateToken(savedUser);
         String refreshToken = jwtService.generateRefreshToken(savedUser);
         saveUserToken(savedUser, jwtToken);
+
+        log.info("ACCESS_TOKEN: " + jwtToken);
+        log.info("REFRESH_TOKEN: " + refreshToken);
 
         return RegisterResponse.fromModel(savedUser);
     }

@@ -19,17 +19,17 @@ public class CarController {
     }
 
 
-    @GetMapping()
-    public List<Car> getAllCars(@RequestParam(required = false) CarStatus carStatus ,
-                                @RequestParam(required = false) Integer year) {
-        if (carStatus != null) {
-            return carService.getByStatus(carStatus);
-        }
-        if (year != null) {
-            return carService.getByYear(year);
-        }
-        return carService.getAll();
-    }
+//    @GetMapping()
+//    public List<Car> getAllCars(@RequestParam(required = false) CarStatus carStatus ,
+//                                @RequestParam(required = false) Integer year) {
+//        if (carStatus != null) {
+//            return carService.getByStatus(carStatus);
+//        }
+//        if (year != null) {
+//            return carService.getByYear(year);
+//        }
+//        return carService.getAll();
+//    }
 
     @GetMapping("/{id}")
     public Car getCarById(@PathVariable Integer id) {

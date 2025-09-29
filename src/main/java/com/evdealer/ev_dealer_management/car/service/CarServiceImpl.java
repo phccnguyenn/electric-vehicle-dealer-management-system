@@ -32,10 +32,10 @@ public class CarServiceImpl implements CarService {
         return carRepository.findByStatus(status);
     }
 
-    @Override
-    public List<Car> getByYear(Integer year) {
-        return carRepository.findByYear(year);
-    }
+//    @Override
+//    public List<Car> getByYear(Integer year) {
+//        return carRepository.findByYear(year);
+//    }
 
     @Override
     public List<Car> searchByName(String keyword) {

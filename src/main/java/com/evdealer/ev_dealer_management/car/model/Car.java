@@ -19,7 +19,7 @@ public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "car_id", nullable = false, unique = true)
-    private Long carId;
+    private Long id;
 
     @Column(name = "car_name",length = 50, nullable = false)
     private String carName;
