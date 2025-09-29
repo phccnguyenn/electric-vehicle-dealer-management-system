@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.auth.config;
+package com.evdealer.ev_dealer_management.config;
 
 import com.evdealer.ev_dealer_management.auth.model.User;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;

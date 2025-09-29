@@ -14,7 +14,6 @@ import com.evdealer.ev_dealer_management.utils.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,6 +63,9 @@ public class AuthService {
                         request.getPassword()));
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
+
+
+
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);

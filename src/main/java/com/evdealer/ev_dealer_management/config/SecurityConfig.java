@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.auth.config;
+package com.evdealer.ev_dealer_management.config;
 
 import com.evdealer.ev_dealer_management.auth.filter.JwtAuthenticationFilter;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
@@ -12,8 +12,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -45,7 +43,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/authenticate").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
 //                        .requestMatchers("/admin/**").hasRole("EVM_ADMIN")
 //                        .requestMatchers("/dealer/**").hasAnyRole("DEALER_STAFF", "DEALER_MANAGER")
                         .anyRequest().permitAll()
