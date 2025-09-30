@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface CarConfigRepository extends JpaRepository<CarConfig,Long> {
       List<CarConfig> findByCarId(Long carId);
-
+      List<CarConfig> getConfigsByCarId(Long carId);
 }
