@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.auth.repository;
 
 import com.evdealer.ev_dealer_management.auth.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -14,7 +15,8 @@ import java.util.Optional;
  * - kiểm tra sự tồn tại của tên đăng nhập.
  * (Từ từ sẽ add thêm theo nhu cầu của thầy cô)
  */
-public interface   UserRepository extends JpaRepository<User, Long> {
+@Repository
+public interface  UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
     boolean existsByUsername(String username);
 }

@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.auth.model;
 
 import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,30 +22,31 @@ import java.time.LocalDateTime;
  * Lớp này sẽ được sử dụng bởi AuthService để tương tác với cơ sở dữ liệu
  * thông qua UserRepository.
  */
+
+@Entity
+@Table(name = "users")
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
-@Entity
-@Table(name = "user")
-public class User implements UserDetails {
+public class User extends AbstractAuditEntity
+        implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false, unique = true)
-    @NotNull
+    @Column(name = "user_id")
     private Long id;
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "fullname", nullable = false)
-    private String fullname;
-
     // Chỗ này mình đổi password -> hashed_password nha anh Phúc
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
+
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
@@ -55,14 +57,6 @@ public class User implements UserDetails {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
@@ -72,17 +66,20 @@ public class User implements UserDetails {
     @ToString.Exclude
     private List<Token> tokens;
 
+
+    /**
+     * UserDetails Override
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
         return authorities;
-
     }
 
     @Override
     public String getPassword() {
-        return "";
+        return hashedPassword;  // TEMP
     }
 
     @Override

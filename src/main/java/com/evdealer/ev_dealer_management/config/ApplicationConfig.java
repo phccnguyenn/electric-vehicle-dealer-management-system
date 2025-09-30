@@ -23,25 +23,19 @@ public class ApplicationConfig {
     private final UserRepository repository;
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        /*return username -> repository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-         */
-        UserDetails user = User.builder()
-                .username("user1")
-                .hashedPassword(passwordEncoder.encode("password123"))
-                .role(RoleType.DEALER_STAFF)
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
+    public UserDetailsService userDetailsService() {
+        return username -> {
+            System.out.println("Trying to load user: " + username);
+            return repository.findByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        };
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService(passwordEncoder()));
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
 
@@ -52,6 +46,6 @@ public class ApplicationConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(12);
     }
 }

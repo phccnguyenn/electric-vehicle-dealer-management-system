@@ -14,6 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = "password")
 public class AuthRequest {
     @NotBlank(message = "Username can not be blanked")
     private String username;
