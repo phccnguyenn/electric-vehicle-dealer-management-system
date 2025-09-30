@@ -10,9 +10,9 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://localhost:1433;databaseName=evdealer_db;encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://${MSSQL_URI:localhost:14335};databaseName=evdealer_db;encrypt=true;trustServerCertificate=true
     username: sa
-    password: 12345
+    password: 6$3S6zPKpJ+Y2-*J
   jpa:
     hibernate:
       ddl-auto: create
@@ -20,6 +20,16 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
+    display-request-duration: true
+
 logging:
   level:
     org.springframework: TRACE

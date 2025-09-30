@@ -26,6 +26,19 @@ services:
     networks:
       - evdealer-network
 
+  evd-app:
+    image: evd-image:1.0.0
+    container_name: "evd-app"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - evdealer-mssql
+    environment:
+      - MSSQL_URI=${MSSQL_URI}
+    command: sh -c "sleep 5 && java -jar /app/app.jar"
+    networks:
+      - evdealer-network
+
 networks:
   evdealer-network:
     driver: bridge

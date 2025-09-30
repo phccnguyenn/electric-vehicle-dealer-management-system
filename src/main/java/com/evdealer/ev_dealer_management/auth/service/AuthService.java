@@ -10,6 +10,7 @@ import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
 import com.evdealer.ev_dealer_management.auth.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
+import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.utils.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -62,9 +64,7 @@ public class AuthService {
                         request.getUsername(),
                         request.getPassword()));
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow();
-
-
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USERNAME_NOT_FOUND, request.getUsername()));
 
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
@@ -74,6 +74,10 @@ public class AuthService {
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public String authentication() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
 //    public AuthResponse register(User user) {
