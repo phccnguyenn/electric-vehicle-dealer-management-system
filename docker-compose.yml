@@ -27,7 +27,7 @@ services:
       - evdealer-network
 
   evd-app:
-    image: evd-image:1.0.0
+    image: ghcr.io/phccnguyenn/evd-image:1.0.0
     container_name: "evd-app"
     ports:
       - "8000:8000"
