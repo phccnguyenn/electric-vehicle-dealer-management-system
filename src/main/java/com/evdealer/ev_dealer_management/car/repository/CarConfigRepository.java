@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface CarConfigRepository extends JpaRepository<CarConfig,Long> {
       List<CarConfig> findByCarId(Long carId);
-
+      List<CarConfig> getConfigsByCarId(Long carId);
 }

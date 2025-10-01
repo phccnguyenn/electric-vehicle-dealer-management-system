@@ -8,8 +8,8 @@ package com.evdealer.ev_dealer_management.auth.model.enumeration;
  * - user: để gán và quản lý vai trò cho người dùng
  */
 public enum RoleType {
-    EVM_STAFF,
     EVM_ADMIN,
-    DEALER_STAFF,
-    DEALER_MANAGER
+    EVM_STAFF,
+    DEALER_MANAGER,
+    DEALER_STAFF
 }

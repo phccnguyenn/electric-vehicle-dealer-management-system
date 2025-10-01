@@ -7,72 +7,87 @@ import com.evdealer.ev_dealer_management.car.repository.CarConfigRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.criteria.Predicate;
+
 
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 
-public class CarServiceImpl implements CarService {
+public class CarServiceImpl  {
 
 
     private final CarRepository carRepository;
     private final CarConfigRepository carConfigRepository;
 
-    @Override
-    public List<Car> getAll() {
-        return carRepository.findAll();
+
+    public List<Car> filter(CarStatus status, Integer year,String keyword ) {
+            Specification<Car> specification = (root, query1 ,cb) ->
+            {
+                List<Predicate> predicates = new ArrayList<>();
+                if(status != null) {
+                    predicates.add(cb.equal(root.get("status"), status));
+                }
+                if(year != null) {
+                    predicates.add(cb.equal(root.get("year"), year));
+
+                }
+                if(keyword != null) {
+                    predicates.add(cb.like(cb.lower(root.get("carName")), "%" + keyword.toLowerCase() + "%"));
+                }
+
+                return cb.and(predicates.toArray(new Predicate[0]));
+            } ;
+        return carRepository.findAll(specification);
     }
 
-    @Override
-    public List<Car> getByStatus(CarStatus status) {
-        return carRepository.findByStatus(status);
-    }
 
-//    @Override
-//    public List<Car> getByYear(Integer year) {
-//        return carRepository.findByYear(year);
-//    }
 
-    @Override
-    public List<Car> searchByName(String keyword) {
-        return carRepository.findByCarNameContainingIgnoreCase(keyword == null ? "" : keyword);
-    }
-
-    @Override
     public Car getById(Long id) {
         return carRepository.findById(id).orElse(null) ;
     }
 
-    @Override
+
     public Car getByModel(String model) {
-        return null;
+        return carRepository.findByCarModelIgnoreCase(model);
     }
 
-    @Override
+
     public Car create(Car car) {
-        return null;
+        return carRepository.save(car);
     }
 
-    @Override
+
     public Car update(Long id, Car car) {
-        return null;
+        return carRepository.findById(id).map (existingCar -> {
+            existingCar.setCarName(car.getCarName());
+            existingCar.setCarModel(car.getCarModel());
+            existingCar.setDescription(car.getDescription());
+            existingCar.setStatus(car.getStatus());
+            return carRepository.save(existingCar);
+        }).orElse(null);
     }
 
-    @Override
+
     public void delete(Long id) {
-
-    }
-    @Override
-    public List<Car> getConfigsByCarId(Long carId) {
-        return List.of();
+        carRepository.deleteById(id);
     }
 
-    @Override
-    public CarConfig addConfigToCar(Long carId, CarConfig config) {
-        return null;
+    public List<CarConfig> getConfigsByCarId(Long carId) {
+        return carConfigRepository.findByCarId(carId);
     }
+
+//
+//    public CarConfig addConfigToCar(Long carId, CarConfig config) {
+//        return carRepository.findById(carId).map(car -> {
+//            config.setCar(car);
+//            return carConfigRepository.save(config);
+//        }).orElse(null);
+//    }
 }

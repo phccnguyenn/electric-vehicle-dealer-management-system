@@ -30,11 +30,16 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponse> authenticate(
             @RequestBody AuthRequest authRequest
     ) {
         return ResponseEntity.ok(authService.authenticate(authRequest));
+    }
+
+    @GetMapping("/authentication")
+    public ResponseEntity<String> authenticate() {
+        return ResponseEntity.ok(authService.authentication());
     }
 
 //    @ApiResponses(
@@ -44,6 +49,7 @@ public class AuthController {
 //            @ApiResponse(responseCode = "409", description = "Username already exists", content = @Content(schema = @Schema(implementation = ErrorDto.class))),
 //        }
 //    )
+
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest user) {
         RegisterResponse response = authService.register(user);

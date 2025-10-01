@@ -22,6 +22,7 @@ public class CarConfig {
     private String color ;
     @Column(name = "price",length = 20, nullable = false)
     private BigDecimal price ;
+
     @Column(name = "image",length = 400, columnDefinition = "TEXT")
     private String image ;
     @Column(name = "version",length = 20, nullable = false)
