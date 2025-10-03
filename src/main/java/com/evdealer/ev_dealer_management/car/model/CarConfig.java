@@ -13,18 +13,21 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarConfig {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "config_id", nullable = false, unique = true)
-    private Long configId ;
-    @Column(name = "color",length = 20, nullable = false)
+    private Long configId;
 
+    @Column(name = "color",length = 20, nullable = false)
     private String color ;
+
     @Column(name = "price",length = 20, nullable = false)
     private BigDecimal price ;
 
     @Column(name = "image",length = 400, columnDefinition = "TEXT")
-    private String image ;
+    private String image;
+
     @Column(name = "version",length = 20, nullable = false)
     private String version ;
 

@@ -14,16 +14,21 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Battery {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "battery_id", nullable = false, unique = true)
     private String batteryId ;
+
     @Column(name = "battery_type",length = 100, nullable = false)
     private String batteryType ;
-    @Column(name = "chargin_duration", nullable = false)
+
+    @Column(name = "charging_duration", nullable = false)
     private String chargingDuration ;
+
     @Column(name = "duration_use", nullable = false)
     private String durationUse ;
+
     @Column(name = "weight", nullable = false,precision = 7, scale = 2)
     private String Weight ;
 

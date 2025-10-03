@@ -20,13 +20,14 @@ public class Engine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "engine_id", nullable = false, unique = true)
     private String engineId;
+
     @Column(name = "engine_details",length = 200, nullable = false)
     private String engineDetails;
+
     @Column(name = "max_speed", nullable = false)
     private Double maxSpeed   ;
 
     @OneToMany(mappedBy = "engine",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<CarConfig> carConfigs = new ArrayList<>() ;
-
 
 }
