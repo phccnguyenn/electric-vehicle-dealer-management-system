@@ -1,39 +1,41 @@
 package com.evdealer.ev_dealer_management.car.model;
 
-import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
+import com.evdealer.ev_dealer_management.car.model.enumeration.DriveType;
+import com.evdealer.ev_dealer_management.utils.AbstractAuditEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Setter;
 
 @Entity
-@Table(name = "cars")
-@Data
+@Table(name = "car")
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Car {
+public class Car extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "car_id", nullable = false, unique = true)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "car_name",length = 50, nullable = false)
-    private String carName;
+    private Long categoryId;
 
-    @Column(name = "car_model",length = 20, nullable = false)
-    private String carModel;
+    private Long colorId;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    private Long batteryId;
 
-    @Column(name = "status", nullable = false)
-    private CarStatus status;
+    private Long performanceId;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CarConfig> carConfigs = new ArrayList<>() ;
+    private int year;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "drive_type")
+    private DriveType driveType;
+
+    @Column(name = "seat_number")
+    private int seatNumber;
 
 }

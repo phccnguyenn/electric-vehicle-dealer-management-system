@@ -1,7 +1,8 @@
 package com.evdealer.ev_dealer_management.car.service;
 
 import com.evdealer.ev_dealer_management.car.model.Car;
-import com.evdealer.ev_dealer_management.car.model.CarConfig;
+import com.evdealer.ev_dealer_management.car.model.dto.car.CarDetailGetDto;
+import com.evdealer.ev_dealer_management.car.model.dto.car.CarPostDto;
 import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
 import com.evdealer.ev_dealer_management.car.repository.CarConfigRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarRepository;
@@ -19,13 +20,10 @@ import jakarta.persistence.criteria.Predicate;
 @Service
 @Transactional
 @RequiredArgsConstructor
-
-public class CarServiceImpl  {
-
+public class CarService {
 
     private final CarRepository carRepository;
     private final CarConfigRepository carConfigRepository;
-
 
     public List<Car> filter(CarStatus status, Integer year,String keyword ) {
             Specification<Car> specification = (root, query1 ,cb) ->
@@ -36,7 +34,6 @@ public class CarServiceImpl  {
                 }
                 if(year != null) {
                     predicates.add(cb.equal(root.get("year"), year));
-
                 }
                 if(keyword != null) {
                     predicates.add(cb.like(cb.lower(root.get("carName")), "%" + keyword.toLowerCase() + "%"));
@@ -59,8 +56,15 @@ public class CarServiceImpl  {
     }
 
 
-    public Car create(Car car) {
-        return carRepository.save(car);
+    public CarDetailGetDto create(CarPostDto carPostDto) {
+
+        Car car = new Car();
+        car.setCarName(carPostDto.carName());
+        car.setCarName(carPostDto.carModel());
+        car.setCarName(carPostDto.description());
+        car.setStatus(carPostDto.status());
+
+
     }
 
 

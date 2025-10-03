@@ -1,9 +1,8 @@
 package com.evdealer.ev_dealer_management.car.controller;
 
 import com.evdealer.ev_dealer_management.car.model.Car;
-import com.evdealer.ev_dealer_management.car.model.CarConfig;
 import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
-import com.evdealer.ev_dealer_management.car.service.CarServiceImpl;
+import com.evdealer.ev_dealer_management.car.service.CarService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,11 +11,11 @@ import java.util.List;
 @RequestMapping("/api/cars")
 public class CarController {
 
-    private final CarServiceImpl carServiceImpl;
+    private final CarService carService;
 
-    public CarController(CarServiceImpl carService) {
+    public CarController(CarService carService) {
 
-        this.carServiceImpl = carService;
+        this.carService = carService;
     }
 
     @GetMapping
@@ -25,41 +24,41 @@ public class CarController {
             @RequestParam(required = false) Integer year,
             @RequestParam(name = "q", required = false) String q
     ) {
-        return carServiceImpl.filter(status, year, q);
+        return carService.filter(status, year, q);
     }
 
     @GetMapping("/{id}")
     public Car getCarById(@PathVariable Long id) {
 
-        return carServiceImpl.getById(id);
+        return carService.getById(id);
     }
 
     @GetMapping("/model/{model}")
     public Car getCarByModel(@PathVariable String model) {
 
-        return carServiceImpl.getByModel(model);
+        return carService.getByModel(model);
     }
 
     @PostMapping
     public Car createCar(@RequestBody Car car) {
 
-            return carServiceImpl.create(car);
+            return carService.create(car);
     }
 
     @PutMapping("/{id}")
     public Car updateCar(@PathVariable Integer id, @RequestBody Car car) {
-        return carServiceImpl.update(Long.valueOf(id), car);
+        return carService.update(Long.valueOf(id), car);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCar(@PathVariable Long id) {
-        carServiceImpl.delete(id);
+        carService.delete(id);
 
     }
     @GetMapping("/{carId}/configs")
     public List<CarConfig> getCarConfigs(@PathVariable Long carId) {
 
-        return carServiceImpl.getConfigsByCarId(carId) ;
+        return carService.getConfigsByCarId(carId) ;
     }
 
 
