@@ -9,6 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Slf4j
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -35,9 +38,54 @@ public class DataInitializer implements CommandLineRunner {
                 .role(RoleType.EVM_ADMIN)
                 .build();
 
+        List<RegisterRequest> requests = new ArrayList<>();
+        requests.add(RegisterRequest.builder()
+                .username("evd.admin")
+                .password(password)
+                .fullName("EVD Administrator")
+                .email("admin@evdcompany.com")
+                .phone("0987654321")
+                .isActive(true)
+                .role(RoleType.EVM_ADMIN)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("evd.staff001")
+                .password(password)
+                .fullName("EVD Staff")
+                .email("staff001@evdcompany.com")
+                .phone("0986000976")
+                .isActive(true)
+                .role(RoleType.EVM_STAFF)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("dealer.manager001")
+                .password(password)
+                .fullName("Dealer Manager")
+                .email("dealer_manager001@evdcompany.com")
+                .phone("0986194321")
+                .isActive(true)
+                .role(RoleType.DEALER_MANAGER)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("dealer.staff001")
+                .password(password)
+                .fullName("Dealer Staff")
+                .email("dealer_staff001@evdcompany.com")
+                .phone("0916951021")
+                .isActive(true)
+                .role(RoleType.DEALER_STAFF)
+                .build());
+
         try {
-            RegisterResponse response = authService.register(request);
-            log.info("[LOG] - Admin count with username {}", username);
+            requests.forEach(
+                account -> {
+                    RegisterResponse response = authService.register(account);
+                    log.info("[LOG] - {} account with username {}", account.role(), account.username());
+                }
+            );
         } catch (DuplicatedException e) {
             throw new RuntimeException(e);
         }
