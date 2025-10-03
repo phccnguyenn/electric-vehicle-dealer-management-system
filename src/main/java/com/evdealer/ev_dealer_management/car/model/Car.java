@@ -1,12 +1,15 @@
 package com.evdealer.ev_dealer_management.car.model;
 
 import com.evdealer.ev_dealer_management.car.model.enumeration.DriveType;
-import com.evdealer.ev_dealer_management.utils.AbstractAuditEntity;
+import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "car")
@@ -23,13 +26,12 @@ public class Car extends AbstractAuditEntity {
 
     private Long categoryId;
 
-    private Long colorId;
 
     private Long batteryId;
 
     private Long performanceId;
 
-    private int year;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "drive_type")
@@ -37,5 +39,28 @@ public class Car extends AbstractAuditEntity {
 
     @Column(name = "seat_number")
     private int seatNumber;
+
+    @Column(name ="year")
+    private int year;
+
+
+    //ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "color_id", nullable = false)
+    private Color color;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    //OneToOne
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Interior interior;
+
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Dimension dimension;
+
+    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Performance performance;
 
 }
