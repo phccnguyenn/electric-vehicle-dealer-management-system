@@ -25,7 +25,6 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173") //Allowing CORS for frontend application
 public class AuthController {
 
     private final AuthService authService;

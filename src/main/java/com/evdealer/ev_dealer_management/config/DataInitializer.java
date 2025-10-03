@@ -25,12 +25,9 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        String username = "evd.admin";
-        String password = "Evd@2025!";
-
         RegisterRequest request = RegisterRequest.builder()
                 .username("evd.admin")
-                .password(password)
+                .password("Evd@2025!")
                 .fullName("EVD Administrator")
                 .email("admin@evdcompany.com")
                 .phone("0987654321")
@@ -41,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
         List<RegisterRequest> requests = new ArrayList<>();
         requests.add(RegisterRequest.builder()
                 .username("evd.admin")
-                .password(password)
+                .password("00000")
                 .fullName("EVD Administrator")
                 .email("admin@evdcompany.com")
                 .phone("0987654321")
@@ -51,7 +48,7 @@ public class DataInitializer implements CommandLineRunner {
 
         requests.add(RegisterRequest.builder()
                 .username("evd.staff001")
-                .password(password)
+                .password("00000")
                 .fullName("EVD Staff")
                 .email("staff001@evdcompany.com")
                 .phone("0986000976")
@@ -61,7 +58,7 @@ public class DataInitializer implements CommandLineRunner {
 
         requests.add(RegisterRequest.builder()
                 .username("dealer.manager001")
-                .password(password)
+                .password("00000")
                 .fullName("Dealer Manager")
                 .email("dealer_manager001@evdcompany.com")
                 .phone("0986194321")
@@ -71,7 +68,7 @@ public class DataInitializer implements CommandLineRunner {
 
         requests.add(RegisterRequest.builder()
                 .username("dealer.staff001")
-                .password(password)
+                .password("00000")
                 .fullName("Dealer Staff")
                 .email("dealer_staff001@evdcompany.com")
                 .phone("0916951021")
