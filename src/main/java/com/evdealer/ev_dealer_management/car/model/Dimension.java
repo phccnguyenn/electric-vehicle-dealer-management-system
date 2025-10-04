@@ -16,21 +16,25 @@ public class Dimension {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dimension_id")
     private Long dimensionId;
+
     @Column(name = "length_mm")
     private Double lengthMm;
 
     @Column(name = "weitht_lbs")
     private Double weightLbs;
+
     @Column(name = "ground_clearance_in")
     private Double groundClearanceIn;
 
     @Column(name = "width_folded_in")
     private Double widthFoldedIn;
+
     @Column(name = "width_extended_in")
     private Double widthExtendedIn;
 
     @Column(name = "height_in")
     private Double heightIn;
+
     @Column(name = "length_in")
     private Integer lengthIn;
 

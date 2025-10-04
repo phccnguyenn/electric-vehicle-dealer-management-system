@@ -24,15 +24,6 @@ public class Car extends AbstractAuditEntity {
     @Column(name = "id")
     private Long id;
 
-    private Long categoryId;
-
-
-    private Long batteryId;
-
-    private Long performanceId;
-
-
-
     @Enumerated(EnumType.STRING)
     @Column(name = "drive_type")
     private DriveType driveType;
@@ -42,7 +33,6 @@ public class Car extends AbstractAuditEntity {
 
     @Column(name ="year")
     private int year;
-
 
     //ManyToOne
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -20,6 +20,7 @@ public class Color {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "color_id")
     private  Long colorId;
+
     @Column(name = "color_name", nullable = false, unique = true)
     private String colorName;
 
