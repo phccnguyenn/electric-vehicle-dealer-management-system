@@ -20,6 +20,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     private Long categoryId;
+
     @Enumerated(EnumType.STRING)
     private CategoryType categoryType;
 

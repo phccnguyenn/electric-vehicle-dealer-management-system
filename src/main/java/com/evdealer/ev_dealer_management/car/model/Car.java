@@ -24,6 +24,7 @@ public class Car extends AbstractAuditEntity {
     @Column(name = "id")
     private Long id;
 
+<<<<<<< HEAD
     private Long categoryId;
 
 
@@ -34,6 +35,8 @@ public class Car extends AbstractAuditEntity {
     @Column(name = "car_name")
     private String carName;
 
+=======
+>>>>>>> 869f0d2c4ee6488cad68ad5dfe5b2bf13f91d381
     @Enumerated(EnumType.STRING)
     @Column(name = "drive_type")
     private DriveType driveType;

@@ -29,7 +29,6 @@ public class Battery {
     @Column(name = "charge_time", nullable = false)
     private float chargeTime;
 
-
     @Column(name = "usage_duration")
     private float usageDuration;
 

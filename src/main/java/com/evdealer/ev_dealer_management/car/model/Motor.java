@@ -41,7 +41,6 @@ public class Motor {
     private Integer maxRpm;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "cooling_type")
     private CoolingType coolingType;
 
     @Column(name = "voltage_range_v")

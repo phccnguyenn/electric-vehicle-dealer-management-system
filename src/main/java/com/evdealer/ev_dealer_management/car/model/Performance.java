@@ -16,13 +16,16 @@ public class Performance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "performance_id, nullable = false")
     private Long performance_id;
+
     @Column(name = "range_miles")
     private Double rangeMiles;
 
     @Column(name = "acceleration_sec")
     private Double accelerationSec;
+
     @Column(name = "top_speed_mph")
     private Double topSpeedMph;
+
     @Column(name = "towing_lbs")
     private Double towingLbs;
 

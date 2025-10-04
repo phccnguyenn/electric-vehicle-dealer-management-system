@@ -19,6 +19,7 @@ public class Interior {
 
     @Column(name = "seating_material")
     private String seatingMaterial;
+
     @Column(name = "color")
     private String color;
 
@@ -27,6 +28,7 @@ public class Interior {
 
     @Column(name = "infotainment_touch_screen")
     private String infotainmentTouchScreen;
+
     @Column(name = "climate_control")
     private String climateControl;
 
