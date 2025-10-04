@@ -23,8 +23,7 @@ public class Category {
     @Enumerated(EnumType.STRING)
     private CategoryType categoryType;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private List<Car> cars = new ArrayList<>();
 

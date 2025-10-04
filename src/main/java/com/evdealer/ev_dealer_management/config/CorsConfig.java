@@ -15,7 +15,7 @@ public class CorsConfig {
         config.addAllowedOriginPattern("http://localhost:5173");            // Local FE
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
-        config.setAllowCredentials(true);   // Allow cookie or Authorization header
+        config.setAllowCredentials(true);       // Allow cookie or Authorization header
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

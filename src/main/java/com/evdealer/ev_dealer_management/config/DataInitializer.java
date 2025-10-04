@@ -25,20 +25,10 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        RegisterRequest request = RegisterRequest.builder()
-                .username("evd.admin")
-                .password("Evd@2025!")
-                .fullName("EVD Administrator")
-                .email("admin@evdcompany.com")
-                .phone("0987654321")
-                .isActive(true)
-                .role(RoleType.EVM_ADMIN)
-                .build();
-
         List<RegisterRequest> requests = new ArrayList<>();
         requests.add(RegisterRequest.builder()
                 .username("evd.admin")
-                .password("00000")
+                .password("Evd@2025!")
                 .fullName("EVD Administrator")
                 .email("admin@evdcompany.com")
                 .phone("0987654321")

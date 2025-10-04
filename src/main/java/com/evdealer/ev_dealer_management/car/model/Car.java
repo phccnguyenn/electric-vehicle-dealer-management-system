@@ -31,7 +31,8 @@ public class Car extends AbstractAuditEntity {
 
     private Long performanceId;
 
-
+    @Column(name = "car_name")
+    private String carName;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "drive_type")
@@ -42,7 +43,6 @@ public class Car extends AbstractAuditEntity {
 
     @Column(name ="year")
     private int year;
-
 
     //ManyToOne
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
