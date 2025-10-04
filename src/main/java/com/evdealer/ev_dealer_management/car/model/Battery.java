@@ -4,6 +4,7 @@ import com.evdealer.ev_dealer_management.car.model.enumeration.Chemistry;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Battery {
     @Column(name = "battery_id")
     private Long batteryId;
 
+
     @Enumerated(EnumType.STRING)
     private Chemistry chemistry;    // Enum: NCA, NCM, LFP, SolidState
 
@@ -27,10 +29,10 @@ public class Battery {
     private int age;
 
     @Column(name = "charge_time", nullable = false)
-    private float chargeTime;
+    private Duration chargeTime;
 
     @Column(name = "usage_duration")
-    private float usageDuration;
+    private Duration usageDuration;
 
     @Column(name = "weight_kg")
     private float weightKg;

@@ -1,11 +1,10 @@
 package com.evdealer.ev_dealer_management.car.model.dto.battery;
 
-import java.time.Duration;
+import com.evdealer.ev_dealer_management.car.model.enumeration.Chemistry;
 
 public record BatteryPostDto(
-        String batteryType,
-        Duration chargeTime,
-        Duration usageDuration,
-        float weight
+        Chemistry chemistry,
+        int capacityKWh,
+        int cycleLife
 ) {
 }
