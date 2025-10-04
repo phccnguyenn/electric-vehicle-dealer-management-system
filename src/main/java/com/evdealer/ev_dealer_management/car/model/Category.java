@@ -2,16 +2,15 @@ package com.evdealer.ev_dealer_management.car.model;
 
 import com.evdealer.ev_dealer_management.car.model.enumeration.CategoryType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
@@ -24,8 +23,8 @@ public class Category {
     @Enumerated(EnumType.STRING)
     private CategoryType categoryType;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
+    @OneToMany(mappedBy = "category")
+    @JoinColumn(name = "car_id")
     private List<Car> cars = new ArrayList<>();
 
 }

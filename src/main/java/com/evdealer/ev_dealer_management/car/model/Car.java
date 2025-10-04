@@ -24,9 +24,7 @@ public class Car extends AbstractAuditEntity {
     @Column(name = "id")
     private Long id;
 
-<<<<<<< HEAD
     private Long categoryId;
-
 
     private Long batteryId;
 
@@ -35,8 +33,6 @@ public class Car extends AbstractAuditEntity {
     @Column(name = "car_name")
     private String carName;
 
-=======
->>>>>>> 869f0d2c4ee6488cad68ad5dfe5b2bf13f91d381
     @Enumerated(EnumType.STRING)
     @Column(name = "drive_type")
     private DriveType driveType;
@@ -57,13 +53,13 @@ public class Car extends AbstractAuditEntity {
     private Category category;
 
     //OneToOne
-    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "car", orphanRemoval = true)
     private Interior interior;
 
-    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "car", orphanRemoval = true)
     private Dimension dimension;
 
-    @OneToOne(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "car", orphanRemoval = true)
     private Performance performance;
 
 }

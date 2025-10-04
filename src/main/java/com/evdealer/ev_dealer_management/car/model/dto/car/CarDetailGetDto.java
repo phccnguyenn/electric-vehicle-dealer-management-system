@@ -2,6 +2,8 @@ package com.evdealer.ev_dealer_management.car.model.dto.car;
 
 import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
 
+// Class - Mutable Object
+// Record - Immutable Object
 public record CarDetailGetDto (
         Long id,
         String carName,
