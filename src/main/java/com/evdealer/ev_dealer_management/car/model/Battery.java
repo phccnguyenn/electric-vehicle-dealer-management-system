@@ -46,7 +46,6 @@ public class Battery {
     @Column(name = "cycle_life")
     private int cycleLife;
 
-    @OneToMany(mappedBy = "battery",fetch =  FetchType.LAZY,
-                    cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "battery",fetch =  FetchType.LAZY, orphanRemoval = true)
     private List<Performance> performances = new ArrayList<>();
 }

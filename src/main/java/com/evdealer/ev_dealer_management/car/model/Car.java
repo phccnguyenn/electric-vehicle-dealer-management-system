@@ -24,12 +24,6 @@ public class Car extends AbstractAuditEntity {
     @Column(name = "id")
     private Long id;
 
-    private Long categoryId;
-
-    private Long batteryId;
-
-    private Long performanceId;
-
     @Column(name = "car_name")
     private String carName;
 

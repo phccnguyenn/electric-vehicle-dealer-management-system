@@ -4,19 +4,22 @@ import com.evdealer.ev_dealer_management.car.model.Battery;
 
 import com.evdealer.ev_dealer_management.car.model.Performance;
 import com.evdealer.ev_dealer_management.car.model.dto.battery.BatteryPostDto;
+import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformancePostDto;
 import com.evdealer.ev_dealer_management.car.repository.BatteryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BatteryService {
 
-        private BatteryRepository batteryRepository;
+        private final BatteryRepository batteryRepository;
 
-        public Battery createBattery(BatteryPostDto batteryPostDto, Performance performance) {
+        public Battery createBattery(BatteryPostDto batteryPostDto) {
             Battery battery = batteryRepository.findByChemistry(batteryPostDto.chemistry()).
-                    orElseGet(() ->addBattery(batteryPostDto)) ;
+                    orElseGet(() -> addBattery(batteryPostDto)) ;
 
-            battery.getPerformances().add(performance);
+
             return batteryRepository.save(battery);
         }
 

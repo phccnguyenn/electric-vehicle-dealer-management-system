@@ -18,28 +18,28 @@ public class Dimension {
     private Long dimensionId;
 
     @Column(name = "length_mm")
-    private Double lengthMm;
+    private Float lengthMm;
 
     @Column(name = "weitht_lbs")
-    private Double weightLbs;
+    private Float weightLbs;
 
     @Column(name = "ground_clearance_in")
-    private Double groundClearanceIn;
+    private Float groundClearanceIn;
 
     @Column(name = "width_folded_in")
-    private Double widthFoldedIn;
+    private Float widthFoldedIn;
 
     @Column(name = "width_extended_in")
-    private Double widthExtendedIn;
+    private Float widthExtendedIn;
 
     @Column(name = "height_in")
-    private Double heightIn;
+    private Float heightIn;
 
     @Column(name = "length_in")
     private Integer lengthIn;
 
     @Column(name = "wheels_size_cm")
-    private Double wheelsSizeCm;
+    private Float wheelsSizeCm;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)

@@ -10,14 +10,21 @@ import com.evdealer.ev_dealer_management.car.repository.CarRepository;
 import com.evdealer.ev_dealer_management.car.repository.PerformanceRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.utils.Constants;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@Transactional
+@RequiredArgsConstructor
 public class PerformanceService {
 
-    private PerformanceRepository performanceRepository;
-    private CarRepository carRepository;
-    private BatteryRepository batteryRepository;
+    private final PerformanceRepository performanceRepository;
+    private final CarRepository carRepository;
+    private final  BatteryRepository batteryRepository;
 
     public PerformanceDetailGetDto createPerformance(Long carId, PerformancePostDto performancePostDto) {;
+
         Car car = carRepository.findById(carId).
                 orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND));
 
@@ -32,6 +39,9 @@ public class PerformanceService {
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.BATTERY_NOT_FOUND, performancePostDto.batteryId()));
             perf.setBattery(battery);
         }
+
+
+
         perf.setRangeMiles(performancePostDto.rangeMiles());
         perf.setAccelerationSec(performancePostDto.accelerationSec());
         perf.setTopSpeedMph(performancePostDto.topSpeedMph());

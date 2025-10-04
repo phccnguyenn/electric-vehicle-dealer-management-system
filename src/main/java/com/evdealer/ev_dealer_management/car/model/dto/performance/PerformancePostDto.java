@@ -6,7 +6,7 @@ import com.evdealer.ev_dealer_management.car.model.enumeration.Chemistry;
 public record PerformancePostDto(
 
         Long carId,
-        BatteryPostDto batteryPostDto,
+        Long batteryId,
         Long motorId,
         String motorType,
         Double rangeMiles,
