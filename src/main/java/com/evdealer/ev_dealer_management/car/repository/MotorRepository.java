@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface MotorRepository extends JpaRepository<Motor,Long> {
 
     Optional<Motor> findByMotorType(MotorType  motorType );
+    Optional<Motor> findBySerialNumber(String serialNumber);
 }

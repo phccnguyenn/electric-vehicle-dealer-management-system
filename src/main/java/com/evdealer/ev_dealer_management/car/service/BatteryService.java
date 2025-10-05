@@ -24,6 +24,8 @@ public class BatteryService {
         }
 
         private   Battery addBattery(BatteryPostDto batteryPostDto) {
+
+
             Battery battery = new Battery();
             battery.setChemistry(batteryPostDto.chemistry());
             battery.setAge(batteryPostDto.age());
