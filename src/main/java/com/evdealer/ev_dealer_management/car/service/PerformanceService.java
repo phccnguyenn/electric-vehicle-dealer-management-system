@@ -2,11 +2,13 @@ package com.evdealer.ev_dealer_management.car.service;
 
 import com.evdealer.ev_dealer_management.car.model.Battery;
 import com.evdealer.ev_dealer_management.car.model.Car;
+import com.evdealer.ev_dealer_management.car.model.Motor;
 import com.evdealer.ev_dealer_management.car.model.Performance;
 import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformanceDetailGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformancePostDto;
 import com.evdealer.ev_dealer_management.car.repository.BatteryRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarRepository;
+import com.evdealer.ev_dealer_management.car.repository.MotorRepository;
 import com.evdealer.ev_dealer_management.car.repository.PerformanceRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.utils.Constants;
@@ -22,6 +24,7 @@ public class PerformanceService {
     private final PerformanceRepository performanceRepository;
     private final CarRepository carRepository;
     private final  BatteryRepository batteryRepository;
+    private final MotorRepository motorRepository   ;
 
     public PerformanceDetailGetDto createPerformance(Long carId, PerformancePostDto performancePostDto) {;
 
@@ -39,6 +42,16 @@ public class PerformanceService {
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.BATTERY_NOT_FOUND, performancePostDto.batteryId()));
             perf.setBattery(battery);
         }
+<<<<<<< HEAD
+=======
+        //set motor
+        if (performancePostDto.motorId() != null) {
+            Motor motor = motorRepository.findById(performancePostDto.motorId())
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.MOTOR_NOT_FOUND, performancePostDto.motorId()));
+            perf.setMotor(motor);
+        }
+
+>>>>>>> origin/carr
 
         perf.setRangeMiles(performancePostDto.rangeMiles());
         perf.setAccelerationSec(performancePostDto.accelerationSec());

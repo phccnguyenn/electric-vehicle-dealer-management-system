@@ -3,7 +3,11 @@ package com.evdealer.ev_dealer_management.car.service;
 import com.evdealer.ev_dealer_management.car.model.Motor;
 import com.evdealer.ev_dealer_management.car.model.dto.motor.MotorPostDto;
 import com.evdealer.ev_dealer_management.car.repository.MotorRepository;
+<<<<<<< HEAD
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
+=======
+import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
+>>>>>>> origin/carr
 import com.evdealer.ev_dealer_management.utils.Constants;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +23,13 @@ public class MotorService {
     public Motor createMotor(MotorPostDto motorPostDto) {
         Motor motor = motorRepository.findByMotorType(motorPostDto.motorType())
                 .orElseGet(() -> addMotor(motorPostDto));
+
         return motorRepository.save(motor);
     }
 
     private Motor addMotor(MotorPostDto motorPostDto) {
 
+<<<<<<< HEAD
         validateDuplicateSerialNumber(null, motorPostDto.serialNumber());
 
         Motor motor = Motor.builder()
@@ -48,4 +54,6 @@ public class MotorService {
     private boolean checkExistedSerialNumber(Long motorId, String serialNumber) {
         return motorRepository.findByExistedSerialNumber(serialNumber).isPresent();
     }
+=======
+>>>>>>> origin/carr
 }

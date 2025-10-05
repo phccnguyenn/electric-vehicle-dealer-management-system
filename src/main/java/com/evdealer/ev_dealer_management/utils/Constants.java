@@ -8,5 +8,12 @@ public final class Constants {
         public final static String CATEGORY_NOT_FOUND = "CATEGORY_NOT_FOUND";
         public final static String CAR_NOT_FOUND = "CAR_NOT_FOUND";
         public final static String BATTERY_NOT_FOUND = "BATTERY_NOT_FOUND";
+
+        public final static String MOTOR_NOT_FOUND = "MOTOR_NOT_FOUND";
+        public final static String SERIAL_NUMBER_NULL = "SERIAL_NUMBER_NULL";
+        public final static String SERIAL_NUMBER_ALREADY_EXISTS = "SERIAL_NUMBER_ALREADY_EXISTS";
+        public final static String MOTOR_INVALID_SERIAL = "MOTOR_INVALID_SERIAL";
+
+
     }
 }

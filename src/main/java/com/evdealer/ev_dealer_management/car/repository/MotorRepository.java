@@ -10,8 +10,13 @@ import java.util.Optional;
 
 public interface MotorRepository extends JpaRepository<Motor,Long> {
 
+<<<<<<< HEAD
     Optional<Motor> findByMotorType(MotorType motorType );
 
     @Query("SELECT motor FROM Motor motor WHERE motor.serialNumber = :serialNumber")
     Optional<Motor> findByExistedSerialNumber(@Param("serialNumber") String serialNumber);
+=======
+    Optional<Motor> findByMotorType(MotorType  motorType );
+    Optional<Motor> findBySerialNumber(String serialNumber);
+>>>>>>> origin/carr
 }
