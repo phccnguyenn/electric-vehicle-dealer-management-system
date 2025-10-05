@@ -3,10 +3,7 @@ package com.evdealer.ev_dealer_management.car.model;
 import com.evdealer.ev_dealer_management.car.model.enumeration.CoolingType;
 import com.evdealer.ev_dealer_management.car.model.enumeration.MotorType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Table(name = "motors")
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Motor {
@@ -45,9 +43,6 @@ public class Motor {
 
     @Column(name = "voltage_range_v")
     private Float voltageRangeV;
-
-    @Column(name = "weight_kg")
-    private Float weightKg;
 
     @OneToMany(mappedBy = "motor",fetch = FetchType.LAZY)
     private List<Performance> performances = new ArrayList<>();

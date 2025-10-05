@@ -8,7 +8,6 @@
     import com.evdealer.ev_dealer_management.car.model.dto.car.CarPostDto;
     import com.evdealer.ev_dealer_management.car.repository.CarRepository;
     import com.evdealer.ev_dealer_management.car.repository.CategoryRepository;
-    import com.evdealer.ev_dealer_management.car.repository.ColorRepository;
     import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
     import com.evdealer.ev_dealer_management.utils.Constants;
     import jakarta.transaction.Transactional;
@@ -49,7 +48,6 @@
 
             // Set car color
             Color color = colorService.createColor(carPostDto.colorPostDto(), savedCar);
-
             savedCar.setColor(color);
 
             //set performance car

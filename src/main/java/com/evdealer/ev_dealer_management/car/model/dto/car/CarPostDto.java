@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.car.model.dto.car;
 
 import com.evdealer.ev_dealer_management.car.model.dto.color.ColorPostDto;
+import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformancePostDto;
 import com.evdealer.ev_dealer_management.car.model.enumeration.DriveType;
 
 public record CarPostDto(
@@ -9,6 +10,7 @@ public record CarPostDto(
         DriveType driveType,
         int seatNumber,
         int year,
-        ColorPostDto colorPostDto
+        ColorPostDto colorPostDto,
+        PerformancePostDto
 ) {
 }

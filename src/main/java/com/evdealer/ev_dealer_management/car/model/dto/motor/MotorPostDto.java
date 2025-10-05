@@ -13,6 +13,6 @@ public record MotorPostDto(
     CoolingType coolingType ,
     Float voltageRangeV,
     Float weightKg
-) {
 
+) {
 }

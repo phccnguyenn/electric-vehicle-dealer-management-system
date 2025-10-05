@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.car.model;
 
-import com.evdealer.ev_dealer_management.car.model.enumeration.Chemistry;
+import com.evdealer.ev_dealer_management.car.model.enumeration.ChemistryType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +21,8 @@ public class Battery {
     @Column(name = "battery_id")
     private Long batteryId;
 
-
     @Enumerated(EnumType.STRING)
-    private Chemistry chemistry;    // Enum: NCA, NCM, LFP, SolidState
+    private ChemistryType chemistryType;    // Enum: NCA, NCM, LFP, SolidState
 
     @Column(name = "age", nullable = false)
     private int age;

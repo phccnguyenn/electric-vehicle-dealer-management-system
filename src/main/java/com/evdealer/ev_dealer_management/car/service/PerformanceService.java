@@ -40,8 +40,6 @@ public class PerformanceService {
             perf.setBattery(battery);
         }
 
-
-
         perf.setRangeMiles(performancePostDto.rangeMiles());
         perf.setAccelerationSec(performancePostDto.accelerationSec());
         perf.setTopSpeedMph(performancePostDto.topSpeedMph());
