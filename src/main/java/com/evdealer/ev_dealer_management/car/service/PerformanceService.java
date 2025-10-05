@@ -39,6 +39,7 @@ public class PerformanceService {
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.BATTERY_NOT_FOUND, performancePostDto.batteryId()));
             perf.setBattery(battery);
         }
+        //set motor
 
 
 

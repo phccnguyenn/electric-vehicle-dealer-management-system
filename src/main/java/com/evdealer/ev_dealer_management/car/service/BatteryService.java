@@ -26,6 +26,11 @@ public class BatteryService {
         private   Battery addBattery(BatteryPostDto batteryPostDto) {
             Battery battery = new Battery();
             battery.setChemistry(batteryPostDto.chemistry());
+            battery.setAge(batteryPostDto.age());
+            battery.setChargeTime(batteryPostDto.chargeTime());
+            battery.setUsageDuration(batteryPostDto.usageDuration());
+            battery.setWeightKg(batteryPostDto.weightKg());
+            battery.setVoltageV(batteryPostDto.voltageV());
             battery.setCapacityKwh(batteryPostDto.capacityKWh());
             battery.setCycleLife(batteryPostDto.cycleLife());
 
