@@ -17,7 +17,7 @@ public class ColorService {
         Color color = colorRepository.findByColorName(colorPostDto.colorName())
                 .orElseGet(() -> addColor(colorPostDto));
 
-        color.getCars().add(car);
+        color.getCars().c(car);
         return colorRepository.save(color);
     }
 

@@ -32,10 +32,10 @@ public class Motor {
     private String serialNumber;
 
     @Column(name = "power_kw")
-    private Double powerKw;
+    private Float powerKw;
 
     @Column(name = "torque_nm")
-    private Double torqueNm;
+    private Float torqueNm;
 
     @Column(name = "max_rpm")
     private Integer maxRpm;
@@ -44,12 +44,11 @@ public class Motor {
     private CoolingType coolingType;
 
     @Column(name = "voltage_range_v")
-    private Double voltageRangeV;
+    private Float voltageRangeV;
 
     @Column(name = "weight_kg")
-    private Double weightKg;
+    private Float weightKg;
 
-    @OneToMany(mappedBy = "motor",fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "motor",fetch = FetchType.LAZY)
     private List<Performance> performances = new ArrayList<>();
 }
