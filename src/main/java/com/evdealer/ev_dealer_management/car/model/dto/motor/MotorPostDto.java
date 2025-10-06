@@ -11,11 +11,8 @@ public record MotorPostDto(
     Float torqueNm,
     Integer maxRpm,
     CoolingType coolingType ,
-<<<<<<< HEAD
     Float voltageRangeV,
     Float weightKg
-=======
->>>>>>> origin/carr
 
 ) {
 }

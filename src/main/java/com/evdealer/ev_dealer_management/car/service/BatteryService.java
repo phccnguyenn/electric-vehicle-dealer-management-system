@@ -20,17 +20,14 @@ public class BatteryService {
             return batteryRepository.save(battery);
         }
 
-<<<<<<< HEAD
         private Battery addBattery(BatteryPostDto batteryPostDto) {
             Battery battery = new Battery();
             battery.setChemistryType(batteryPostDto.chemistryType());
-=======
             battery.setAge(batteryPostDto.age());
             battery.setChargeTime(batteryPostDto.chargeTime());
             battery.setUsageDuration(batteryPostDto.usageDuration());
             battery.setWeightKg(batteryPostDto.weightKg());
             battery.setVoltageV(batteryPostDto.voltageV());
->>>>>>> origin/carr
             battery.setCapacityKwh(batteryPostDto.capacityKWh());
             battery.setCycleLife(batteryPostDto.cycleLife());
 

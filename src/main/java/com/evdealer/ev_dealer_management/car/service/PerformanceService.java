@@ -42,8 +42,6 @@ public class PerformanceService {
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.BATTERY_NOT_FOUND, performancePostDto.batteryId()));
             perf.setBattery(battery);
         }
-<<<<<<< HEAD
-=======
         //set motor
         if (performancePostDto.motorId() != null) {
             Motor motor = motorRepository.findById(performancePostDto.motorId())
@@ -51,7 +49,6 @@ public class PerformanceService {
             perf.setMotor(motor);
         }
 
->>>>>>> origin/carr
 
         perf.setRangeMiles(performancePostDto.rangeMiles());
         perf.setAccelerationSec(performancePostDto.accelerationSec());

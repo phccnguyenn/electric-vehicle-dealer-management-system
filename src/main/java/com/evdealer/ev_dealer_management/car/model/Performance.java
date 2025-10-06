@@ -15,7 +15,7 @@ public class Performance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "performance_id, nullable = false")
-    private Long performance_id;
+    private Long performanceId;
 
     @Column(name = "range_miles")
     private Double rangeMiles;

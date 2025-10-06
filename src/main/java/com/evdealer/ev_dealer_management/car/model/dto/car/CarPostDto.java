@@ -11,6 +11,6 @@ public record CarPostDto(
         int seatNumber,
         int year,
         ColorPostDto colorPostDto,
-        PerformancePostDto
+        PerformancePostDto performancePostDto
 ) {
 }
