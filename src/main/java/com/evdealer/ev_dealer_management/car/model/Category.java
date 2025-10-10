@@ -21,10 +21,11 @@ public class Category {
     private Long categoryId;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "car_type")
     private CategoryType categoryType;
 
     @OneToMany(mappedBy = "category")
-    @JoinColumn(name = "car_id")
+    @Column(name = "car_id")
     private List<Car> cars = new ArrayList<>();
 
 }

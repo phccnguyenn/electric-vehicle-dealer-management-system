@@ -42,7 +42,7 @@ public class MotorService {
 
     private void validateDuplicateSerialNumber(Long motorId, String serialNumber) {
         if (checkExistedSerialNumber(motorId, serialNumber)) {
-            throw new DuplicatedException(Constants.ErrorCode.MOTOR_ALREADY_EXIST, serialNumber);
+            throw new DuplicatedException(Constants.ErrorCode.SERIAL_NUMBER_ALREADY_EXISTS, serialNumber);
         }
     }
 

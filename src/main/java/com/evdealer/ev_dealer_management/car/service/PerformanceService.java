@@ -26,38 +26,38 @@ public class PerformanceService {
     private final  BatteryRepository batteryRepository;
     private final MotorRepository motorRepository   ;
 
-    public PerformanceDetailGetDto createPerformance(Long carId, PerformancePostDto performancePostDto) {;
+    public Performance createPerformance(Long carId, PerformancePostDto performancePostDto) {;
 
         Car car = carRepository.findById(carId).
                 orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND));
 
-        Performance perf = performanceRepository.findById(carId)
-                .orElse(new Performance()) ;
+        Performance performance = performanceRepository.findById(carId)
+                .orElse(new Performance());
 
-        perf.setCar(car);
+        // Set Car
+        performance.setCar(car);
 
-        // set battery
+        // Set battery
         if (performancePostDto.batteryId() != null) {
             Battery battery = batteryRepository.findById(performancePostDto.batteryId())
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.BATTERY_NOT_FOUND, performancePostDto.batteryId()));
-            perf.setBattery(battery);
+            performance.setBattery(battery);
         }
-        //set motor
+
+        // Set motor
         if (performancePostDto.motorId() != null) {
             Motor motor = motorRepository.findById(performancePostDto.motorId())
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.MOTOR_NOT_FOUND, performancePostDto.motorId()));
-            perf.setMotor(motor);
+            performance.setMotor(motor);
         }
 
+        performance.setRangeMiles(performancePostDto.rangeMiles());
+        performance.setAccelerationSec(performancePostDto.accelerationSec());
+        performance.setTopSpeedMph(performancePostDto.topSpeedMph());
+        performance.setTowingLbs(performancePostDto.towingLbs());
 
-        perf.setRangeMiles(performancePostDto.rangeMiles());
-        perf.setAccelerationSec(performancePostDto.accelerationSec());
-        perf.setTopSpeedMph(performancePostDto.topSpeedMph());
-
-        Car savedCar = carRepository.save(car);
-        Performance savedPerformance = performanceRepository.save(perf);
-
-        return null;
+        // return PerformanceDetailGetDto.fromModel(performance);
+        return performance;
     }
 
 }

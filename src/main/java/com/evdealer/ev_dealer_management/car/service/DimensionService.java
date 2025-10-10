@@ -17,29 +17,22 @@ public class DimensionService {
     private final DimensionRepository dimensionRepository;
     private final CarRepository carRepository;
 
-    public DimensionPostDto createDimension(DimensionPostDto dimensionPostDto,Long carId) {
+    public Dimension createDimension(DimensionPostDto dimensionPostDto, Long carId) {
 
         Car car = carRepository.findById(carId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
 
-
         Dimension dimension = dimensionRepository.findByCarId(carId)
                                                 .orElse(new Dimension());
-        dimension.setCar(car);
+
+        dimension.setLengthIn(dimensionPostDto.lengthIn());
         dimension.setWeightLbs(dimensionPostDto.weightLbs());
         dimension.setGroundClearanceIn(dimensionPostDto.groundClearanceIn());
         dimension.setWidthFoldedIn(dimensionPostDto.widthFoldedIn());
         dimension.setWidthExtendedIn(dimensionPostDto.widthExtendedIn());
         dimension.setHeightIn(dimensionPostDto.heightIn());
-        dimension.setLengthIn(dimensionPostDto.lengthIn());
         dimension.setWheelsSizeCm(dimensionPostDto.wheelsSizeCm());
-
-
-        dimension = dimensionRepository.save(dimension);
-        return null ;
-
-
-
-
+        dimension.setCar(car);
+        return dimensionRepository.save(dimension);
     }
 }

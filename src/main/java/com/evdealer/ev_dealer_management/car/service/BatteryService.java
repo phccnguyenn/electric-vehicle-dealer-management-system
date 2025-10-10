@@ -14,7 +14,7 @@ public class BatteryService {
         private final BatteryRepository batteryRepository;
 
         public Battery createBattery(BatteryPostDto batteryPostDto) {
-            Battery battery = batteryRepository.findByChemistry(batteryPostDto.chemistryType()).
+            Battery battery = batteryRepository.findByChemistryType(batteryPostDto.chemistryType()).
                     orElseGet(() -> addBattery(batteryPostDto)) ;
 
             return batteryRepository.save(battery);

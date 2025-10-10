@@ -7,7 +7,8 @@ public record PerformancePostDto(
         Long motorId,
         Double rangeMiles,
         Double accelerationSec,
-        Double topSpeedMph
+        Double topSpeedMph,
+        Double towingLbs
 ) {
 }
 

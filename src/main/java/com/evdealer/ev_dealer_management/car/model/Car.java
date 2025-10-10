@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class Car extends AbstractAuditEntity {
     @Column(name = "car_name")
     private String carName;
 
+    private BigDecimal price;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "drive_type")
     private DriveType driveType;
@@ -37,16 +40,10 @@ public class Car extends AbstractAuditEntity {
     @Column(name ="year")
     private int year;
 
-    //ManyToOne
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "color_id", nullable = false)
-    private Color color;
+    @OneToMany(mappedBy = "car")
+    @Column(name = "car_image")
+    private List<CarImage> carImage = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    //OneToOne
     @OneToOne(mappedBy = "car", orphanRemoval = true)
     private Interior interior;
 
@@ -55,5 +52,16 @@ public class Car extends AbstractAuditEntity {
 
     @OneToOne(mappedBy = "car", orphanRemoval = true)
     private Performance performance;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "color_id", nullable = false)
+    private Color color;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+//    @OneToMany(mappedBy = "car", orphanRemoval = true)
+//    private List<Long> imagesIds = new ArrayList<>();
 
 }
