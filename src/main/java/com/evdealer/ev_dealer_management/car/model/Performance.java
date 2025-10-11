@@ -29,15 +29,11 @@ public class Performance {
     @Column(name = "towing_lbs")
     private Double towingLbs;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "battery_id")
     private Battery battery;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "motor_id")
     private Motor motor;
 

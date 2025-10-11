@@ -7,7 +7,7 @@ public record DimensionPostDto(
     Float widthFoldedIn,
     Float widthExtendedIn,
     Float heightIn,
-    Integer lengthIn,
+    Float lengthIn,
     Float wheelsSizeCm
 ) {
 }

@@ -1,12 +1,8 @@
 package com.evdealer.ev_dealer_management.car.service;
 
-import com.evdealer.ev_dealer_management.car.model.Car;
 import com.evdealer.ev_dealer_management.car.model.Dimension;
 import com.evdealer.ev_dealer_management.car.model.dto.dimension.DimensionPostDto;
-import com.evdealer.ev_dealer_management.car.repository.CarRepository;
 import com.evdealer.ev_dealer_management.car.repository.DimensionRepository;
-import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +11,11 @@ import org.springframework.stereotype.Service;
 public class DimensionService {
 
     private final DimensionRepository dimensionRepository;
-    private final CarRepository carRepository;
 
     public Dimension createDimension(DimensionPostDto dimensionPostDto, Long carId) {
 
-        Car car = carRepository.findById(carId)
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
-
-        Dimension dimension = dimensionRepository.findByCarId(carId)
-                                                .orElse(new Dimension());
-
+        Dimension dimension = new Dimension();
+        dimension.setLengthMm(dimensionPostDto.lengthMm());
         dimension.setLengthIn(dimensionPostDto.lengthIn());
         dimension.setWeightLbs(dimensionPostDto.weightLbs());
         dimension.setGroundClearanceIn(dimensionPostDto.groundClearanceIn());
@@ -32,7 +23,7 @@ public class DimensionService {
         dimension.setWidthExtendedIn(dimensionPostDto.widthExtendedIn());
         dimension.setHeightIn(dimensionPostDto.heightIn());
         dimension.setWheelsSizeCm(dimensionPostDto.wheelsSizeCm());
-        dimension.setCar(car);
+
         return dimensionRepository.save(dimension);
     }
 }

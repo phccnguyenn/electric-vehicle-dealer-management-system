@@ -66,9 +66,11 @@ public class AuthService {
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USERNAME_NOT_FOUND, request.getUsername()));
 
-        String jwtToken = jwtService.generateToken(user);
+
         String refreshToken = jwtService.generateRefreshToken(user);
+
         revokeAllUserTokens(user);
+        String jwtToken = jwtService.generateToken(user);
         saveUserToken(user, jwtToken);
         return AuthResponse.builder()
                 .accessToken(jwtToken)
@@ -111,12 +113,12 @@ public class AuthService {
         User savedUser = userRepository.save(user);
 
         // Custom
-        String jwtToken = jwtService.generateToken(savedUser);
-        String refreshToken = jwtService.generateRefreshToken(savedUser);
-        saveUserToken(savedUser, jwtToken);
-
-        log.info("ACCESS_TOKEN: " + jwtToken);
-        log.info("REFRESH_TOKEN: " + refreshToken);
+//        String jwtToken = jwtService.generateToken(savedUser);
+//        String refreshToken = jwtService.generateRefreshToken(savedUser);
+//        saveUserToken(savedUser, jwtToken);
+//
+//        log.info("ACCESS_TOKEN: " + jwtToken);
+//        log.info("REFRESH_TOKEN: " + refreshToken);
 
         return RegisterResponse.fromModel(savedUser);
     }

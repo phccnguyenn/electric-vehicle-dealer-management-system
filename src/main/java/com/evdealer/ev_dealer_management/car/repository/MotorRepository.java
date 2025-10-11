@@ -16,5 +16,6 @@ public interface MotorRepository extends JpaRepository<Motor,Long> {
 
     @Query("SELECT motor FROM Motor motor WHERE motor.serialNumber = :serialNumber")
     Optional<Motor> findByExistedSerialNumber(@Param("serialNumber") String serialNumber);
+
     Optional<Motor> findBySerialNumber(String serialNumber);
 }

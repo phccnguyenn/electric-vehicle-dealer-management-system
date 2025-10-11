@@ -37,7 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain) throws ServletException, IOException {
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
 
 //        if (request.getServletPath().contains("/api/v1/auth")) {
 //            filterChain.doFilter(request, response);
@@ -58,10 +59,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             //**
-//            String role = jwtService.extractClaim(jwt, claims -> claims.get("role", String.class));
-//            List<GrantedAuthority> authorities = List.of(
-//                    new SimpleGrantedAuthority("ROLE_" + role)  // thêm prefix
-//            );
+            String role = jwtService.extractClaim(jwt, claims -> claims.get("role", String.class));
+            List<GrantedAuthority> authorities = List.of(
+                    new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())
+            );
             //**
 
             // Token Validation
@@ -69,17 +70,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     .map(t -> !t.isExpired() && !t.isRevoked())
                                     .orElse(false);
 
-            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
+            if (jwtService.isTokenValid(jwt, userDetails)) {
 
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 userDetails,
                                 null,
-                                userDetails.getAuthorities()
-                                // authorities
+                                // userDetails.getAuthorities()
+                                authorities
                         );
 
-                // log.info("authToken " + authToken);
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);

@@ -40,28 +40,24 @@ public class Car extends AbstractAuditEntity {
     @Column(name ="year")
     private int year;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", cascade = CascadeType.PERSIST)
     @Column(name = "car_image")
-    private List<CarImage> carImage = new ArrayList<>();
+    private List<CarImage> carImages = new ArrayList<>();
 
-    @OneToOne(mappedBy = "car", orphanRemoval = true)
-    private Interior interior;
-
-    @OneToOne(mappedBy = "car", orphanRemoval = true)
+    @OneToOne()
+    @JoinColumn(name = "dimension_id")
     private Dimension dimension;
 
-    @OneToOne(mappedBy = "car", orphanRemoval = true)
+    @OneToOne()
+    @JoinColumn(name = "performance_id")
     private Performance performance;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "color_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "color_id")
     private Color color;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
-
-//    @OneToMany(mappedBy = "car", orphanRemoval = true)
-//    private List<Long> imagesIds = new ArrayList<>();
 
 }

@@ -28,14 +28,8 @@ public class PerformanceService {
 
     public Performance createPerformance(Long carId, PerformancePostDto performancePostDto) {;
 
-        Car car = carRepository.findById(carId).
-                orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND));
-
         Performance performance = performanceRepository.findById(carId)
                 .orElse(new Performance());
-
-        // Set Car
-        performance.setCar(car);
 
         // Set battery
         if (performancePostDto.batteryId() != null) {
@@ -56,6 +50,7 @@ public class PerformanceService {
         performance.setTopSpeedMph(performancePostDto.topSpeedMph());
         performance.setTowingLbs(performancePostDto.towingLbs());
 
+        performanceRepository.save(performance);
         // return PerformanceDetailGetDto.fromModel(performance);
         return performance;
     }

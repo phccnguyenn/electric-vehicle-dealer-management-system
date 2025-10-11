@@ -41,7 +41,6 @@ public class User extends AbstractAuditEntity
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
-    // Chỗ này mình đổi password -> hashed_password nha anh Phúc
     @Column(name = "hashed_password", nullable = false)
     private String hashedPassword;
 

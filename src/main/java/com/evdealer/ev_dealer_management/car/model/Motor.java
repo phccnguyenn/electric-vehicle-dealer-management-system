@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "motors")
+@Table(name = "motor")
 @Setter
 @Getter
 @Builder
@@ -23,10 +23,10 @@ public class Motor {
     private Long motorId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "motor_type", nullable = false)
+    @Column(name = "motor_type")
     private MotorType motorType;
 
-    @Column(name = "manufacturer", unique = true,nullable = false)
+    @Column(name = "manufacturer", unique = true)
     private String serialNumber;
 
     @Column(name = "power_kw")
@@ -39,11 +39,12 @@ public class Motor {
     private Integer maxRpm;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "cooling_type")
     private CoolingType coolingType;
 
     @Column(name = "voltage_range_v")
     private Float voltageRangeV;
 
-    @OneToMany(mappedBy = "motor",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "motor")
     private List<Performance> performances = new ArrayList<>();
 }

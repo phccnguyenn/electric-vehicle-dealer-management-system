@@ -17,10 +17,7 @@ public class Dimension {
     @Column(name = "dimension_id")
     private Long dimensionId;
 
-    @Column(name = "length_mm")
-    private Float lengthMm;
-
-    @Column(name = "weitht_lbs")
+    @Column(name = "weight_lbs")
     private Float weightLbs;
 
     @Column(name = "ground_clearance_in")
@@ -35,14 +32,14 @@ public class Dimension {
     @Column(name = "height_in")
     private Float heightIn;
 
+    @Column(name = "length_mm")
+    private Float lengthMm;
+
     @Column(name = "length_in")
-    private Integer lengthIn;
+    private Float lengthIn;
 
     @Column(name = "wheels_size_cm")
     private Float wheelsSizeCm;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
-
+    // Dimension không cần biết Car.
 }

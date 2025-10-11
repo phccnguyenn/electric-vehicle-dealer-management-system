@@ -30,9 +30,4 @@ public class Color {
     @Column(name = "extra_cost")
     private  Float extraCost;
 
-    @OneToMany(mappedBy = "color", fetch = FetchType.LAZY)
-    @Column(name = "color_id")
-    private List<Car> cars = new ArrayList<>();
-
-
 }

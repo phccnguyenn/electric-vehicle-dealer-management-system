@@ -25,7 +25,6 @@ public class Category {
     private CategoryType categoryType;
 
     @OneToMany(mappedBy = "category")
-    @Column(name = "car_id")
     private List<Car> cars = new ArrayList<>();
 
 }

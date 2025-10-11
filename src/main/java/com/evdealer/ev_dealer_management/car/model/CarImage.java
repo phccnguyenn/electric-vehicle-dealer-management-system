@@ -1,15 +1,13 @@
 package com.evdealer.ev_dealer_management.car.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "car_image")
 @Setter
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CarImage {
@@ -28,5 +26,6 @@ public class CarImage {
     @Column(name = "file_path")
     private String filePath;
 
-
+    @Column(name = "file_url")
+    private String fileUrl;
 }

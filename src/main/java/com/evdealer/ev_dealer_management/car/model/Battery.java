@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "battery")
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Battery {
@@ -45,6 +46,6 @@ public class Battery {
     @Column(name = "cycle_life")
     private int cycleLife;
 
-    @OneToMany(mappedBy = "battery",fetch =  FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "battery")
     private List<Performance> performances = new ArrayList<>();
 }
