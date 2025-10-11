@@ -46,9 +46,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/v3/api-docs/**", "/swagger-ui/**",
                                 "/swagger-ui.html", "/webjars/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
                         .requestMatchers("/api/v1/auth/register").hasRole("EVM_ADMIN")
-                        .requestMatchers("/api/v1/car/create").hasRole("EVM_ADMIN")
+                        .requestMatchers(
+                                "/api/v1/car/new",
+                                "/api/v1/car/{carId}/upload/images").hasRole("EVM_ADMIN")
                         .anyRequest().permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)

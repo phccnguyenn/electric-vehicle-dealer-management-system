@@ -2,6 +2,8 @@
 
     import com.evdealer.ev_dealer_management.car.model.*;
     import com.evdealer.ev_dealer_management.car.model.dto.car.CarDetailGetDto;
+    import com.evdealer.ev_dealer_management.car.model.dto.car.CarInfoGetDto;
+    import com.evdealer.ev_dealer_management.car.model.dto.car.CarListGetDto;
     import com.evdealer.ev_dealer_management.car.model.dto.car.CarPostDto;
     import com.evdealer.ev_dealer_management.car.repository.CarRepository;
     import com.evdealer.ev_dealer_management.car.repository.CategoryRepository;
@@ -10,6 +12,9 @@
     import com.evdealer.ev_dealer_management.utils.Constants;
     import jakarta.transaction.Transactional;
     import lombok.RequiredArgsConstructor;
+    import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.PageRequest;
+    import org.springframework.data.domain.Pageable;
     import org.springframework.stereotype.Service;
 
     import java.math.BigDecimal;
@@ -26,6 +31,30 @@
         private final CategoryRepository categoryRepository;
         private final CarRepository carRepository;
 
+        public CarListGetDto getAllCourses(int pageNo, int pageSize) {
+            Pageable pageable = PageRequest.of(pageNo, pageSize);
+            Page<Car> carPage = carRepository.findAll(pageable);
+
+            return toCarListGetDto(carPage);
+        }
+
+        private CarListGetDto toCarListGetDto(Page<Car> carPage) {
+            List<CarInfoGetDto> carInfoGetDtos = carPage.getContent()
+                    .stream()
+                    .map(CarInfoGetDto::fromModel)
+                    .toList();
+
+            return new CarListGetDto(
+                    carInfoGetDtos,
+                    carPage.getNumber(),
+                    carPage.getSize(),
+                    (int) carPage.getTotalElements(),
+                    carPage.getTotalPages(),
+                    carPage.isLast()
+            );
+        }
+
+
         public CarDetailGetDto getDetailCarById(Long carId) {
             Car car = carRepository.findById(carId)
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
@@ -34,7 +63,7 @@
         }
 
         @Transactional
-        public CarDetailGetDto createCar(CarPostDto carPostDto, List<MediaPostDto> mediaPostDto) {
+        public CarDetailGetDto createCar(CarPostDto carPostDto) {
 
             Car car = new Car();
             car.setCarName(carPostDto.carName());
@@ -61,11 +90,19 @@
             Dimension dimension = dimensionService.createDimension(carPostDto.dimensionPostDto(), savedCar.getId());
             savedCar.setDimension(dimension);
 
-            // Set List<Image>
-            List<CarImage> carImages = carImageService.uploadImageToCar(savedCar, mediaPostDto);
-            carImages.forEach(carImage -> savedCar.getCarImages().add(carImage));
-
             return CarDetailGetDto.fromModel(carRepository.save(savedCar));
+        }
+
+        public CarDetailGetDto uploadCarImages(Long carId, List<MediaPostDto> images) {
+
+            Car car = carRepository.findById(carId)
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
+
+            // Set List<Image>
+            List<CarImage> carImages = carImageService.uploadImageToCar(car, images);
+            carImages.forEach(carImage -> car.getCarImages().add(carImage));
+
+            return CarDetailGetDto.fromModel(carRepository.save(car));
         }
 
         private Category setCategory(Long categoryId, Car car) {

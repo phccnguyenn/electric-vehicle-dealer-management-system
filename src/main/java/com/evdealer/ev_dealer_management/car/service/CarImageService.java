@@ -22,7 +22,6 @@ public class CarImageService {
     private final MediaService mediaService;
     private final FilesystemPropsConfig filesystemPropsConfig;
     private final CarImageRepository carImageRepository;
-    private final FileSystemRepository fileSystemRepository;
 
     public List<CarImage> uploadImageToCar(Car car, List<MediaPostDto> mediaPostDtos) {
 
@@ -33,7 +32,7 @@ public class CarImageService {
                     ? image.fileNameOverride() : image.multipartFile().getOriginalFilename();
 
             String filePath = filesystemPropsConfig.getDirectory() + imageName;
-            String fileUrl = "/evdealer/uploads/thumbnail/image/"
+            String fileUrl = "http://localhost:8000/evdealer/uploads/thumbnail/image/"
                     + UriUtils.encodePathSegment(imageName, StandardCharsets.UTF_8);
 
             CarImage carImage = CarImage.builder()
