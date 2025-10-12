@@ -49,11 +49,15 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/register").hasRole("EVM_ADMIN")
                         .requestMatchers(
                                 "/api/v1/car/new",
+                                "/api/v1/car/{carId}/update",
                                 "/api/v1/car/{carId}/upload/images").hasRole("EVM_ADMIN")
+                        .requestMatchers(
+                                "/api/v1/category/new",
+                                "/api/v1/category/{categoryId}/rename").hasRole("EVM_ADMIN")
                         .anyRequest().permitAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                //.formLogin(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .build();
 

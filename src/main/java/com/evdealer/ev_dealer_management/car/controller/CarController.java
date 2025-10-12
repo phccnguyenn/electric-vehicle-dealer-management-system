@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.car.controller;
 
 import com.evdealer.ev_dealer_management.car.model.dto.car.CarDetailGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.car.CarListGetDto;
+import com.evdealer.ev_dealer_management.car.model.dto.car.CarPatchDto;
 import com.evdealer.ev_dealer_management.car.model.dto.car.CarPostDto;
 import com.evdealer.ev_dealer_management.car.service.CarService;
 import com.evdealer.ev_dealer_management.thumbnail.model.dto.MediaPostDto;
@@ -27,7 +28,7 @@ public class CarController {
     public ResponseEntity<CarListGetDto> getAllCars(
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
-        return ResponseEntity.ok(carService.getAllCourses(pageNo, pageSize));
+        return ResponseEntity.ok(carService.getAllCars(pageNo, pageSize));
     }
 
     @GetMapping("/{carId}")
@@ -35,7 +36,7 @@ public class CarController {
         return ResponseEntity.ok(carService.getDetailCarById(carId));
     }
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<CarDetailGetDto> addNewCar(@RequestBody CarPostDto carPostDto) {
         return ResponseEntity.ok(carService.createCar(carPostDto));
     }
@@ -52,5 +53,14 @@ public class CarController {
 
         return ResponseEntity.ok(carService.uploadCarImages(carId, medias));
     }
+
+    @PatchMapping("/{carId}/update")
+    public ResponseEntity<Void> partialUpdate(@PathVariable(value = "carId") Long carId,
+                                              @RequestBody CarPatchDto carPatchDto) {
+        carService.patchCarByCarId(carId, carPatchDto);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 }

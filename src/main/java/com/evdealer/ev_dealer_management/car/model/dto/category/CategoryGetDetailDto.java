@@ -5,12 +5,12 @@ import com.evdealer.ev_dealer_management.car.model.enumeration.CategoryType;
 
 public record CategoryGetDetailDto (
         Long id,
-        CategoryType categoryType
+        String categoryName
 ) {
     public static CategoryGetDetailDto fromModel(Category category) {
         return new CategoryGetDetailDto(
                 category.getCategoryId(),
-                category.getCategoryType()
+                category.getCategoryName()
         );
     }
 }

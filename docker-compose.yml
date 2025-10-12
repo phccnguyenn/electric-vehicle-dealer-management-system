@@ -12,6 +12,12 @@ services:
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
     volumes:
       - ./sql:/var/opt/sql
+    healthcheck:
+      test: [ "CMD-SHELL", "bash -c '</dev/tcp/localhost/1433'" ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
     networks:
       - evdealer-network
 
@@ -26,18 +32,21 @@ services:
     networks:
       - evdealer-network
 
-#  evd-app:
-#    image: ghcr.io/phccnguyenn/evd-image:1.0.0
-#    container_name: "evd-app"
-#    ports:
-#      - "8000:8000"
-#    depends_on:
-#      - evdealer-mssql
-#    environment:
-#      - MSSQL_URI=${MSSQL_URI}
-#    command: sh -c "sleep 5 && java -jar /app/app.jar"
-#    networks:
-#      - evdealer-network
+  evd-app:
+    build: .
+    container_name: "evd-app"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./storage/uploads:/app/uploads
+    depends_on:
+      evdealer-mssql:
+        condition: service_healthy
+    environment:
+      - MSSQL_URI=${MSSQL_URI}
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    networks:
+      - evdealer-network
 
 networks:
   evdealer-network:

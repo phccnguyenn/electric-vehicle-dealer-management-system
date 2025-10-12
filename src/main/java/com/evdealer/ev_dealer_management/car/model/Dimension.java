@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "dimensions")
+@Table(name = "dimension", schema = "dbo")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

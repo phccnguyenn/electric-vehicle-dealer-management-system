@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "car")
+@Table(name = "car", schema = "dbo")
 @Setter
 @Getter
 @AllArgsConstructor

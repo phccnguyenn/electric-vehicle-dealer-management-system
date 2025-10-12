@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "battery")
+@Table(name = "battery", schema = "dbo")
 @Setter
 @Getter
 @Builder
@@ -28,10 +28,10 @@ public class Battery {
     @Column(name = "age", nullable = false)
     private int age;
 
-    @Column(name = "charge_time", nullable = false)
+    @Column(name = "charge_time_sec", nullable = false)
     private Duration chargeTime;
 
-    @Column(name = "usage_duration")
+    @Column(name = "usage_duration_sec")
     private Duration usageDuration;
 
     @Column(name = "weight_kg")

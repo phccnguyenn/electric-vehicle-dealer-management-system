@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "category", schema = "dbo")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,9 +20,8 @@ public class Category {
     @Column(name = "category_id")
     private Long categoryId;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "car_type")
-    private CategoryType categoryType;
+    @Column(name = "car_name", unique = true, nullable = false)
+    private String categoryName;
 
     @OneToMany(mappedBy = "category")
     private List<Car> cars = new ArrayList<>();

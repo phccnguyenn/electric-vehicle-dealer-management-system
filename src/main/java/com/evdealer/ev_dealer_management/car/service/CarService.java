@@ -1,10 +1,7 @@
     package com.evdealer.ev_dealer_management.car.service;
 
     import com.evdealer.ev_dealer_management.car.model.*;
-    import com.evdealer.ev_dealer_management.car.model.dto.car.CarDetailGetDto;
-    import com.evdealer.ev_dealer_management.car.model.dto.car.CarInfoGetDto;
-    import com.evdealer.ev_dealer_management.car.model.dto.car.CarListGetDto;
-    import com.evdealer.ev_dealer_management.car.model.dto.car.CarPostDto;
+    import com.evdealer.ev_dealer_management.car.model.dto.car.*;
     import com.evdealer.ev_dealer_management.car.repository.CarRepository;
     import com.evdealer.ev_dealer_management.car.repository.CategoryRepository;
     import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
@@ -31,29 +28,12 @@
         private final CategoryRepository categoryRepository;
         private final CarRepository carRepository;
 
-        public CarListGetDto getAllCourses(int pageNo, int pageSize) {
+        public CarListGetDto getAllCars(int pageNo, int pageSize) {
             Pageable pageable = PageRequest.of(pageNo, pageSize);
             Page<Car> carPage = carRepository.findAll(pageable);
 
             return toCarListGetDto(carPage);
         }
-
-        private CarListGetDto toCarListGetDto(Page<Car> carPage) {
-            List<CarInfoGetDto> carInfoGetDtos = carPage.getContent()
-                    .stream()
-                    .map(CarInfoGetDto::fromModel)
-                    .toList();
-
-            return new CarListGetDto(
-                    carInfoGetDtos,
-                    carPage.getNumber(),
-                    carPage.getSize(),
-                    (int) carPage.getTotalElements(),
-                    carPage.getTotalPages(),
-                    carPage.isLast()
-            );
-        }
-
 
         public CarDetailGetDto getDetailCarById(Long carId) {
             Car car = carRepository.findById(carId)
@@ -105,6 +85,34 @@
             return CarDetailGetDto.fromModel(carRepository.save(car));
         }
 
+        public void patchCarByCarId(Long carId, CarPatchDto carPatchDto) {
+
+            Car car = carRepository.findById(carId)
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
+
+            if (carPatchDto.carName() != null && !car.getCarName().equals(carPatchDto.carName())) {
+                car.setCarName(carPatchDto.carName());
+            }
+
+            if (carPatchDto.price() != null && car.getPrice().compareTo(carPatchDto.price()) != 0) {
+                car.setPrice(carPatchDto.price());
+            }
+
+            if (carPatchDto.driveType() != null && car.getDriveType() != carPatchDto.driveType()) {
+                car.setDriveType(carPatchDto.driveType());
+            }
+
+            if (carPatchDto.seatNumber() > 0 && car.getSeatNumber() != carPatchDto.seatNumber()) {
+                car.setSeatNumber(carPatchDto.seatNumber());
+            }
+
+            if (carPatchDto.year() > 0 && car.getYear() != carPatchDto.year()) {
+                car.setYear(carPatchDto.year());
+            }
+
+            carRepository.save(car);
+        }
+
         private Category setCategory(Long categoryId, Car car) {
             Category category = categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CATEGORY_NOT_FOUND, categoryId));
@@ -115,5 +123,21 @@
 
         private BigDecimal setExtraCost(BigDecimal currentPrice, Float extraCost) {
             return currentPrice.add(BigDecimal.valueOf(extraCost.doubleValue()));
+        }
+
+        private CarListGetDto toCarListGetDto(Page<Car> carPage) {
+            List<CarInfoGetDto> carInfoGetDtos = carPage.getContent()
+                    .stream()
+                    .map(CarInfoGetDto::fromModel)
+                    .toList();
+
+            return new CarListGetDto(
+                    carInfoGetDtos,
+                    carPage.getNumber(),
+                    carPage.getSize(),
+                    (int) carPage.getTotalElements(),
+                    carPage.getTotalPages(),
+                    carPage.isLast()
+            );
         }
     }

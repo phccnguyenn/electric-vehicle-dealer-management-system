@@ -98,18 +98,18 @@ public class DataInitializer implements CommandLineRunner {
 
     private void fakeCategoryCarData() {
         List<Category> categories = Arrays.asList(
-                new Category(null, CategoryType.ECO, null),
-                new Category(null, CategoryType.PLUS, null),
-                new Category(null, CategoryType.PREMIUM, null)
+                new Category(null, "ECO", null),
+                new Category(null, "PLUS", null),
+                new Category(null, "PREMIUM", null)
         );
 
         categories.forEach(category -> {
             // Kiểm tra trùng categoryType
-            if (categoryRepository.findByCategoryType(category.getCategoryType()).isEmpty()) {
+            if (categoryRepository.findByCategoryName(category.getCategoryName()).isEmpty()) {
                 categoryRepository.save(category);
-                log.info("[LOG] - Category {} created", category.getCategoryType());
+                log.info("[LOG] - Category {} created", category.getCategoryName());
             } else {
-                log.warn("[WARN] - Category {} already exists", category.getCategoryType());
+                log.warn("[WARN] - Category {} already exists", category.getCategoryName());
             }
         });
     }

@@ -2,16 +2,16 @@ package com.evdealer.ev_dealer_management.car.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "colors")
-@Data
+@Table(name = "color", schema = "dbo")
+@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Color {

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "car_image")
+@Table(name = "car_image", schema = "dbo")
 @Setter
 @Getter
 @Builder

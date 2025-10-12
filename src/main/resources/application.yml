@@ -10,9 +10,9 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://${MSSQL_URI:localhost:14335};databaseName=evdealer_db;encrypt=true;trustServerCertificate=true
-    username: sa
-    password: 6$3S6zPKpJ+Y2-*J
+    url: jdbc:sqlserver://${MSSQL_ADDRESS:localhost:14335};databaseName=${MSSQL_DB:evdealer_db};encrypt=true;trustServerCertificate=true
+    username: ${MSSQL_SA_USERNAME:sa}
+    password: ${MSSQL_SA_PASSWORD:6$3S6zPKpJ+Y2-*J}
   jpa:
     hibernate:
       ddl-auto: create
@@ -22,15 +22,10 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.SQLServerDialect
 
-logging:
-  level:
-    org.springframework: TRACE
-    org.springframework.security: TRACE
-
 jwt:
-  secret: "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970"
-  expiration: 86400000
-  refresh-expiration: 604800000
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  expiration: ${JWT_EXPIRATION:86400000}
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000}
 
 file:
   directory: ./uploads/thumbnail/image/
