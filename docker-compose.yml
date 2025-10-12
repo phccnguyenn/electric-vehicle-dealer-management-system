@@ -38,13 +38,18 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./storage/uploads:/app/uploads
+      - ./uploads:/app/uploads
     depends_on:
       evdealer-mssql:
         condition: service_healthy
     environment:
-      - MSSQL_URI=${MSSQL_URI}
+      - MSSQL_ADDRESS=${MSSQL_ADDRESS}
+      - MSSQL_DB=${MSSQL_DB}
+      - MSSQL_SA_USERNAME=${MSSQL_SA_USERNAME}
       - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - JWT_REFRESH_EXPIRATION=${JWT_REFRESH_EXPIRATION}
     networks:
       - evdealer-network
 

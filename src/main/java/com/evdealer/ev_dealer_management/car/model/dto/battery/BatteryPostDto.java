@@ -7,8 +7,8 @@ import java.time.Duration;
 public record BatteryPostDto(
         ChemistryType chemistryType,
         int age ,
-        Duration chargeTime,
-        Duration usageDuration,
+        Integer chargeTime,
+        Integer usageDuration,
         float weightKg,
         float voltageV,
         int capacityKWh,

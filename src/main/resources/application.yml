@@ -4,6 +4,10 @@ server:
     context-path: /evdealer
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   application:
     name: ev-dealer-management
   main:
@@ -15,7 +19,7 @@ spring:
     password: ${MSSQL_SA_PASSWORD:6$3S6zPKpJ+Y2-*J}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:

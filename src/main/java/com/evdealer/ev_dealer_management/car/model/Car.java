@@ -41,7 +41,7 @@ public class Car extends AbstractAuditEntity {
     private int year;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.PERSIST)
-    @Column(name = "car_image")
+    // @Column(name = "car_image")
     private List<CarImage> carImages = new ArrayList<>();
 
     @OneToOne()

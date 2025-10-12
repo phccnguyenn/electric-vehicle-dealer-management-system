@@ -2,13 +2,13 @@ package com.evdealer.ev_dealer_management.auth.service;
 
 import com.evdealer.ev_dealer_management.auth.model.Token;
 import com.evdealer.ev_dealer_management.auth.model.User;
-import com.evdealer.ev_dealer_management.auth.model.dto.AuthRequest;
-import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
-import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
-import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
+import com.evdealer.ev_dealer_management.auth.model.dto.*;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
 import com.evdealer.ev_dealer_management.auth.repository.UserRepository;
+import com.evdealer.ev_dealer_management.car.model.Car;
+import com.evdealer.ev_dealer_management.car.model.dto.car.CarInfoGetDto;
+import com.evdealer.ev_dealer_management.car.model.dto.car.CarListGetDto;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.utils.Constants;
@@ -16,10 +16,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +53,25 @@ public class AuthService {
         this.authenticationManager = authenticationManager;
     }
 
+    public UserInfoListDto getAllUser(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        List<UserProfileGetDto> userInfoGetDtos = userPage.getContent()
+                .stream()
+                .map(UserProfileGetDto::fromModel)
+                .toList();
+
+        return new UserInfoListDto(
+                userInfoGetDtos,
+                userPage.getNumber(),
+                userPage.getSize(),
+                (int) userPage.getTotalElements(),
+                userPage.getTotalPages(),
+                userPage.isLast()
+        );
+    }
+
     /**
      * When login, user will type in username and plain - text password.
      *
@@ -57,7 +81,6 @@ public class AuthService {
      * Nhằm hiểu hơn về kĩ thuật này, coi đường link sau:
      * https://www.youtube.com/watch?v=zt8Cocdy15c&t=54s
      */
-
     public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -80,8 +103,22 @@ public class AuthService {
                 .build();
     }
 
-    public String authentication() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
+    // Get current profile user
+    public UserProfileGetDto authentication() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        UserProfileGetDto dto = new UserProfileGetDto(
+                user.getUsername(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getRole().name(),
+                user.isActive()
+        );
+        return dto;
     }
 
 //    public AuthResponse register(User user) {

@@ -1,5 +1,6 @@
-USE evdealer_db;
+USE evdealer_db
 
+-- ============== battery ============================
 IF OBJECT_ID('dbo.battery', 'U') IS NOT NULL DROP TABLE dbo.battery;
 GO
 CREATE TABLE dbo.battery (
@@ -12,16 +13,20 @@ CREATE TABLE dbo.battery (
     voltage_v           FLOAT NULL,
     capacity_kwh        FLOAT NULL,
     cycle_life          INT NULL,
+	created_by            NVARCHAR(100) NOT NULL,
+    created_on            DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    last_modified_by      NVARCHAR(100) NOT NULL,
+    last_modified_on      DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
     CONSTRAINT CK_battery_chemistry
         CHECK (chemistry_type IN ('NCA','NCM','LFP','SolidState'))
 );
 GO
 
-
-/* ============== colors ============================= */
-IF OBJECT_ID('dbo.color', 'U') IS NOT NULL DROP TABLE dbo.colors;
+-- ============== colors =============================
+IF OBJECT_ID('dbo.colors', 'U') IS NOT NULL DROP TABLE dbo.colors;
 GO
-CREATE TABLE dbo.color (
+CREATE TABLE dbo.colors (
     color_id    BIGINT IDENTITY(1,1) PRIMARY KEY,
     color_name  VARCHAR(100) NOT NULL UNIQUE,
     color_hex   VARCHAR(7)   NOT NULL UNIQUE,
@@ -29,10 +34,10 @@ CREATE TABLE dbo.color (
 );
 GO
 
-/* ============== dimensions ========================= */
-IF OBJECT_ID('dbo.dimension', 'U') IS NOT NULL DROP TABLE dbo.dimensions;
+-- ============== dimensions =========================
+IF OBJECT_ID('dbo.dimensions', 'U') IS NOT NULL DROP TABLE dbo.dimensions;
 GO
-CREATE TABLE dbo.dimension (
+CREATE TABLE dbo.dimensions (
     dimension_id         BIGINT IDENTITY(1,1) PRIMARY KEY,
     weight_lbs           FLOAT NULL,
     ground_clearance_in  FLOAT NULL,
@@ -46,7 +51,7 @@ CREATE TABLE dbo.dimension (
 );
 GO
 
-/* ==============  motor ============================== */
+-- /* ==============  motor ============================== */
 IF OBJECT_ID('dbo.motor', 'U') IS NOT NULL DROP TABLE dbo.motor;
 GO
 CREATE TABLE dbo.motor (
@@ -57,14 +62,20 @@ CREATE TABLE dbo.motor (
     torque_nm       FLOAT NULL,
     max_rpm         INT NULL,
     cooling_type    VARCHAR(30) NULL,
-    voltage_range_v FLOAT NULL
+    voltage_range_v FLOAT NULL,
+	created_by            NVARCHAR(100)  NULL,
+    created_on            DATETIMEOFFSET NULL DEFAULT SYSDATETIMEOFFSET(),
+    last_modified_by      NVARCHAR(100) NULL,
+    last_modified_on      DATETIMEOFFSET NULL DEFAULT SYSDATETIMEOFFSET(),
+	 CONSTRAINT CK_motor_type
+        CHECK (motor_type IN ('AC_INDUCTION', 'PERMANENT_MAGNET', 'DC_BRUSHED', 'DC_BRUSHLESS', 'SYNCHRONOUS'))
 );
 GO
 
-/* ============== performances ======================= */
-IF OBJECT_ID('dbo.performance', 'U') IS NOT NULL DROP TABLE dbo.performances;
+-- /* ============== performances ======================= */
+IF OBJECT_ID('dbo.performances', 'U') IS NOT NULL DROP TABLE dbo.performances;
 GO
-CREATE TABLE dbo.performance (
+CREATE TABLE dbo.performances (
     performance_id  BIGINT IDENTITY(1,1) PRIMARY KEY,
     range_miles     FLOAT NULL,
     acceleration_sec FLOAT NULL,
@@ -80,20 +91,22 @@ CREATE TABLE dbo.performance (
         ON UPDATE NO ACTION ON DELETE SET NULL
 );
 GO
-CREATE INDEX IX_performances_battery_id ON dbo.performances(battery_id);
-CREATE INDEX IX_performances_motor_id   ON dbo.performances(motor_id);
-GO
 
-/* ============== category =========================== */
+
+-- /* ============== category =========================== */
 IF OBJECT_ID('dbo.category', 'U') IS NOT NULL DROP TABLE dbo.category;
 GO
 CREATE TABLE dbo.category (
     category_id  BIGINT IDENTITY(1,1) PRIMARY KEY,
-    car_type     VARCHAR(30) NULL
+    category_name     VARCHAR(30) NULL ,
+	created_by            NVARCHAR(100) NULL,
+    created_on            DATETIMEOFFSET NULL,
+    last_modified_by      NVARCHAR(100) NULL,
+    last_modified_on      DATETIMEOFFSET NULL
 );
 GO
 
-/* ============== Table: car ================================ */
+-- /* ============== Table: car ================================ */
 IF OBJECT_ID('dbo.car', 'U') IS NOT NULL DROP TABLE dbo.car;
 GO
 CREATE TABLE dbo.car (
@@ -102,7 +115,7 @@ CREATE TABLE dbo.car (
     price           DECIMAL(19,2) NULL,
     drive_type      VARCHAR(10) NULL,
     seat_number     INT NULL,
-    year            INT NULL,
+    [year]           INT NULL,
     dimension_id    BIGINT NULL,
     performance_id  BIGINT NULL,
     color_id        BIGINT NULL,
@@ -154,67 +167,8 @@ GO
 CREATE INDEX IX_car_image_car_id ON dbo.car_image(car_id);
 GO
 
-----------------------------------------------INSERT-----------------------------------------
--- ===== colors =====
-INSERT INTO dbo.color (color_name, color_hex, extra_cost)
-VALUES
- ('White Pearl', '#FFFFFF', 0),
- ('Deep Ocean Blue', '#003366', 150),
- ('Sunset Red', '#C8102E', 200),
- ('Midnight Black', '#000000', 100);
 
--- ===== category =====
-INSERT INTO dbo.category (car_type)
-VALUES ('ECO'), ('PLUS'), ('PREMIUM');
 
--- ===== battery =====
-INSERT INTO dbo.battery
-(chemistry_type, age, charge_time_sec, usage_duration_sec, weight_kg, voltage_v, capacity_kwh, cycle_life)
-VALUES
- ('LFP', 1, 1800, 7200, 350, 400, 75, 3000),
- ('NCM', 2, 2400, 10800, 380, 450, 82, 2500),
- ('SolidState', 1, 1500, 14400, 320, 500, 100, 4000);
 
--- ===== motor =====
-INSERT INTO dbo.motor
-(motor_type, manufacturer, power_kw, torque_nm, max_rpm, cooling_type, voltage_range_v)
-VALUES
- ('PMSM', 'VF-ECO-001', 150, 300, 9000, 'LIQUID', 450),
- ('PMSM', 'VF-PLUS-002', 200, 350, 10000, 'LIQUID', 500),
- ('PMSM', 'VF-PREM-003', 250, 420, 11000, 'LIQUID', 550);
 
--- ===== performances =====
-INSERT INTO dbo.performance
-(range_miles, acceleration_sec, top_speed_mph, towing_lbs, battery_id, motor_id)
-VALUES
- (250, 8.5, 110, 2000, 1, 1),
- (310, 7.2, 125, 2500, 2, 2),
- (400, 6.0, 140, 3000, 3, 3);
-
--- ===== dimensions =====
-INSERT INTO dbo.dimension
-(weight_lbs, ground_clearance_in, width_folded_in, width_extended_in, height_in, length_mm, length_in, wheels_size_cm)
-VALUES
- (4200, 6.5, 70, 78, 64, 4750, 187.0, 48),
- (4400, 7.0, 72, 80, 66, 4850, 191.0, 50),
- (4600, 7.5, 74, 82, 68, 4950, 195.0, 52);
-
--- ===== car =====
-INSERT INTO dbo.car
-(car_name, price, drive_type, seat_number, year, dimension_id, performance_id, color_id, category_id)
-VALUES
- ('VinFast VF e34', 39000, 'FWD', 5, 2023, 1, 1, 1, 1),
- ('VinFast VF 8', 52000, 'AWD', 5, 2024, 2, 2, 2, 2),
- ('VinFast VF 9', 68000, 'AWD', 7, 2024, 3, 3, 3, 3);
-
--- ===== car_image =====
-INSERT INTO dbo.car_image (car_id, file_name, file_path, file_url)
-VALUES
- (1, 'vf-e34-front.jpg', '/images/vf_e34/front.jpg', 'https://cdn.ev-dms.vn/vf_e34/front.jpg'),
- (1, 'vf-e34-side.jpg', '/images/vf_e34/side.jpg', 'https://cdn.ev-dms.vn/vf_e34/side.jpg'),
- (2, 'vf8-front.jpg', '/images/vf8/front.jpg', 'https://cdn.ev-dms.vn/vf8/front.jpg'),
- (2, 'vf8-interior.jpg', '/images/vf8/interior.jpg', 'https://cdn.ev-dms.vn/vf8/interior.jpg'),
- (3, 'vf9-front.jpg', '/images/vf9/front.jpg', 'https://cdn.ev-dms.vn/vf9/front.jpg'),
- (3, 'vf9-side.jpg', '/images/vf9/side.jpg', 'https://cdn.ev-dms.vn/vf9/side.jpg');
-GO
 

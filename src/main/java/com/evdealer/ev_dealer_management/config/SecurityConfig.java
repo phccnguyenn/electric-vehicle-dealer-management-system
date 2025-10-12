@@ -46,16 +46,18 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/v3/api-docs/**", "/swagger-ui/**",
                                 "/swagger-ui.html", "/webjars/**").permitAll()
-                        .requestMatchers("/api/v1/auth/register").hasRole("EVM_ADMIN")
+                        .requestMatchers("/api/v1/auth/register",
+                                "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
                         .requestMatchers(
                                 "/api/v1/car/new",
                                 "/api/v1/car/{carId}/update",
                                 "/api/v1/car/{carId}/upload/images").hasRole("EVM_ADMIN")
                         .requestMatchers(
-                                "/api/v1/category/new",
-                                "/api/v1/category/{categoryId}/rename").hasRole("EVM_ADMIN")
+                                HttpMethod.POST, "/api/v1/category/new").hasRole("EVM_ADMIN")
+                        .requestMatchers("/api/v1/category/{categoryId}/rename").hasRole("EVM_ADMIN")
                         .anyRequest().permitAll()
                 )
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())

@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.car.model;
 
 import com.evdealer.ev_dealer_management.car.model.enumeration.ChemistryType;
+import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Battery {
+public class Battery extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +30,10 @@ public class Battery {
     private int age;
 
     @Column(name = "charge_time_sec", nullable = false)
-    private Duration chargeTime;
+    private int chargeTime;
 
     @Column(name = "usage_duration_sec")
-    private Duration usageDuration;
+    private int usageDuration;
 
     @Column(name = "weight_kg")
     private float weightKg;

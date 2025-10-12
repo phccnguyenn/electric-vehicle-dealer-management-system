@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "performance", schema = "dbo")
+@Table(name = "performances", schema = "dbo")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +14,7 @@ public class Performance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "performance_id, nullable = false")
+    @Column(name = "performance_id", nullable = false)
     private Long performanceId;
 
     @Column(name = "range_miles")

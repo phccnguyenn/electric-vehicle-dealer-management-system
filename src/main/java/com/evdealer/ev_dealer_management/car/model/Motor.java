@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.car.model;
 
 import com.evdealer.ev_dealer_management.car.model.enumeration.CoolingType;
 import com.evdealer.ev_dealer_management.car.model.enumeration.MotorType;
+import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Motor {
+public class Motor extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

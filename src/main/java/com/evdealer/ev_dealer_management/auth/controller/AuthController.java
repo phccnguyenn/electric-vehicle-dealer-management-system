@@ -1,16 +1,7 @@
 package com.evdealer.ev_dealer_management.auth.controller;
 
-import com.evdealer.ev_dealer_management.auth.model.User;
-import com.evdealer.ev_dealer_management.auth.model.dto.AuthRequest;
-import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
-import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
-import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
+import com.evdealer.ev_dealer_management.auth.model.dto.*;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
-import com.evdealer.ev_dealer_management.utils.ErrorDto;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -29,6 +20,13 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @GetMapping("/all/profile")
+    public ResponseEntity<UserInfoListDto> getAllUserProfile(
+            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return ResponseEntity.ok(authService.getAllUser(pageNo, pageSize));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> authenticate(
             @RequestBody AuthRequest authRequest
@@ -36,8 +34,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.authenticate(authRequest));
     }
 
-    @GetMapping("/authentication")
-    public ResponseEntity<String> authenticate() {
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileGetDto> authenticate() {
         return ResponseEntity.ok(authService.authentication());
     }
 
