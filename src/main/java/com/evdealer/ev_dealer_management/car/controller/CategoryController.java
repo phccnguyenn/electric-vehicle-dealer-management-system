@@ -1,6 +1,5 @@
 package com.evdealer.ev_dealer_management.car.controller;
 
-import com.evdealer.ev_dealer_management.car.model.dto.car.CarListGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryGetDetailDto;
 import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryListGetDto;
 import com.evdealer.ev_dealer_management.car.service.CategoryService;
@@ -22,7 +21,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getAllCategory(pageNo, pageSize));
     }
 
-    @PostMapping("/new")
+    @PostMapping("/create")
     public ResponseEntity<CategoryGetDetailDto> addNewCategory(@RequestParam(name = "categoryName") String categoryName) {
         return ResponseEntity.ok(categoryService.addNewCategory(categoryName));
     }

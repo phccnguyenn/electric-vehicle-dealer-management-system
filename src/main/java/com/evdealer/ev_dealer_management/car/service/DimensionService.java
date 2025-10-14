@@ -12,17 +12,19 @@ public class DimensionService {
 
     private final DimensionRepository dimensionRepository;
 
-    public Dimension createDimension(DimensionPostDto dimensionPostDto, Long carId) {
+    public Dimension createDimension(DimensionPostDto dimensionPostDto) {
 
-        Dimension dimension = new Dimension();
-        dimension.setLengthMm(dimensionPostDto.lengthMm());
-        dimension.setLengthIn(dimensionPostDto.lengthIn());
-        dimension.setWeightLbs(dimensionPostDto.weightLbs());
-        dimension.setGroundClearanceIn(dimensionPostDto.groundClearanceIn());
-        dimension.setWidthFoldedIn(dimensionPostDto.widthFoldedIn());
-        dimension.setWidthExtendedIn(dimensionPostDto.widthExtendedIn());
-        dimension.setHeightIn(dimensionPostDto.heightIn());
-        dimension.setWheelsSizeCm(dimensionPostDto.wheelsSizeCm());
+        Dimension dimension = Dimension.builder()
+                .seatNumber(dimensionPostDto.seatNumber())
+                .weightLbs(dimensionPostDto.weightLbs())
+                .groundClearanceIn(dimensionPostDto.groundClearanceIn())
+                .widthFoldedIn(dimensionPostDto.widthFoldedIn())
+                .widthExtendedIn(dimensionPostDto.widthExtendedIn())
+                .heightIn(dimensionPostDto.heightIn())
+                .lengthMm(dimensionPostDto.lengthMm())
+                .lengthIn(dimensionPostDto.lengthIn())
+                .wheelsSizeCm(dimensionPostDto.wheelsSizeCm())
+                .build();
 
         return dimensionRepository.save(dimension);
     }

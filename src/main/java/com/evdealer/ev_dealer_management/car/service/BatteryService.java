@@ -2,8 +2,11 @@ package com.evdealer.ev_dealer_management.car.service;
 
 import com.evdealer.ev_dealer_management.car.model.Battery;
 
+import com.evdealer.ev_dealer_management.car.model.dto.battery.BatteryDetailGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.battery.BatteryPostDto;
 import com.evdealer.ev_dealer_management.car.repository.BatteryRepository;
+import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
+import com.evdealer.ev_dealer_management.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,28 +14,32 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BatteryService {
 
-        private final BatteryRepository batteryRepository;
+    private final BatteryRepository batteryRepository;
 
-        public Battery createBattery(BatteryPostDto batteryPostDto) {
-            Battery battery = batteryRepository.findByChemistryType(batteryPostDto.chemistryType()).
-                    orElseGet(() -> addBattery(batteryPostDto)) ;
+    public BatteryDetailGetDto getBatteryDetailById(Long batteryId) {
+        Battery battery = getBatteryById(batteryId);
+        return BatteryDetailGetDto.fromModel(battery);
+    }
 
-            return batteryRepository.save(battery);
-        }
+    public Battery getBatteryById(Long batteryId) {
+        return batteryRepository.findById(batteryId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.BATTERY_NOT_FOUND, batteryId));
+    }
 
-        private Battery addBattery(BatteryPostDto batteryPostDto) {
-            Battery battery = new Battery();
-            battery.setChemistryType(batteryPostDto.chemistryType());
-            battery.setAge(batteryPostDto.age());
-            battery.setChargeTime(batteryPostDto.chargeTime());
-            battery.setUsageDuration(batteryPostDto.usageDuration());
-            battery.setWeightKg(batteryPostDto.weightKg());
-            battery.setVoltageV(batteryPostDto.voltageV());
-            battery.setCapacityKwh(batteryPostDto.capacityKWh());
-            battery.setCycleLife(batteryPostDto.cycleLife());
+    public BatteryDetailGetDto addNewBattery(BatteryPostDto batteryPostDto) {
+        Battery battery = Battery.builder()
+                .chemistryType(batteryPostDto.chemistryType())
+                .age(batteryPostDto.age())
+                .chargeTime(batteryPostDto.chargeTime())
+                .usageDuration(batteryPostDto.usageDuration())
+                .weightKg(batteryPostDto.weightKg())
+                .voltageV(batteryPostDto.voltageV())
+                .capacityKwh(batteryPostDto.capacityKWh())
+                .cycleLife(batteryPostDto.cycleLife())
+                .build();
 
-            return batteryRepository.save(battery);
-        }
+        return BatteryDetailGetDto.fromModel(batteryRepository.save(battery));
+    }
 
 
 }

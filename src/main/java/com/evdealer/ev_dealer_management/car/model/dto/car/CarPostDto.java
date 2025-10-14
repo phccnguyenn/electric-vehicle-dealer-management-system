@@ -9,12 +9,11 @@ import java.math.BigDecimal;
 
 public record CarPostDto(
         Long categoryId,
+        ColorPostDto colorPostDto,
         String carName,
         BigDecimal price,
         DriveType driveType,
-        int seatNumber,
         int year,
-        ColorPostDto colorPostDto,
         DimensionPostDto dimensionPostDto,
         PerformancePostDto performancePostDto
 ) {

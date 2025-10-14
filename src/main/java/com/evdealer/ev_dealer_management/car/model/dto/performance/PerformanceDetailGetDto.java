@@ -6,10 +6,10 @@ import com.evdealer.ev_dealer_management.car.model.dto.motor.MotorDetailGetDto;
 
 public record PerformanceDetailGetDto(
 
-        Double rangeMiles,
-        Double accelerationSec,
-        Double topSpeedMph,
-        Double towingLbs,
+        Float rangeMiles,
+        Float accelerationSec,
+        Float topSpeedMph,
+        Float towingLbs,
         BatteryDetailGetDto battery,
         MotorDetailGetDto motor
 

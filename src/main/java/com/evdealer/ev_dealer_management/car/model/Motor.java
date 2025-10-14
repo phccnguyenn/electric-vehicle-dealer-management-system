@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "motor", schema = "dbo")
+@Table(schema = "dbo", name = "motor")
 @Setter
 @Getter
 @Builder
@@ -20,14 +20,14 @@ public class Motor extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "motor_id")
+    @Column(name = "id")
     private Long motorId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "motor_type")
     private MotorType motorType;
 
-    @Column(name = "manufacturer", unique = true)
+    @Column(name = "serial_number", unique = true)
     private String serialNumber;
 
     @Column(name = "power_kw")

@@ -1,33 +1,38 @@
 package com.evdealer.ev_dealer_management.car.model;
 
 
+import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "colors", schema = "dbo")
+@Table(schema = "dbo", name = "color")
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Color {
+public class Color extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "color_id")
-    private  Long colorId;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "color_name", nullable = false, unique = true)
     private String colorName;
 
-    @Column(name = "color_hex", nullable = false, unique = true)
-    private String colorHex;
+    @Column(name = "color_hex_code", nullable = false, unique = true)
+    private String colorHexCode;
 
     @Column(name = "extra_cost")
-    private  Float extraCost;
+    private BigDecimal extraCost;
+
+    @OneToMany(mappedBy = "color")
+    public List<Car> cars = new ArrayList<>();
 
 }

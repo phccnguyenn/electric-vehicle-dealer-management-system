@@ -9,7 +9,6 @@ public record CarPatchDto(
         String carName,
         BigDecimal price,
         DriveType driveType,
-        int seatNumber,
         int year
 ) {
 }

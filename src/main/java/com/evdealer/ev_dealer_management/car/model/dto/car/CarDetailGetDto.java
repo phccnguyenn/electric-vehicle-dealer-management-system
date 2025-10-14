@@ -2,6 +2,9 @@ package com.evdealer.ev_dealer_management.car.model.dto.car;
 
 import com.evdealer.ev_dealer_management.car.model.*;
 import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryGetDetailDto;
+import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryInfoGetDto;
+import com.evdealer.ev_dealer_management.car.model.dto.color.ColorDetailGetDto;
+import com.evdealer.ev_dealer_management.car.model.dto.dimension.DimensionDetailGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.image.CarImageGetDetailDto;
 import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformanceDetailGetDto;
 import com.evdealer.ev_dealer_management.car.model.enumeration.DriveType;
@@ -13,11 +16,10 @@ public record CarDetailGetDto (
         Long id,
         String carName,
         DriveType driveType,
-        int seatNumber,
         int year,
-        CategoryGetDetailDto category,
-        Dimension dimension,
-        Color color,
+        CategoryInfoGetDto category,
+        DimensionDetailGetDto dimension,
+        ColorDetailGetDto color,
         PerformanceDetailGetDto performanceDetailGetDto,
         List<CarImageGetDetailDto> carImages
 ) {
@@ -26,11 +28,10 @@ public record CarDetailGetDto (
                 car.getId(),
                 car.getCarName(),
                 car.getDriveType(),
-                car.getSeatNumber(),
                 car.getYear(),
-                CategoryGetDetailDto.fromModel(car.getCategory()),
-                car.getDimension(),
-                car.getColor(),
+                CategoryInfoGetDto.fromModel(car.getCategory()),
+                DimensionDetailGetDto.fromModel(car.getDimension()),
+                ColorDetailGetDto.fromModel(car.getColor()),
                 PerformanceDetailGetDto.fromModel(car.getPerformance()),
                 car.getCarImages().stream()
                         .map(CarImageGetDetailDto::fromModel)

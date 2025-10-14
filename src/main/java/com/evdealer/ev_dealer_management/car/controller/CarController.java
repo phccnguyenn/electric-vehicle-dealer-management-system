@@ -5,16 +5,12 @@ import com.evdealer.ev_dealer_management.car.model.dto.car.CarListGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.car.CarPatchDto;
 import com.evdealer.ev_dealer_management.car.model.dto.car.CarPostDto;
 import com.evdealer.ev_dealer_management.car.service.CarService;
-import com.evdealer.ev_dealer_management.thumbnail.model.dto.MediaPostDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -31,12 +27,12 @@ public class CarController {
         return ResponseEntity.ok(carService.getAllCars(pageNo, pageSize));
     }
 
-    @GetMapping("/{carId}")
+    @GetMapping("/{carId}/detail")
     public ResponseEntity<CarDetailGetDto> getDetailCarById(@PathVariable("carId") Long carId) {
         return ResponseEntity.ok(carService.getDetailCarById(carId));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<CarDetailGetDto> addNewCar(@RequestBody CarPostDto carPostDto) {
         return ResponseEntity.ok(carService.createCar(carPostDto));
     }
@@ -45,19 +41,13 @@ public class CarController {
     public ResponseEntity<CarDetailGetDto> uploadCarImages(
             @PathVariable(name = "carId") Long carId,
             @RequestPart("files") MultipartFile[] files) {
-
-        List<MediaPostDto> medias = new ArrayList<>();
-        for (MultipartFile file : files) {
-            medias.add(new MediaPostDto(null, file, null));
-        }
-
-        return ResponseEntity.ok(carService.uploadCarImages(carId, medias));
+        return ResponseEntity.ok(carService.uploadImagesForCar(carId, files));
     }
 
     @PatchMapping("/{carId}/update")
     public ResponseEntity<Void> partialUpdate(@PathVariable(value = "carId") Long carId,
                                               @RequestBody CarPatchDto carPatchDto) {
-        carService.patchCarByCarId(carId, carPatchDto);
+        carService.updatePartialCarByCarId(carId, carPatchDto);
         return ResponseEntity.noContent().build();
     }
 

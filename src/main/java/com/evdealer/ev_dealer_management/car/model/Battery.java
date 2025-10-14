@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "battery", schema = "dbo")
+@Table(schema = "dbo", name = "battery")
 @Setter
 @Getter
 @Builder
@@ -20,8 +20,8 @@ public class Battery extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "battery_id")
-    private Long batteryId;
+    @Column(name = "id")
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     private ChemistryType chemistryType;    // Enum: NCA, NCM, LFP, SolidState
@@ -29,10 +29,10 @@ public class Battery extends AbstractAuditEntity {
     @Column(name = "age", nullable = false)
     private int age;
 
-    @Column(name = "charge_time_sec", nullable = false)
+    @Column(name = "charge_time_hour", nullable = false)
     private int chargeTime;
 
-    @Column(name = "usage_duration_sec")
+    @Column(name = "usage_duration_hour")
     private int usageDuration;
 
     @Column(name = "weight_kg")

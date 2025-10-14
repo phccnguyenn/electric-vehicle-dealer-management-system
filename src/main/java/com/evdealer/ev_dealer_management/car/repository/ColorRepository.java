@@ -11,4 +11,6 @@ public interface ColorRepository extends JpaRepository<Color, Long> {
 
     Optional<Color> findByColorName(String colorName);
 
+    Optional<Color> findByColorNameAndColorHexCode(String colorName, String colorHexCode);
+
 }

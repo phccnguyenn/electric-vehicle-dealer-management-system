@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "car", schema = "dbo")
+@Table(schema = "dbo", name = "car")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -22,42 +22,36 @@ public class Car extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color color;
+
+    @OneToOne
+    @JoinColumn(name = "dimension_id")
+    private Dimension dimension;
+
+    @OneToOne
+    @JoinColumn(name = "performance_id")
+    private Performance performance;
 
     @Column(name = "car_name")
     private String carName;
-
-    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "drive_type")
     private DriveType driveType;
 
-    @Column(name = "seat_number")
-    private int seatNumber;
-
-    @Column(name ="year")
     private int year;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.PERSIST)
-    // @Column(name = "car_image")
+    private BigDecimal price;
+
+    @OneToMany(mappedBy = "car")
     private List<CarImage> carImages = new ArrayList<>();
-
-    @OneToOne()
-    @JoinColumn(name = "dimension_id")
-    private Dimension dimension;
-
-    @OneToOne()
-    @JoinColumn(name = "performance_id")
-    private Performance performance;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "color_id")
-    private Color color;
-
-    @ManyToOne()
-    @JoinColumn(name = "category_id")
-    private Category category;
 
 }

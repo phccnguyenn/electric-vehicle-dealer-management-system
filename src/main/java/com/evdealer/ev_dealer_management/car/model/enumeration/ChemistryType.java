@@ -4,5 +4,5 @@ public enum ChemistryType {
     NCA,
     NCM,
     LFP,
-    SolidState
+    SOLID_STATE
 }

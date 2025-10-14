@@ -1,5 +1,6 @@
 package com.evdealer.ev_dealer_management.car.service;
 
+import com.evdealer.ev_dealer_management.car.model.Car;
 import com.evdealer.ev_dealer_management.car.model.Category;
 import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryGetDetailDto;
 import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryInfoGetDto;
@@ -27,6 +28,17 @@ public class CategoryService {
 
         return toCategoryListGetDto(categoryPage);
     }
+
+    public Category addCarToCategory(Long categoryId, Car car) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CATEGORY_NOT_FOUND, categoryId));
+        category.getCars().add(car);
+        return categoryRepository.save(category);
+    }
+
+//    public Category getCategoryByName(String categoryName) {
+//        return categoryRepository.findByCategoryName()
+//    }
 
     public CategoryGetDetailDto addNewCategory(String categoryName) {
         Category category = new Category();

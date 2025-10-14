@@ -1,21 +1,24 @@
 package com.evdealer.ev_dealer_management.car.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Table(name = "dimensions", schema = "dbo")
-@Data
+@Table(schema = "dbo", name = "dimension")
+@Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Dimension {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "dimension_id")
-    private Long dimensionId;
+    @Column(name = "id")
+    private Long Id;
+
+    @Column(name = "seat_number")
+    private int seatNumber;
 
     @Column(name = "weight_lbs")
     private Float weightLbs;
@@ -41,5 +44,4 @@ public class Dimension {
     @Column(name = "wheels_size_cm")
     private Float wheelsSizeCm;
 
-    // Dimension không cần biết Car.
 }

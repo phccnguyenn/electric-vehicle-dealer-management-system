@@ -3,7 +3,6 @@ package com.evdealer.ev_dealer_management.car.model.dto.battery;
 import com.evdealer.ev_dealer_management.car.model.Battery;
 import com.evdealer.ev_dealer_management.car.model.enumeration.ChemistryType;
 
-import java.time.Duration;
 
 public record BatteryDetailGetDto(
         Long id,
@@ -19,7 +18,7 @@ public record BatteryDetailGetDto(
 
     public static BatteryDetailGetDto fromModel(Battery battery) {
         return new BatteryDetailGetDto(
-                battery.getBatteryId(),
+                battery.getId(),
                 battery.getChemistryType(),
                 battery.getAge(),
                 battery.getChargeTime(),

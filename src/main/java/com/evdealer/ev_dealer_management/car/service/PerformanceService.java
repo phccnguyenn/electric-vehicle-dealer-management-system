@@ -21,38 +21,26 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PerformanceService {
 
+    private final BatteryService batteryService;
+    private final MotorService motorService;
     private final PerformanceRepository performanceRepository;
-    private final CarRepository carRepository;
-    private final  BatteryRepository batteryRepository;
-    private final MotorRepository motorRepository   ;
 
-    public Performance createPerformance(Long carId, PerformancePostDto performancePostDto) {;
-
-        Performance performance = performanceRepository.findById(carId)
-                .orElse(new Performance());
+    public Performance createPerformance(PerformancePostDto performancePostDto) {
 
         // Set battery
-        if (performancePostDto.batteryId() != null) {
-            Battery battery = batteryRepository.findById(performancePostDto.batteryId())
-                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.BATTERY_NOT_FOUND, performancePostDto.batteryId()));
-            performance.setBattery(battery);
-        }
+        Battery battery = batteryService.getBatteryById(performancePostDto.batteryId());
+        Motor motor = motorService.getMotorById(performancePostDto.motorId());
 
-        // Set motor
-        if (performancePostDto.motorId() != null) {
-            Motor motor = motorRepository.findById(performancePostDto.motorId())
-                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.MOTOR_NOT_FOUND, performancePostDto.motorId()));
-            performance.setMotor(motor);
-        }
+        Performance performance = Performance.builder()
+                .battery(battery)
+                .motor(motor)
+                .rangeMiles(performancePostDto.rangeMiles())
+                .accelerationSec(performancePostDto.accelerationSec())
+                .topSpeedMph(performancePostDto.topSpeedMph())
+                .towingLbs(performancePostDto.towingLbs())
+                .build();
 
-        performance.setRangeMiles(performancePostDto.rangeMiles());
-        performance.setAccelerationSec(performancePostDto.accelerationSec());
-        performance.setTopSpeedMph(performancePostDto.topSpeedMph());
-        performance.setTowingLbs(performancePostDto.towingLbs());
-
-        performanceRepository.save(performance);
-        // return PerformanceDetailGetDto.fromModel(performance);
-        return performance;
+        return performanceRepository.save(performance);
     }
 
 }
