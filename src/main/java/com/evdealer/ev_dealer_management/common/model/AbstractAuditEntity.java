@@ -3,6 +3,7 @@ package com.evdealer.ev_dealer_management.common.model;
 import com.evdealer.ev_dealer_management.common.model.listener.CustomAuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,8 +15,10 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
+@MappedSuperclass
 @EntityListeners(CustomAuditingEntityListener.class)
 public class AbstractAuditEntity {
+
     @CreatedBy
     @Column(name = "created_by")
     private String createdBy;

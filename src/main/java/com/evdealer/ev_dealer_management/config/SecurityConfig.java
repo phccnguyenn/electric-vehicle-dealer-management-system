@@ -49,11 +49,15 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/register",
                                 "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
                         .requestMatchers(
-                                "/api/v1/car/new",
+                                "/api/v1/battery/create").hasRole("EVM_ADMIN")
+                        .requestMatchers(
+                                "/api/v1/motor/create").hasRole("EVM_ADMIN")
+                        .requestMatchers(
+                                "/api/v1/car/create",
                                 "/api/v1/car/{carId}/update",
                                 "/api/v1/car/{carId}/upload/images").hasRole("EVM_ADMIN")
                         .requestMatchers(
-                                HttpMethod.POST, "/api/v1/category/new").hasRole("EVM_ADMIN")
+                                HttpMethod.POST, "/api/v1/category/create").hasRole("EVM_ADMIN")
                         .requestMatchers("/api/v1/category/{categoryId}/rename").hasRole("EVM_ADMIN")
                         .anyRequest().permitAll()
                 )

@@ -1,9 +1,8 @@
 USE evdealer_db
 
 --========================== users ==================================
-
-IF OBJECT_ID('dbo.users', 'U') IS NOT NULL DROP TABLE dbo.users;
-GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.users') AND type = 'U')
+BEGIN
 CREATE TABLE dbo.users (
     user_id             BIGINT IDENTITY(1,1) PRIMARY KEY,
     username            VARCHAR(100)  NOT NULL UNIQUE,
@@ -18,13 +17,13 @@ CREATE TABLE dbo.users (
     last_modified_by    NVARCHAR(100) NULL,
     last_modified_on    DATETIMEOFFSET NULL
 );
-GO
+END;
+
+
 
 --========================== tokens==================================
-
-
-IF OBJECT_ID('dbo.tokens', 'U') IS NOT NULL DROP TABLE dbo.tokens;
-GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.tokens') AND type = 'U')
+BEGIN
 CREATE TABLE dbo.tokens (
     id           INT IDENTITY(1,1) PRIMARY KEY,
     token        VARCHAR(500) NOT NULL UNIQUE,
@@ -38,4 +37,4 @@ CREATE TABLE dbo.tokens (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
-GO
+END;

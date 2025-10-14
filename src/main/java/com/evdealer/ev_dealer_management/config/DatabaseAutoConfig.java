@@ -12,9 +12,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Optional;
 
 @Configuration
-@EntityScan
-@EnableJpaRepositories
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
+@EnableJpaRepositories(
+        basePackages = {
+                "com.evdealer.ev_dealer_management.auth.repository",
+                "com.evdealer.ev_dealer_management.car.repository"
+        }
+)
+@EntityScan(
+        basePackages = {
+                "com.evdealer.ev_dealer_management.auth.model",
+                "com.evdealer.ev_dealer_management.car.model"
+        }
+)
 public class DatabaseAutoConfig {
 
     @Bean
