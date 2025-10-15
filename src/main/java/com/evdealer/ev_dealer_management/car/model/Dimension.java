@@ -15,7 +15,7 @@ public class Dimension {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long Id;
+    private Long id;
 
     @Column(name = "seat_number")
     private int seatNumber;
