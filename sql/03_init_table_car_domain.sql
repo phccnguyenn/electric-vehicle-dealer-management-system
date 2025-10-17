@@ -172,7 +172,6 @@ BEGIN
 CREATE TABLE dbo.car_image (
     id          BIGINT IDENTITY(1,1) PRIMARY KEY,
     car_id      BIGINT NOT NULL,
-
     file_name   VARCHAR(255) NULL,
     file_path   VARCHAR(1024) NULL,
     file_url    VARCHAR(1024) NULL,
