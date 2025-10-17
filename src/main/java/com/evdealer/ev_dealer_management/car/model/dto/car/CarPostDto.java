@@ -4,6 +4,7 @@ import com.evdealer.ev_dealer_management.car.model.dto.color.ColorPostDto;
 import com.evdealer.ev_dealer_management.car.model.dto.dimension.DimensionPostDto;
 import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformancePostDto;
 import com.evdealer.ev_dealer_management.car.model.enumeration.DriveType;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.math.BigDecimal;
 

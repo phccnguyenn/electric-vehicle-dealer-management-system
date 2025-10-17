@@ -51,6 +51,4 @@ public class CarController {
         return ResponseEntity.noContent().build();
     }
 
-
-
 }

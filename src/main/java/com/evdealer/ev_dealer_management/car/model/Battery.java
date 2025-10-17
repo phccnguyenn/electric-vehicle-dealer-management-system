@@ -20,10 +20,10 @@ public class Battery extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "chemistry_type")
     private ChemistryType chemistryType;    // Enum: NCA, NCM, LFP, SolidState
 
     @Column(name = "age", nullable = false)
