@@ -66,7 +66,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html", "/webjars/**").permitAll()
 //                        .requestMatchers("/api/v1/auth/register",
 //                                "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
-                        .requestMatchers("/api/v1/user/**").hasRole("EVM_ADMIN")
+                        .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                         .requestMatchers("/api/v1/dealer/**").hasRole("DEALER_MANAGER")
 
                         // Product
