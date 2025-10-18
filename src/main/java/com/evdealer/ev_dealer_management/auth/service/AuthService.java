@@ -1,14 +1,15 @@
 package com.evdealer.ev_dealer_management.auth.service;
 
+import com.evdealer.ev_dealer_management.auth.model.dto.AuthRequest;
+import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
+import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
+import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.auth.model.Token;
-import com.evdealer.ev_dealer_management.auth.model.User;
-import com.evdealer.ev_dealer_management.auth.model.dto.*;
+import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.model.dto.*;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
-import com.evdealer.ev_dealer_management.auth.repository.UserRepository;
-import com.evdealer.ev_dealer_management.car.model.Car;
-import com.evdealer.ev_dealer_management.car.model.dto.car.CarInfoGetDto;
-import com.evdealer.ev_dealer_management.car.model.dto.car.CarListGetDto;
+import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.utils.Constants;
@@ -111,6 +112,7 @@ public class AuthService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         UserProfileGetDto dto = new UserProfileGetDto(
+                null,
                 user.getUsername(),
                 user.getFullName(),
                 user.getEmail(),

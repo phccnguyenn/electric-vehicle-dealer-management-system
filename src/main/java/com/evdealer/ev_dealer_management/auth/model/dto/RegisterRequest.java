@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.auth.model.dto;
 
-import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 

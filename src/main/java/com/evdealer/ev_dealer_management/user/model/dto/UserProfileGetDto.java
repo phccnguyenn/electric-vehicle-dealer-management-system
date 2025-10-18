@@ -1,8 +1,9 @@
-package com.evdealer.ev_dealer_management.auth.model.dto;
+package com.evdealer.ev_dealer_management.user.model.dto;
 
-import com.evdealer.ev_dealer_management.auth.model.User;
+import com.evdealer.ev_dealer_management.user.model.User;
 
 public record UserProfileGetDto(
+        Long userId,
         String username,
         String fullName,
         String email,
@@ -12,6 +13,7 @@ public record UserProfileGetDto(
 ) {
     public static UserProfileGetDto fromModel(User user) {
         return new UserProfileGetDto(
+                user.getId(),
                 user.getUsername(),
                 user.getFullName(),
                 user.getEmail(),

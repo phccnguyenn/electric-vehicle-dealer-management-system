@@ -1,10 +1,10 @@
-package com.evdealer.ev_dealer_management.auth.model.dto;
+package com.evdealer.ev_dealer_management.user.model.dto;
 
 
 import java.util.List;
 
 public record UserInfoListDto (
-        List<UserProfileGetDto> carInfoGetDtos,
+        List<UserProfileGetDto> userInfoGetDtos,
         int pageNo,
         int pageSize,
         int totalElements,

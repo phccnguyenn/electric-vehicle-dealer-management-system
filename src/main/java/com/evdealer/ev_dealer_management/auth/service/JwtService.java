@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.auth.service;
 
-import com.evdealer.ev_dealer_management.auth.model.User;
+import com.evdealer.ev_dealer_management.user.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

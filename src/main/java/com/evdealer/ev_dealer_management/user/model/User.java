@@ -1,20 +1,16 @@
-package com.evdealer.ev_dealer_management.auth.model;
+package com.evdealer.ev_dealer_management.user.model;
 
-import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.auth.model.Token;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.*;
-import java.time.LocalDateTime;
 
 /**
  * Thực thể đại diện cho bảng `users` trong DB, chứa thông tin tài khoản người dùng.
@@ -24,7 +20,7 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@Table(name = "users")
+@Table(schema = "dbo", name = "users")
 @Builder
 @Getter
 @Setter
@@ -37,6 +33,10 @@ public class User extends AbstractAuditEntity
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private User parent;
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;
@@ -59,11 +59,17 @@ public class User extends AbstractAuditEntity
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    // Một người có thể có nhiều tokens
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "parent")
+    private List<User> children = new ArrayList<>();
+
+    @OneToMany(mappedBy = "dealer")
+    private List<Customer> customers = new ArrayList<>();
+
     @JsonIgnore
     @ToString.Exclude
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Token> tokens;
+
 
 
     /**

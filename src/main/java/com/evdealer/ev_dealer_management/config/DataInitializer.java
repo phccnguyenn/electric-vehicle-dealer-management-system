@@ -2,13 +2,9 @@ package com.evdealer.ev_dealer_management.config;
 
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
-import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
-import com.evdealer.ev_dealer_management.car.controller.CarController;
-import com.evdealer.ev_dealer_management.car.model.Category;
-import com.evdealer.ev_dealer_management.car.repository.BatteryRepository;
 import com.evdealer.ev_dealer_management.car.repository.CategoryRepository;
-import com.evdealer.ev_dealer_management.car.repository.MotorRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +12,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j

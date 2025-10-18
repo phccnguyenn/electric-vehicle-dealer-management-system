@@ -1,7 +1,7 @@
 package com.evdealer.ev_dealer_management.auth.model.dto;
 
-import com.evdealer.ev_dealer_management.auth.model.User;
-import com.evdealer.ev_dealer_management.auth.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 
 public record RegisterResponse (
     String username,

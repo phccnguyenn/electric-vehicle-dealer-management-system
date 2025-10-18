@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.auth.model.enumeration;
+package com.evdealer.ev_dealer_management.user.model.enumeration;
 
 /**
  * Enum đại diện cho các loại vai trò người dùng trong hệ thống.

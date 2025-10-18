@@ -1,6 +1,9 @@
-package com.evdealer.ev_dealer_management.auth.repository;
+package com.evdealer.ev_dealer_management.user.repository;
 
-import com.evdealer.ev_dealer_management.auth.model.User;
+import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +19,15 @@ import java.util.Optional;
  * (Từ từ sẽ add thêm theo nhu cầu của thầy cô)
  */
 @Repository
-public interface  UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository
+        extends JpaRepository<User, Long> {
+
+    Page<User> findAllByParentIdAndRole(Long parentId, RoleType role, Pageable pageable);
+
     Optional<User> findByUsername(String username);
+
     boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
+
 }

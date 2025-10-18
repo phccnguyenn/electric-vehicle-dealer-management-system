@@ -1,7 +1,7 @@
 package com.evdealer.ev_dealer_management.auth.model;
 
+import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @Builder

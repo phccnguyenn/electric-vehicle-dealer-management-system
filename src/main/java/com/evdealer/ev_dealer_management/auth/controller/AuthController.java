@@ -1,7 +1,11 @@
 package com.evdealer.ev_dealer_management.auth.controller;
 
-import com.evdealer.ev_dealer_management.auth.model.dto.*;
+import com.evdealer.ev_dealer_management.auth.model.dto.AuthRequest;
+import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
+import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
+import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
+import com.evdealer.ev_dealer_management.user.model.dto.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -20,12 +24,12 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @GetMapping("/all/profile")
-    public ResponseEntity<UserInfoListDto> getAllUserProfile(
-            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
-            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
-        return ResponseEntity.ok(authService.getAllUser(pageNo, pageSize));
-    }
+//    @GetMapping("/all/profile")
+//    public ResponseEntity<UserInfoListDto> getAllUserProfile(
+//            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+//            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
+//        return ResponseEntity.ok(authService.getAllUser(pageNo, pageSize));
+//    }
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> authenticate(
@@ -47,11 +51,11 @@ public class AuthController {
 //        }
 //    )
 
-    @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest user) {
-        RegisterResponse response = authService.register(user);
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest user) {
+//        RegisterResponse response = authService.register(user);
+//        return ResponseEntity.ok(response);
+//    }
 
     @PostMapping("/refresh-token")
     public void refreshToken(

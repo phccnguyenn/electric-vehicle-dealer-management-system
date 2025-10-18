@@ -16,13 +16,15 @@ import java.util.Optional;
 @EnableJpaRepositories(
         basePackages = {
                 "com.evdealer.ev_dealer_management.auth.repository",
-                "com.evdealer.ev_dealer_management.car.repository"
+                "com.evdealer.ev_dealer_management.car.repository",
+                "com.evdealer.ev_dealer_management.user.repository"
         }
 )
 @EntityScan(
         basePackages = {
                 "com.evdealer.ev_dealer_management.auth.model",
-                "com.evdealer.ev_dealer_management.car.model"
+                "com.evdealer.ev_dealer_management.car.model",
+                "com.evdealer.ev_dealer_management.user.model"
         }
 )
 public class DatabaseAutoConfig {

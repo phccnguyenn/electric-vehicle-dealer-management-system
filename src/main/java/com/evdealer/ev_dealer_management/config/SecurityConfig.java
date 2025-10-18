@@ -47,7 +47,7 @@ public class SecurityConfig {
                     public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
                         CorsConfiguration configuration = new CorsConfiguration();
                         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
                         configuration.setExposedHeaders(List.of("x-auth-token"));
 
@@ -64,8 +64,12 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/v3/api-docs/**", "/swagger-ui/**",
                                 "/swagger-ui.html", "/webjars/**").permitAll()
-                        .requestMatchers("/api/v1/auth/register",
-                                "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
+//                        .requestMatchers("/api/v1/auth/register",
+//                                "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
+                        .requestMatchers("/api/v1/user/**").hasRole("EVM_ADMIN")
+                        .requestMatchers("/api/v1/dealer/**").hasRole("DEALER_MANAGER")
+
+                        // Product
                         .requestMatchers(
                                 "/api/v1/battery/create",
                                 "/api/v1/battery/*/remove").hasRole("EVM_ADMIN")
