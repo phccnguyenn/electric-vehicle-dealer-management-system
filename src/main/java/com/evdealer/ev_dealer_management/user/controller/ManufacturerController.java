@@ -49,5 +49,17 @@ public class ManufacturerController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{userId}/ban")
+    public ResponseEntity<Void> banUserById(@PathVariable(name = "userId") Long userId) {
+        manufacturerService.UserBanManagement(userId, true);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{userId}/unban")
+    public ResponseEntity<Void> unbanUserById(@PathVariable(name = "userId") Long userId) {
+        manufacturerService.UserBanManagement(userId, false);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

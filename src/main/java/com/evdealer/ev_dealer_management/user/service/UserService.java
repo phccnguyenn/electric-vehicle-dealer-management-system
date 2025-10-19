@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.user.service;
 
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
+import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
@@ -47,6 +48,11 @@ public abstract class UserService {
             throw new InvalidAuthenticationPrincipalException(Constants.ErrorCode.PRINCIPAL_IS_NOT_USER, principal);
 
         return currentUser;
+    }
+
+    protected User getUserById(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USER_NOT_FOUND, userId));
     }
 
     protected void validateUsername(String username) {

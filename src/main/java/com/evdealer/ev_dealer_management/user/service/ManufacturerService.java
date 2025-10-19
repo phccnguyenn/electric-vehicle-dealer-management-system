@@ -101,6 +101,26 @@ public class ManufacturerService extends UserService {
         userRepository.save(user);
     }
 
+    public void UserBanManagement(Long userId, boolean isBan) {
+        User user = getUserById(userId);
+
+        if (isBan) {
+            banUser(user);
+        } else {
+            unbanUser(user);
+        }
+    }
+
+    private void banUser(User user) {
+        user.setActive(false);
+        userRepository.save(user);
+    }
+
+    private void unbanUser(User user) {
+        user.setActive(true);
+        userRepository.save(user);
+    }
+
     private User createUserUnderParent(User parent, UserPostDto userPostDto) {
 
         validateUsername(userPostDto.username());
