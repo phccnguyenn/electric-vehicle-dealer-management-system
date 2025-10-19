@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.user.model.dto;
+package com.evdealer.ev_dealer_management.user.model.dto.customer;
 
 public record CustomerPostDto(
         String fullName,

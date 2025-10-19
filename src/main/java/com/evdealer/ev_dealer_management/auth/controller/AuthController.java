@@ -2,13 +2,10 @@ package com.evdealer.ev_dealer_management.auth.controller;
 
 import com.evdealer.ev_dealer_management.auth.model.dto.AuthRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
-import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
-import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
-import com.evdealer.ev_dealer_management.user.model.dto.*;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

@@ -1,11 +1,11 @@
 package com.evdealer.ev_dealer_management.user.controller;
 
-import com.evdealer.ev_dealer_management.user.model.dto.UserDetailGetDto;
-import com.evdealer.ev_dealer_management.user.model.dto.UserInfoListDto;
-import com.evdealer.ev_dealer_management.user.model.dto.UserPostDto;
-import com.evdealer.ev_dealer_management.user.model.dto.UserUpdateDto;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserDetailGetDto;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserPostDto;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
-import com.evdealer.ev_dealer_management.user.service.UserService;
+import com.evdealer.ev_dealer_management.user.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,22 +14,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
-public class UserController {
+public class ManufacturerController {
 
-    private final UserService userService;
+    private final ManufacturerService manufacturerService;
 
     @GetMapping("/filter-by-role")
     public ResponseEntity<UserInfoListDto> getAllUserProfile(
             @RequestParam(name = "role", defaultValue = "EVM_STAFF", required = false) RoleType roleType,
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
-        return ResponseEntity.ok(userService.getAllUser(pageNo, pageSize, roleType));
+        return ResponseEntity.ok(manufacturerService.getAllUsersByRole(pageNo, pageSize, roleType));
     }
 
     @PostMapping("/create")
     public ResponseEntity<UserDetailGetDto> createUser(@RequestBody UserPostDto userPostDto) {
-        UserDetailGetDto createdUser = userService.userCreationByAdmin(userPostDto);
+        UserDetailGetDto createdUser = manufacturerService.createUserByAdmin(userPostDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<Void> changePassword(
+            @RequestParam(name = "currentPassword") String currentPassword,
+            @RequestParam(name = "newPassword") String newPassword) {
+        manufacturerService.changePassword(currentPassword, newPassword);
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{userId}/update")
@@ -37,7 +45,7 @@ public class UserController {
             @PathVariable(name = "userId") Long userId,
             @RequestBody UserUpdateDto userUpdateDto
     ) {
-        userService.updatePartialUser(userId, userUpdateDto);
+        manufacturerService.updatePartialUser(userId, userUpdateDto);
         return ResponseEntity.noContent().build();
     }
 

@@ -5,10 +5,12 @@ import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.auth.model.Token;
+import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
 import com.evdealer.ev_dealer_management.user.model.User;
-import com.evdealer.ev_dealer_management.user.model.dto.*;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
@@ -107,21 +109,17 @@ public class AuthService {
     // Get current profile user
     public UserProfileGetDto authentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal() instanceof String) {
+            throw new InvalidAuthenticationPrincipalException(
+                    Constants.ErrorCode.PRINCIPAL_IS_NOT_USER,
+                    auth != null ? auth.getPrincipal() : null
+            );
+        }
 
-        UserProfileGetDto dto = new UserProfileGetDto(
-                null,
-                user.getUsername(),
-                user.getFullName(),
-                user.getEmail(),
-                user.getPhone(),
-                user.getRole().name(),
-                user.isActive()
-        );
-        return dto;
+        User user = (User) auth.getPrincipal();
+        return UserProfileGetDto.fromModel(user);
     }
+
 
 //    public AuthResponse register(User user) {
 //        User savedUser = userRepository.save(user);

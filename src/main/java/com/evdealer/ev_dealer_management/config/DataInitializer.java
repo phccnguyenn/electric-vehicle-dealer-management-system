@@ -47,19 +47,29 @@ public class DataInitializer implements CommandLineRunner {
                 .build());
 
         requests.add(RegisterRequest.builder()
-                .username("dealer.manager001")
+                .username("sg.dealer.manager001")
                 .password("00000")
-                .fullName("Dealer Manager")
-                .email("dealer_manager001@evdcompany.com")
+                .fullName("Đại lý Sài Gòn")
+                .email("sg_dealer_manager001@evdcompany.com")
                 .phone("0986194321")
                 .isActive(true)
                 .role(RoleType.DEALER_MANAGER)
                 .build());
 
         requests.add(RegisterRequest.builder()
-                .username("dealer.staff001")
+                .username("hn.dealer.manager001")
                 .password("00000")
-                .fullName("Dealer Staff")
+                .fullName("Đại lý Hà Nội")
+                .email("hn_dealer_manager001@evdcompany.com")
+                .phone("0986194321")
+                .isActive(true)
+                .role(RoleType.DEALER_MANAGER)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("sg.dealer.staff001")
+                .password("00000")
+                .fullName("Nguyễn Văn A")
                 .email("dealer_staff001@evdcompany.com")
                 .phone("0916951021")
                 .isActive(true)

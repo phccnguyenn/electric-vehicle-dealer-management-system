@@ -6,6 +6,8 @@ public final class Constants {
         public final static String USER_NOT_FOUND = "USER_NOT_FOUND";
         public final static String USERNAME_NOT_FOUND = "USERNAME_NOT_FOUND";
         public final static String USERNAME_ALREADY_EXIST = "USERNAME_ALREADY_EXIST";
+        public final static String CUSTOMER_NOT_FOUND = "CUSTOMER_NOT_FOUND";
+        public final static String CUSTOMER_WITH_PHONE_NUMBER_NOT_EXIST = "CUSTOMER_WITH_PHONE_NUMBER_NOT_EXIST";
         public final static String EMAIL_ALREADY_EXIST = "EMAIL_ALREADY_EXIST";
         public final static String PHONE_ALREADY_EXIST = "PHONE_ALREADY_EXIST";
 

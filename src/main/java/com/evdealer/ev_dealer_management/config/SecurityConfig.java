@@ -4,6 +4,8 @@ import com.evdealer.ev_dealer_management.auth.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -11,7 +13,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -38,59 +39,169 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authProvider;
 
+    /**
+     * User Domain Security
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
+    @Order(1)
+    public SecurityFilterChain userDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
-                    @Override
-                    public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-                        CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-                        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-                        configuration.setExposedHeaders(List.of("x-auth-token"));
-
-                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                        source.registerCorsConfiguration("/**", configuration);
-
-                        httpSecurityCorsConfigurer.configurationSource(source);
-                    }
-                })
+                .securityMatcher("/api/v1/user/**", "/api/v1/dealer/**")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authProvider)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(
-                                "/v3/api-docs/**", "/swagger-ui/**",
-                                "/swagger-ui.html", "/webjars/**").permitAll()
-//                        .requestMatchers("/api/v1/auth/register",
-//                                "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
-                        .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                        .requestMatchers("/api/v1/dealer/**").hasRole("DEALER_MANAGER")
-
-                        // Product
-                        .requestMatchers(
-                                "/api/v1/battery/create",
-                                "/api/v1/battery/*/remove").hasRole("EVM_ADMIN")
-                        .requestMatchers(
-                                "/api/v1/motor/create",
-                                "/api/v1/motor/*/update",
-                                "/api/v1/motor/*/remove").hasRole("EVM_ADMIN")
-                        .requestMatchers(
-                                "/api/v1/car/create",
-                                "/api/v1/car/*/update",
-                                "/api/v1/car/*/upload/images").hasRole("EVM_ADMIN")
-                        .requestMatchers(
-                                HttpMethod.POST, "/api/v1/category/create").hasRole("EVM_ADMIN")
-                        .requestMatchers("/api/v1/category/*/rename").hasRole("EVM_ADMIN")
-                        .anyRequest().permitAll()
+                .authorizeHttpRequests(
+                    auth ->
+                        auth
+                            //.requestMatchers("/api/v1/auth/profile").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                            .requestMatchers("/api/v1/user/change-password").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                            .requestMatchers("/api/v1/user/create").hasRole("EVM_ADMIN")
+                            .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers("/api/v1/dealer/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                            .anyRequest().authenticated()
                 )
-                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .build();
+    }
 
+    /**
+     * Product Domain Security
+     * @param http
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    @Order(2)
+    public SecurityFilterChain productDomainSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/api/v1/battery/**", "/api/v1/motor/**", "/api/v1/car/**", "/api/v1/category/**")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authProvider)
+                .authorizeHttpRequests(
+                    auth ->
+                        auth
+                            .requestMatchers(
+                                "/api/v1/battery/create",
+                                "/api/v1/battery/*/remove").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers(
+                                "/api/v1/motor/create",
+                                "/api/v1/motor/*/update",
+                                "/api/v1/motor/*/remove").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers(
+                                "/api/v1/car/create",
+                                "/api/v1/car/*/update",
+                                "/api/v1/car/*/upload/images").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers(HttpMethod.POST, "/api/v1/category/create").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers("/api/v1/category/*/rename").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .anyRequest().permitAll()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
+    /**
+     * Swagger Security
+     * @param http
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    @Order(Ordered.LOWEST_PRECEDENCE)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http.securityMatcher("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/**")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authProvider)
+                .authorizeHttpRequests(
+                    auth ->
+                        auth
+                            .requestMatchers(
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui/**",
+                                    "/swagger-ui.html",
+                                    "/webjars/**"
+                            ).permitAll()
+                            .anyRequest().permitAll()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//
+//        return http
+//                .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
+//                    @Override
+//                    public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
+//                        CorsConfiguration configuration = new CorsConfiguration();
+//                        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+//                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//                        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+//                        configuration.setExposedHeaders(List.of("x-auth-token"));
+//
+//                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//                        source.registerCorsConfiguration("/**", configuration);
+//
+//                        httpSecurityCorsConfigurer.configurationSource(source);
+//                    }
+//                })
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+//                .authenticationProvider(authProvider)
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                        .requestMatchers(
+//                                "/v3/api-docs/**", "/swagger-ui/**",
+//                                "/swagger-ui.html", "/webjars/**").permitAll()
+////                        .requestMatchers("/api/v1/auth/register",
+////                                "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
+//                        .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+//                        .requestMatchers("/api/v1/dealer/**").hasRole("DEALER_MANAGER")
+//
+//                        // Product
+//                        .requestMatchers(
+//                                "/api/v1/battery/create",
+//                                "/api/v1/battery/*/remove").hasRole("EVM_ADMIN")
+//                        .requestMatchers(
+//                                "/api/v1/motor/create",
+//                                "/api/v1/motor/*/update",
+//                                "/api/v1/motor/*/remove").hasRole("EVM_ADMIN")
+//                        .requestMatchers(
+//                                "/api/v1/car/create",
+//                                "/api/v1/car/*/update",
+//                                "/api/v1/car/*/upload/images").hasRole("EVM_ADMIN")
+//                        .requestMatchers(
+//                                HttpMethod.POST, "/api/v1/category/create").hasRole("EVM_ADMIN")
+//                        .requestMatchers("/api/v1/category/*/rename").hasRole("EVM_ADMIN")
+//                        .anyRequest().permitAll()
+//                )
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .formLogin(Customizer.withDefaults())
+//                .httpBasic(Customizer.withDefaults())
+//                .build();
+//
+//    }
+
+    private UrlBasedCorsConfigurationSource corsConfig() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(List.of("x-auth-token"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }

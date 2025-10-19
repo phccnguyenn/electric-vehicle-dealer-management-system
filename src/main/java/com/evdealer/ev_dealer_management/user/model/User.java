@@ -62,7 +62,7 @@ public class User extends AbstractAuditEntity
     @OneToMany(mappedBy = "parent")
     private List<User> children = new ArrayList<>();
 
-    @OneToMany(mappedBy = "dealer")
+    @OneToMany(mappedBy = "dealer", fetch = FetchType.EAGER)
     private List<Customer> customers = new ArrayList<>();
 
     @JsonIgnore
