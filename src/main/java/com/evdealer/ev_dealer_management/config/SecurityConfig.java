@@ -49,7 +49,7 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain userDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/v1/user/**", "/api/v1/dealer/**")
+                .securityMatcher("/api/v1/auth/**", "/api/v1/user/**", "/api/v1/dealer/**")
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

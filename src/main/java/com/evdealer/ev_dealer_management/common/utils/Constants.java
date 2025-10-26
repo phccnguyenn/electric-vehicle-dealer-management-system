@@ -21,6 +21,6 @@ public final class Constants {
         public final static String SERIAL_NUMBER_ALREADY_EXISTS = "SERIAL_NUMBER_ALREADY_EXISTS";
 
         public final static String INVALID_ROLE_TYPE = "INVALID_ROLE_TYPE";
-
+        public final static String CONTRACT_NOT_FOUND = "CONTRACT_NOT_FOUND";
     }
 }
