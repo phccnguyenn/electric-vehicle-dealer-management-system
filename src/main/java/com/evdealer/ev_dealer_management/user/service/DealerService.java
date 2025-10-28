@@ -10,7 +10,7 @@ import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
 import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

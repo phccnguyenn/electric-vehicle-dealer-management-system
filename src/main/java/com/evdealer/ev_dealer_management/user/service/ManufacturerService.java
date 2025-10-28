@@ -6,7 +6,7 @@ import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.dto.account.*;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +24,13 @@ public class ManufacturerService extends UserService {
         super(passwordEncoder, userRepository);
     }
 
+    public UserInfoListDto getAllUsers(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        return toUserInfoListDto(userPage);
+    }
+
     public UserInfoListDto getAllUsersByRole(int pageNo, int pageSize, RoleType roleType) {
 
         if (roleType.equals(RoleType.EVM_ADMIN))
@@ -31,23 +38,9 @@ public class ManufacturerService extends UserService {
 
         User currentUser = getCurrentUser();
         Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<User> userPage = userRepository.findAllByParentIdAndRole(currentUser.getId(), roleType, pageable);
 
-        Page<User> userPage =
-                userRepository.findAllByParentIdAndRole(currentUser.getId(), roleType, pageable);
-
-        List<UserProfileGetDto> userInfoGetDtos = userPage.getContent()
-                .stream()
-                .map(UserProfileGetDto::fromModel)
-                .toList();
-
-        return new UserInfoListDto (
-                userInfoGetDtos,
-                userPage.getNumber(),
-                userPage.getSize(),
-                (int) userPage.getTotalElements(),
-                userPage.getTotalPages(),
-                userPage.isLast()
-        );
+        return toUserInfoListDto(userPage);
     }
 
     public UserDetailGetDto createUserByAdmin(UserPostDto userPostDto) {
@@ -119,6 +112,22 @@ public class ManufacturerService extends UserService {
     private void unbanUser(User user) {
         user.setActive(true);
         userRepository.save(user);
+    }
+
+    private UserInfoListDto toUserInfoListDto (Page<User> userPage) {
+        List<UserProfileGetDto> userInfoGetDtos = userPage.getContent()
+                .stream()
+                .map(UserProfileGetDto::fromModel)
+                .toList();
+
+        return new UserInfoListDto (
+                userInfoGetDtos,
+                userPage.getNumber(),
+                userPage.getSize(),
+                (int) userPage.getTotalElements(),
+                userPage.getTotalPages(),
+                userPage.isLast()
+        );
     }
 
     private User createUserUnderParent(User parent, UserPostDto userPostDto) {

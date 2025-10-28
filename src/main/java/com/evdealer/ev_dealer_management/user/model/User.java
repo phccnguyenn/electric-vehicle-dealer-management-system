@@ -59,6 +59,8 @@ public class User extends AbstractAuditEntity
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
+    private String address;
+
     @OneToMany(mappedBy = "parent")
     private List<User> children = new ArrayList<>();
 

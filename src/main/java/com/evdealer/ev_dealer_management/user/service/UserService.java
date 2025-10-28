@@ -4,15 +4,12 @@ import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.User;
-import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +36,7 @@ public abstract class UserService {
         userRepository.save(user);
     }
 
-    protected User getCurrentUser() {
+    public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User currentUser = null;
         if (principal instanceof User user)

@@ -10,7 +10,8 @@ public record UserDetailGetDto(
         String email,
         String phone,
         boolean isActive,
-        RoleType role
+        RoleType role,
+        String address
 ) {
     public static UserDetailGetDto fromModel(User user) {
         return new UserDetailGetDto(
@@ -20,7 +21,8 @@ public record UserDetailGetDto(
                 user.getEmail(),
                 user.getPhone(),
                 user.isActive(),
-                user.getRole()
+                user.getRole(),
+                user.getAddress()
         );
     }
 }

@@ -9,6 +9,7 @@ public record UserPostDto(
         String email,
         String phone,
         boolean isActive,
-        RoleType role
+        RoleType role,
+        String address
 ) {
 }

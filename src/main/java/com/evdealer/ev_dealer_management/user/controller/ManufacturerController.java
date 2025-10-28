@@ -18,6 +18,14 @@ public class ManufacturerController {
 
     private final ManufacturerService manufacturerService;
 
+    @GetMapping("/all")
+    public ResponseEntity<UserInfoListDto> getAllUsers(
+            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return ResponseEntity.ok(manufacturerService.getAllUsers(pageNo, pageSize));
+    }
+
     @GetMapping("/filter-by-role")
     public ResponseEntity<UserInfoListDto> getAllUserProfile(
             @RequestParam(name = "role", defaultValue = "EVM_STAFF", required = false) RoleType roleType,
