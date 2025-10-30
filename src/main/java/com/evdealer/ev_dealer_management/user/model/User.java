@@ -38,6 +38,9 @@ public class User extends AbstractAuditEntity
     @JoinColumn(name = "parent_id")
     private User parent;
 
+    @Column(name = "city")
+    private String city;
+
     @Column(name = "username", unique = true, nullable = false)
     private String username;
 
@@ -71,7 +74,6 @@ public class User extends AbstractAuditEntity
     @ToString.Exclude
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Token> tokens;
-
 
 
     /**

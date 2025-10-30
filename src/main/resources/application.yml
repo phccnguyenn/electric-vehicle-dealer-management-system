@@ -4,6 +4,19 @@ server:
     context-path: /evdealer
 
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bobnguyen1906@gmail.com
+    password: qqfvrjeflzjxubse
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: true
   servlet:
     multipart:
       max-file-size: 50MB
