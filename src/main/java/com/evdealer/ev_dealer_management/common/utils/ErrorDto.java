@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.utils;
+package com.evdealer.ev_dealer_management.common.utils;
 
 import java.util.ArrayList;
 import java.util.List;

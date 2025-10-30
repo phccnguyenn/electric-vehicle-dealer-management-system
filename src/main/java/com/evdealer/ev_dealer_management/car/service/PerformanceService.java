@@ -1,17 +1,10 @@
 package com.evdealer.ev_dealer_management.car.service;
 
 import com.evdealer.ev_dealer_management.car.model.Battery;
-import com.evdealer.ev_dealer_management.car.model.Car;
 import com.evdealer.ev_dealer_management.car.model.Motor;
 import com.evdealer.ev_dealer_management.car.model.Performance;
-import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformanceDetailGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.performance.PerformancePostDto;
-import com.evdealer.ev_dealer_management.car.repository.BatteryRepository;
-import com.evdealer.ev_dealer_management.car.repository.CarRepository;
-import com.evdealer.ev_dealer_management.car.repository.MotorRepository;
 import com.evdealer.ev_dealer_management.car.repository.PerformanceRepository;
-import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.utils.Constants;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

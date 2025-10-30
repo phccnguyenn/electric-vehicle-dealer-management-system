@@ -4,7 +4,7 @@ import com.evdealer.ev_dealer_management.car.model.*;
 import com.evdealer.ev_dealer_management.car.model.dto.car.*;
 import com.evdealer.ev_dealer_management.car.repository.CarRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,6 +39,11 @@ public class CarService {
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
 
         return CarDetailGetDto.fromModel(car);
+    }
+
+    public Car getCarById(Long carId) {
+        return carRepository.findById(carId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
     }
 
     @Transactional

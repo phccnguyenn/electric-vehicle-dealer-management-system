@@ -13,6 +13,7 @@ BEGIN
         phone               VARCHAR(20)   NOT NULL UNIQUE,
         is_active           BIT           NOT NULL DEFAULT 1,
         role                VARCHAR(50)   NULL,
+        --address             NVARCHAR(255) NOT NULL,
         created_by          NVARCHAR(100) NULL,
         created_on          DATETIMEOFFSET NULL,
         last_modified_by    NVARCHAR(100) NULL,

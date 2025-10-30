@@ -108,6 +108,34 @@ public class SecurityConfig {
     }
 
     /**
+     * Stock Domain Security
+     * @param http
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    @Order(3)
+    public SecurityFilterChain stockDomainSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/api/v1/inventory/**")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authProvider)
+                .authorizeHttpRequests(
+                        auth ->
+                                auth
+                                        // create new stock for specific Dealer
+                                    .requestMatchers("/api/v1/inventory/create",
+                                            "/api/v1/inventory/dealer/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .anyRequest().permitAll()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
+    /**
      * Swagger Security
      * @param http
      * @return

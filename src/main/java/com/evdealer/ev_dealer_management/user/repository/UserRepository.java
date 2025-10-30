@@ -25,6 +25,7 @@ public interface UserRepository
     Page<User> findAllByParentIdAndRole(Long parentId, RoleType role, Pageable pageable);
 
     Optional<User> findByUsername(String username);
+    Optional<User> findByPhone(String phone);
 
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);

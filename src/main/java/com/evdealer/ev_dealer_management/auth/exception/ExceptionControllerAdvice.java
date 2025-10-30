@@ -1,10 +1,9 @@
 package com.evdealer.ev_dealer_management.auth.exception;
 
-import com.evdealer.ev_dealer_management.utils.ErrorDto;
+import com.evdealer.ev_dealer_management.common.utils.ErrorDto;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

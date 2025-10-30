@@ -150,4 +150,14 @@ public class ManufacturerService extends UserService {
         return userRepository.save(newUser);
     }
 
+    public User getDealerByDealerId(Long dealerId) {
+        return userRepository.findById(dealerId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_NOT_FOUND, dealerId));
+    }
+
+    public User getDealerByDealerPhone(String phoneNumber) {
+        return userRepository.findByPhone(phoneNumber)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_WITH_PHONE_NUMBER_NOT_EXIST, phoneNumber));
+    }
+
 }

@@ -5,7 +5,7 @@ import com.evdealer.ev_dealer_management.car.model.Color;
 import com.evdealer.ev_dealer_management.car.model.dto.color.ColorPostDto;
 import com.evdealer.ev_dealer_management.car.repository.ColorRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

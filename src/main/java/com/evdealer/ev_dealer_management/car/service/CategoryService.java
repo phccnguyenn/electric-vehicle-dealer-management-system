@@ -1,6 +1,5 @@
 package com.evdealer.ev_dealer_management.car.service;
 
-import com.evdealer.ev_dealer_management.car.model.Battery;
 import com.evdealer.ev_dealer_management.car.model.Car;
 import com.evdealer.ev_dealer_management.car.model.Category;
 import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryGetDetailDto;
@@ -8,7 +7,7 @@ import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryInfoGetD
 import com.evdealer.ev_dealer_management.car.model.dto.category.CategoryListGetDto;
 import com.evdealer.ev_dealer_management.car.repository.CategoryRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

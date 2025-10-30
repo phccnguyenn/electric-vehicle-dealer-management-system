@@ -8,7 +8,7 @@ import com.evdealer.ev_dealer_management.car.model.dto.battery.BatteryPostDto;
 import com.evdealer.ev_dealer_management.car.model.dto.battery.PartialBatteryUpdateDto;
 import com.evdealer.ev_dealer_management.car.repository.BatteryRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,4 +1,4 @@
-package com.evdealer.ev_dealer_management.utils.annotation;
+package com.evdealer.ev_dealer_management.common.utils.annotation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

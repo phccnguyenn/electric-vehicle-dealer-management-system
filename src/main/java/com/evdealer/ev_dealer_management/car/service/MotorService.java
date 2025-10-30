@@ -8,7 +8,7 @@ import com.evdealer.ev_dealer_management.car.model.dto.motor.PartialMotorUpdateD
 import com.evdealer.ev_dealer_management.car.repository.MotorRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.utils.Constants;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
