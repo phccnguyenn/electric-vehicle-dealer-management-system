@@ -4,6 +4,8 @@ import com.evdealer.ev_dealer_management.order.model.dto.*;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.service.OrderService;
 import com.evdealer.ev_dealer_management.order.service.PaymentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +14,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/orders")
+@RequestMapping("/orders")
 @RequiredArgsConstructor
+@Tag(name = "Orders", description = "Order management APIs")
 public class OrderController {
+
     private final OrderService orderService;
     private final PaymentService paymentService;
 
-    // --- Orders ---
+    @Operation(summary = "Get order by ID")
+    @GetMapping("/{id}")
+    public OrderDetailDto getOrder(@PathVariable Long id) {
+        return orderService.getOrderDetail(id);
+    }
+
+    @Operation(summary = "List orders")
     @GetMapping
-    public List<OrderDetailDto> getOrders(
+    public List<OrderDetailDto> listOrders(
             @RequestParam Optional<Long> staffId,
             @RequestParam Optional<OrderStatus> status
     ) {
@@ -30,56 +40,27 @@ public class OrderController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}")
-    public OrderDetailDto getOrder(@PathVariable Long id) {
-        return orderService.getOrderDetail(id);
-    }
-
+    @Operation(summary = "Create a new order")
     @PostMapping
     public OrderDetailDto createOrder(@RequestBody OrderCreateDto dto) {
         return orderService.createOrder(dto);
     }
 
-    @PutMapping("/{id}")
-    public OrderDetailDto updateOrder(@PathVariable Long id,
-                                      @RequestBody OrderUpdateDto dto) {
-        return orderService.updateOrder(id, dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
-    }
-
-    // --- Payments ---
+    @Operation(summary = "Add payment to an order")
     @PostMapping("/{id}/payments")
     public OrderDetailDto addPayment(@PathVariable Long id, @RequestBody PaymentDto paymentDto) {
         return paymentService.addPayment(id, paymentDto);
     }
 
+    @Operation(summary = "Get payments of an order")
     @GetMapping("/{id}/payments")
     public List<PaymentResponseDto> getPayments(@PathVariable Long id) {
         return paymentService.getPayments(id);
     }
 
-    // --- Revenue / Debt ---
-    @GetMapping("/revenue/staff/{staffId}")
-    public RevenueByStaffDto getRevenueByStaff(@PathVariable Long staffId) {
-        return paymentService.getRevenueByStaff(staffId);
-    }
-
-    @GetMapping("/revenue/dealer")
-    public List<RevenueByDealerDto> getRevenueByDealer() {
-        return paymentService.getRevenueByDealer();
-    }
-
-    @GetMapping("/revenue/city")
-    public List<RevenueByCityDto> getRevenueByCity() {
-        return paymentService.getRevenueByCity();
-    }
-
-    @GetMapping("/debts/customers")
-    public List<CustomerDebtDto> getCustomerDebts() {
-        return paymentService.getCustomerDebts();
+    @Operation(summary = "Soft-delete order by setting status to CANCELLED")
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
     }
 }
