@@ -16,7 +16,7 @@ public class InventoryController {
 
     private final InventoryService inventoryService;
 
-    @GetMapping(path = "/dealer/{dealerId}")
+    @GetMapping(path = "/admin/{dealerId}")
     public ResponseEntity<InventoryListDto> getDealerInventory(
             @PathVariable(name = "dealerId") Long dealerId,
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,

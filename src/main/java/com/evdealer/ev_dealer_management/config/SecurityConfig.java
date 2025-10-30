@@ -126,8 +126,7 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                         // create new stock for specific Dealer
-                                    .requestMatchers("/api/v1/inventory/create",
-                                            "/api/v1/inventory/dealer/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers("/api/v1/inventory/admin/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .anyRequest().permitAll()
                 )
                 .formLogin(Customizer.withDefaults())
