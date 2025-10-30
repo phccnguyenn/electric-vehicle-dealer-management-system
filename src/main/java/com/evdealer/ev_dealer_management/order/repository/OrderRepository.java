@@ -1,17 +1,15 @@
 package com.evdealer.ev_dealer_management.order.repository;
 
 import com.evdealer.ev_dealer_management.order.model.Order;
-import com.evdealer.ev_dealer_management.order.model.dto.CustomerDebtDto;
-import com.evdealer.ev_dealer_management.order.model.dto.RevenueByCityDto;
-import com.evdealer.ev_dealer_management.order.model.dto.RevenueByDealerDto;
-import com.evdealer.ev_dealer_management.order.model.dto.RevenueByStaffDto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
 
+@Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByStaffUserId(Long staffUserId);
-    List<Order> findByManagerId(Long managerId);
-    List<Order> findByCustomerId(Long customerId);
+    List<Order> findByStaff_Id(Long staffId);
+    List<Order> findByCustomer_Id(Long customerId);
+    List<Order> findByManager_Id(Long managerId);
 }

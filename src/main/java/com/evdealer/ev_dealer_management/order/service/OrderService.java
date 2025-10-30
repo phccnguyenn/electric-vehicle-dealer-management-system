@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
-    @Autowired
     private final OrderRepository orderRepository;
     private final FileGenerator fileGenerator;
     private final UserRepository userRepository;
@@ -57,7 +56,14 @@ public class OrderService {
                 .paymentStatus(PaymentStatus.PENDING)
                 .build();
 
-        order = orderRepository.save(order); // Save entity, not DTO
+        order = orderRepository.save(order);
+        // Save entity, not DTO
+        try {
+            fileGenerator.generateQuotation(order);
+            fileGenerator.generateContract(order);
+        } catch (IOException | DocumentException e) {
+            throw new RuntimeException("Failed to generate files for the order", e);
+        }
 
         return OrderDetailDto.fromModel(order);
     }
@@ -97,7 +103,7 @@ public class OrderService {
         List<Order> orders;
 
         if (staffId.isPresent()) {
-            orders = orderRepository.findByStaffUserId(staffId.get());
+            orders = orderRepository.findByStaff_Id(staffId.get());
         } else {
             orders = orderRepository.findAll();
         }
