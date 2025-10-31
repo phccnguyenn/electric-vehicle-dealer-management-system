@@ -152,9 +152,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth ->
                                 auth
-                                        // create new stock for specific Dealer
-                                        .requestMatchers("/api/v1/orders/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                                        .anyRequest().authenticated()
+                                    // Nhân viên và dealer manager
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.POST, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.POST, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+
+                                    // Reports
+                                    .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
+                                    .requestMatchers("/api/v1/orders/reports/revenue/dealer").hasRole("EVM_ADMIN")
+                                    .requestMatchers("/api/v1/orders/reports/revenue/city").hasRole("EVM_ADMIN")
+                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+
+                                    .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
