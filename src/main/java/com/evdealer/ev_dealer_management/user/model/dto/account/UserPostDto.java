@@ -8,8 +8,8 @@ public record UserPostDto(
         String fullName,
         String email,
         String phone,
+        String city,
         boolean isActive,
-        RoleType role,
-        String address
+        RoleType role
 ) {
 }

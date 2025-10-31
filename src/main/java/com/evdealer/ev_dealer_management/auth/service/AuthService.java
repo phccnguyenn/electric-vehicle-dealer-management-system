@@ -143,6 +143,7 @@ public class AuthService {
         user.setFullName(request.fullName());
         user.setEmail(request.email());
         user.setPhone(request.phone());
+        user.setCity(request.city());
         boolean isActive = request.isActive() != null;
         user.setActive(isActive);
         user.setRole(request.role());

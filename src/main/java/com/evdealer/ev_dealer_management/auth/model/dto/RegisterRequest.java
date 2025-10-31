@@ -11,6 +11,7 @@ public record RegisterRequest(
         @NotBlank(message = "Full name must not be blank") String fullName,
         String email,
         String phone,
+        String city,
         Boolean isActive,
         RoleType role
 ) {

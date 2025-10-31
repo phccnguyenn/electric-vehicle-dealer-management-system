@@ -32,6 +32,7 @@ public class DataInitializer implements CommandLineRunner {
                 .fullName("EVD Administrator")
                 .email("admin@evdcompany.com")
                 .phone("0987654321")
+                .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.EVM_ADMIN)
                 .build());
@@ -42,6 +43,7 @@ public class DataInitializer implements CommandLineRunner {
                 .fullName("EVD Staff")
                 .email("staff001@evdcompany.com")
                 .phone("0986000976")
+                .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.EVM_STAFF)
                 .build());
@@ -52,6 +54,7 @@ public class DataInitializer implements CommandLineRunner {
                 .fullName("Đại lý Sài Gòn")
                 .email("sg_dealer_manager001@evdcompany.com")
                 .phone("0986194321")
+                .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.DEALER_MANAGER)
                 .build());
@@ -61,7 +64,8 @@ public class DataInitializer implements CommandLineRunner {
                 .password("00000")
                 .fullName("Đại lý Hà Nội")
                 .email("hn_dealer_manager001@evdcompany.com")
-                .phone("0986194321")
+                .phone("0986094321")
+                .city("Thủ đô Hà Nội")
                 .isActive(true)
                 .role(RoleType.DEALER_MANAGER)
                 .build());
@@ -72,6 +76,7 @@ public class DataInitializer implements CommandLineRunner {
                 .fullName("Nguyễn Văn A")
                 .email("dealer_staff001@evdcompany.com")
                 .phone("0916951021")
+                .city("Thủ đô Hà Nội")
                 .isActive(true)
                 .role(RoleType.DEALER_STAFF)
                 .build());

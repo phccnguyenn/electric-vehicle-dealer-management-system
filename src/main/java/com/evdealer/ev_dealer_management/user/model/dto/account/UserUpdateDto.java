@@ -4,6 +4,6 @@ public record UserUpdateDto(
         String fullName,
         String email,
         String phone,
-        String address
+        String city
 ) {
 }

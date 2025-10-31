@@ -18,7 +18,8 @@ import java.util.Optional;
                 "com.evdealer.ev_dealer_management.auth.repository",
                 "com.evdealer.ev_dealer_management.user.repository",
                 "com.evdealer.ev_dealer_management.car.repository",
-                "com.evdealer.ev_dealer_management.stock.repository"
+                "com.evdealer.ev_dealer_management.stock.repository",
+                "com.evdealer.ev_dealer_management.order.repository"
         }
 )
 @EntityScan(
@@ -26,7 +27,8 @@ import java.util.Optional;
                 "com.evdealer.ev_dealer_management.auth.model",
                 "com.evdealer.ev_dealer_management.user.model",
                 "com.evdealer.ev_dealer_management.car.model",
-                "com.evdealer.ev_dealer_management.stock.model"
+                "com.evdealer.ev_dealer_management.stock.model",
+                "com.evdealer.ev_dealer_management.order.model"
         }
 )
 public class DatabaseAutoConfig {

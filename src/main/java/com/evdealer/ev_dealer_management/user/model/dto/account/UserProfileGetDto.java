@@ -9,6 +9,7 @@ public record UserProfileGetDto(
         String email,
         String phone,
         String role,
+        String city,
         boolean isActive
         // String address
 ) {
@@ -20,6 +21,7 @@ public record UserProfileGetDto(
                 user.getEmail(),
                 user.getPhone(),
                 user.getRole() != null ? user.getRole().name() : null,
+                user.getCity(),
                 user.isActive()
                 // user.getAddress()
         );

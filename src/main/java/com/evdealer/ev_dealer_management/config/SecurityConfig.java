@@ -127,7 +127,34 @@ public class SecurityConfig {
                                 auth
                                         // create new stock for specific Dealer
                                     .requestMatchers("/api/v1/inventory/admin/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                                    .anyRequest().permitAll()
+                                    .anyRequest().authenticated()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
+    /**
+     * Order Domain Security
+     * @param http
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    @Order(3)
+    public SecurityFilterChain orderDomainSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/api/v1/orders/**")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authProvider)
+                .authorizeHttpRequests(
+                        auth ->
+                                auth
+                                        // create new stock for specific Dealer
+                                        .requestMatchers("/api/v1/orders/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                        .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())

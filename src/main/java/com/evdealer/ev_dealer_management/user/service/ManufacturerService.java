@@ -77,18 +77,28 @@ public class ManufacturerService extends UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USER_NOT_FOUND, userId));
 
-        if (userUpdateDto.fullName() != null && !userUpdateDto.fullName().isBlank()) {
+        if (userUpdateDto.fullName() != null
+                && !userUpdateDto.fullName().isBlank()
+                && !userUpdateDto.fullName().equals(user.getFullName()))
             user.setFullName(userUpdateDto.fullName());
-        }
 
-        if (userUpdateDto.email() != null && !userUpdateDto.email().isBlank()) {
+        if (userUpdateDto.email() != null
+                && !userUpdateDto.email().isBlank()
+                && !userUpdateDto.email().equals(user.getEmail())) {
             validateEmail(userUpdateDto.email());
             user.setEmail(userUpdateDto.email());
         }
 
-        if (userUpdateDto.phone() != null && !userUpdateDto.phone().isBlank()) {
+        if (userUpdateDto.phone() != null
+                && !userUpdateDto.phone().isBlank()
+                && !userUpdateDto.phone().equals(user.getPhone())) {
             validatePhoneNumber(userUpdateDto.phone());
             user.setPhone(userUpdateDto.phone());
+        }
+
+        if (userUpdateDto.city() != null
+                && !userUpdateDto.city().equals(user.getCity())) {
+            user.setCity(userUpdateDto.city());
         }
 
         userRepository.save(user);
@@ -144,6 +154,7 @@ public class ManufacturerService extends UserService {
                 .fullName(userPostDto.fullName())
                 .email(userPostDto.email())
                 .phone(userPostDto.phone())
+                .city(userPostDto.city())
                 .isActive(userPostDto.isActive())
                 .role(userPostDto.role())
                 .build();

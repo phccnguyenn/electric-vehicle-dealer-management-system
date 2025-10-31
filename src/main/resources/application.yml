@@ -27,9 +27,9 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://${MSSQL_ADDRESS:localhost:1433};databaseName=${MSSQL_DB:evdealer_db};encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://${MSSQL_ADDRESS:localhost:14335};databaseName=${MSSQL_DB:evdealer_db};encrypt=true;trustServerCertificate=true
     username: ${MSSQL_SA_USERNAME:sa}
-    password: 12345
+    password: 6$3S6zPKpJ+Y2-*J
   jpa:
     hibernate:
       ddl-auto: none
