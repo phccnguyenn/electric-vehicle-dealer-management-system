@@ -15,16 +15,16 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     @Query("""
-        SELECT 
-            o.staff.id AS staffId,
-            o.staff.fullName AS staffName,
-            SUM(p.amount) AS revenue
-        FROM Payment p
-        JOIN p.order o
-        WHERE o.staff.id = :staffId
-        GROUP BY o.staff.id, o.staff.fullName
-    """)
-    RevenueByStaffDto getRevenueByStaff(@Param("staffId") Long staffId);
+    SELECT 
+        o.staff.id AS staffId,
+        o.staff.fullName AS staffName,
+        SUM(p.amount) AS revenue
+    FROM Payment p
+    JOIN p.order o
+    WHERE (:staffId IS NULL OR o.staff.id = :staffId)
+    GROUP BY o.staff.id, o.staff.fullName
+""")
+    List<RevenueByStaffDto> getRevenueByStaff(@Param("staffId") Long staffId);
 
     @Query("""
         SELECT 

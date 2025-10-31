@@ -51,7 +51,7 @@ public class PaymentService {
     }
 
     // Revenue / reporting
-    public RevenueByStaffDto getRevenueByStaff(Long staffId) {
+    public List<RevenueByStaffDto> getRevenueByStaff(Long staffId) {
         return paymentRepository.getRevenueByStaff(staffId);
     }
 
