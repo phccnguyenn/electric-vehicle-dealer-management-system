@@ -5,6 +5,7 @@ import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -23,6 +24,7 @@ public interface UserRepository
         extends JpaRepository<User, Long> {
 
     Page<User> findAllByParentIdAndRole(Long parentId, RoleType role, Pageable pageable);
+    Page<User> findAllByRole(RoleType role, Pageable pageable);
 
     Optional<User> findByUsername(String username);
     Optional<User> findByPhone(String phone);

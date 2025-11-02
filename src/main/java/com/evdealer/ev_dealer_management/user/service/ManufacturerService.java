@@ -36,9 +36,9 @@ public class ManufacturerService extends UserService {
         if (roleType.equals(RoleType.EVM_ADMIN))
             throw new InvalidAuthenticationPrincipalException("Cannot query users with role EVM_ADMIN");
 
-        User currentUser = getCurrentUser();
+        // User currentUser = getCurrentUser();
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<User> userPage = userRepository.findAllByParentIdAndRole(currentUser.getId(), roleType, pageable);
+        Page<User> userPage = userRepository.findAllByRole(roleType, pageable);
 
         return toUserInfoListDto(userPage);
     }
