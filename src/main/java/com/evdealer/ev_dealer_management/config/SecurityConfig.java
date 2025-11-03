@@ -164,9 +164,30 @@ public class SecurityConfig {
                                     .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
                                     .requestMatchers("/api/v1/orders/reports/revenue/dealer").hasRole("EVM_ADMIN")
                                     .requestMatchers("/api/v1/orders/reports/revenue/city").hasRole("EVM_ADMIN")
-                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
                                     .anyRequest().authenticated()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
+    @Bean
+    @Order(4)
+    public SecurityFilterChain ratingDomainSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/api/v1/rating/**")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authProvider)
+                .authorizeHttpRequests(
+                        auth ->
+                                auth
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/rating/create-rating").permitAll()
+                                        .requestMatchers("/api/v1/rating/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                        .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())

@@ -35,6 +35,7 @@ public class DataInitializer implements CommandLineRunner {
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.EVM_ADMIN)
+                .level(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -46,6 +47,7 @@ public class DataInitializer implements CommandLineRunner {
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.EVM_STAFF)
+                .level(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -57,6 +59,7 @@ public class DataInitializer implements CommandLineRunner {
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.DEALER_MANAGER)
+                .level(1)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -67,6 +70,7 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0916777021")
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
+                .level(null)
                 .role(RoleType.DEALER_STAFF)
                 .build());
 
@@ -78,6 +82,7 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0986094321")
                 .city("Thủ đô Hà Nội")
                 .isActive(true)
+                .level(2)
                 .role(RoleType.DEALER_MANAGER)
                 .build());
 
@@ -89,6 +94,7 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0916951021")
                 .city("Thủ đô Hà Nội")
                 .isActive(true)
+                .level(null)
                 .role(RoleType.DEALER_STAFF)
                 .build());
 
@@ -100,6 +106,7 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0912345678")
                 .city("Quy Nhơn")
                 .isActive(true)
+                .level(3)
                 .role(RoleType.DEALER_MANAGER)
                 .build());
 
@@ -111,6 +118,7 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0918765432")
                 .city("Quy Nhơn")
                 .isActive(true)
+                .level(null)
                 .role(RoleType.DEALER_STAFF)
                 .build());
 
@@ -122,6 +130,7 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0900065432")
                 .city("Quy Nhơn")
                 .isActive(true)
+                .level(null)
                 .role(RoleType.DEALER_STAFF)
                 .build());
 
@@ -133,6 +142,7 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0913456789")
                 .city("Hải Phòng")
                 .isActive(true)
+                .level(3)
                 .role(RoleType.DEALER_MANAGER)
                 .build());
 
@@ -143,6 +153,7 @@ public class DataInitializer implements CommandLineRunner {
                 .email("hp_dealer_staff001@evdcompany.com")
                 .phone("0919876543")
                 .city("Hải Phòng")
+                .level(null)
                 .isActive(true)
                 .role(RoleType.DEALER_STAFF)
                 .build());

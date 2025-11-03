@@ -14,6 +14,7 @@ BEGIN
         is_active           BIT           NOT NULL DEFAULT 1,
         role                VARCHAR(50)   NULL,
         city                NVARCHAR(255) NULL,
+        level               INT,
         created_by          NVARCHAR(100) NULL,
         created_on          DATETIMEOFFSET NULL,
         last_modified_by    NVARCHAR(100) NULL,

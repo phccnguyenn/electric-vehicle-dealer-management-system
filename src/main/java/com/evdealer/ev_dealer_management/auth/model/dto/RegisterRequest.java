@@ -13,6 +13,7 @@ public record RegisterRequest(
         String phone,
         String city,
         Boolean isActive,
-        RoleType role
+        RoleType role,
+        Integer level
 ) {
 }
