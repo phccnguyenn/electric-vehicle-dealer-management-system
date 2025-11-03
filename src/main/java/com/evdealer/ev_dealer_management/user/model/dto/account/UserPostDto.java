@@ -10,6 +10,7 @@ public record UserPostDto(
         String phone,
         String city,
         boolean isActive,
-        RoleType role
+        RoleType role,
+        Integer level
 ) {
 }

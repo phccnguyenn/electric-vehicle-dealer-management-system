@@ -173,6 +173,27 @@ public class SecurityConfig {
                 .build();
     }
 
+    @Bean
+    @Order(4)
+    public SecurityFilterChain ratingDomainSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/api/v1/rating/**")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authProvider)
+                .authorizeHttpRequests(
+                        auth ->
+                                auth
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/rating/create-rating").permitAll()
+                                        .requestMatchers("/api/v1/rating/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                        .anyRequest().authenticated()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
     /**
      * Swagger Security
      * @param http

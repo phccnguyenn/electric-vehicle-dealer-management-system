@@ -1,8 +1,9 @@
 USE evdealer_db;
 
+IF NOT EXISTS (SELECT 1 FROM dbo.category)
+BEGIN
 INSERT INTO dbo.customer (dealer_id, full_name, email, phone, address, created_by, created_on, last_modified_by, last_modified_on)
 VALUES
-
 -- TP.HCM
 (3, N'Nguyễn Thị Mai', 'mai.nguyen@example.com', '0901234567', N'12 Lê Lợi, Quận 1, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
 (3, N'Trần Văn Hưng', 'hung.tran@example.com', '0902345678', N'34 Nguyễn Huệ, Quận 1, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
@@ -21,3 +22,5 @@ VALUES
 (4, N'Lê Minh Tuấn', 'tuan.le@example.com', '0911223344', N'789 Phạm Hùng, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
 (4, N'Phạm Thị Hương', 'huong.pham@example.com', '0999887766', N'321 Trần Hưng Đạo, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
 (4, N'Đỗ Văn Quang', 'quang.do@example.com', '0955667788', N'654 Hoàng Hoa Thám, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET());
+END;
+GO

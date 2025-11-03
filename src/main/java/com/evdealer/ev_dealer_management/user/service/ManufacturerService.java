@@ -69,7 +69,9 @@ public class ManufacturerService extends UserService {
 
         User child = createUserUnderParent(parent, userPostDto);
         parent.getChildren().add(child);
-        return UserDetailGetDto.fromModel(userRepository.save(parent));
+        userRepository.save(parent);
+
+        return UserDetailGetDto.fromModel(child);
     }
 
     public void updatePartialUser(Long userId, UserUpdateDto userUpdateDto) {
@@ -146,6 +148,9 @@ public class ManufacturerService extends UserService {
         validateEmail(userPostDto.email());
         validatePhoneNumber(userPostDto.phone());
 
+        Integer level = (userPostDto.role().equals(RoleType.DEALER_MANAGER))
+                ? userPostDto.level() : null;
+
         String hashedPassword = passwordEncoder.encode(userPostDto.password());
         User newUser = User.builder()
                 .parent(parent)
@@ -157,6 +162,7 @@ public class ManufacturerService extends UserService {
                 .city(userPostDto.city())
                 .isActive(userPostDto.isActive())
                 .role(userPostDto.role())
+                .level(level)
                 .build();
         return userRepository.save(newUser);
     }
