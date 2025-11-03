@@ -164,7 +164,7 @@ public class SecurityConfig {
                                     .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
                                     .requestMatchers("/api/v1/orders/reports/revenue/dealer").hasRole("EVM_ADMIN")
                                     .requestMatchers("/api/v1/orders/reports/revenue/city").hasRole("EVM_ADMIN")
-                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
                                     .anyRequest().authenticated()
                 )
