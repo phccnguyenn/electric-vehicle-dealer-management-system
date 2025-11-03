@@ -1,12 +1,15 @@
 package com.evdealer.ev_dealer_management.order.controller;
 
+import com.evdealer.ev_dealer_management.order.model.OrderActivity;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
+import com.evdealer.ev_dealer_management.order.service.OrderActivityService;
 import com.evdealer.ev_dealer_management.order.service.OrderService;
 import com.evdealer.ev_dealer_management.order.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class OrderController {
 
     private final OrderService orderService;
+    private final OrderActivityService orderActivityService;
     private final PaymentService paymentService;
 
     @Operation(summary = "Get order by ID") // Nhân viên
@@ -87,5 +91,18 @@ public class OrderController {
     @GetMapping("/reports/customer-debts")
     public List<CustomerDebtDto> getCustomerDebts() {
         return paymentService.getCustomerDebts();
+    }
+
+    @GetMapping("/{orderId}/activities")
+    public ResponseEntity<OrderActivitiesResponse> getOrderActivities(@PathVariable Long orderId) {
+        List<OrderActivity> activities = orderActivityService.getActivities(orderId);
+
+        List<OrderActivityDto> dto = activities.stream()
+                .map(a -> new OrderActivityDto(a.getId(), a.getStatus(), a.getChangedAt()))
+                .toList();
+
+        OrderActivitiesResponse response = new OrderActivitiesResponse(orderId, dto);
+
+        return ResponseEntity.ok(response);
     }
 }

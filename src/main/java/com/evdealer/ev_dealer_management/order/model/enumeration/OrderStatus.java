@@ -3,7 +3,9 @@ package com.evdealer.ev_dealer_management.order.model.enumeration;
 public enum OrderStatus {
     APPROVED,
     REJECTED,
+    DELIVERED,
     COMPLETED,
     PENDING,
-    CANCELLED
+    CANCELLED,
+    IN_DELIVERY
 }

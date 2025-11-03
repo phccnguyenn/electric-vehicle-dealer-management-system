@@ -59,6 +59,9 @@ public class Order extends AbstractAuditEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Payment> payments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderActivity> activities = new ArrayList<>();
+
     public void addPayment(Payment payment) {
         payment.setOrder(this);
         payments.add(payment);
