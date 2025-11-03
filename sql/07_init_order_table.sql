@@ -4,7 +4,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.order
 BEGIN
 CREATE TABLE dbo.orders (
             id BIGINT IDENTITY(1,1) PRIMARY KEY,
-            order_code NVARCHAR(50) NOT NULL UNIQUE,
+            --order_code NVARCHAR(50) NOT NULL UNIQUE,
             car_id BIGINT NOT NULL,
             staff_id BIGINT NOT NULL,
             customer_id BIGINT NOT NULL,

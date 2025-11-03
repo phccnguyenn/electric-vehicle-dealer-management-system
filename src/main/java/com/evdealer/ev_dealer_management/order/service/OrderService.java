@@ -2,6 +2,8 @@ package com.evdealer.ev_dealer_management.order.service;
 
 import com.evdealer.ev_dealer_management.car.model.Car;
 import com.evdealer.ev_dealer_management.car.repository.CarRepository;
+import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
+import com.evdealer.ev_dealer_management.common.utils.Constants;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.dto.OrderCreateDto;
 import com.evdealer.ev_dealer_management.order.model.dto.OrderDetailDto;
@@ -13,6 +15,8 @@ import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
+import com.evdealer.ev_dealer_management.user.service.DealerService;
+import com.evdealer.ev_dealer_management.user.service.UserService;
 import com.itextpdf.text.DocumentException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,18 +35,17 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final FileGenerator fileGenerator;
-    private final UserRepository userRepository;
-    private final CustomerRepository customerRepository;
+//    private final UserRepository userRepository;
+    private final DealerService dealerService;
     private final CarRepository carRepository;
-
 
     public OrderDetailDto createOrder(OrderCreateDto dto) {
         Car car = carRepository.findById(dto.carId())
-                .orElseThrow(() -> new RuntimeException("Car not found"));
-        User staff = userRepository.findById(dto.staffId())
-                .orElseThrow(() -> new RuntimeException("Staff not found"));
-        Customer customer = customerRepository.findById(dto.customerId())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, dto.carId()));
+        // User staff = userRepository.findById(dto.staffId())
+        //        .orElseThrow(() -> new RuntimeException("Staff not found"));
+        User staff = dealerService.getCurrentUser();
+        Customer customer = dealerService.getCustomerByPhone(dto.customerPhone(), Customer.class);
 
         Order order = Order.builder()
                 .car(car)
@@ -50,8 +53,6 @@ public class OrderService {
                 .customer(customer)
                 .totalAmount(dto.totalAmount())
                 .amountPaid(BigDecimal.ZERO)
-                .quotationUrl(dto.quotationUrl())
-                .contractUrl(dto.contractUrl())
                 .status(OrderStatus.PENDING)
                 .paymentStatus(PaymentStatus.PENDING)
                 .build();
@@ -81,11 +82,11 @@ public class OrderService {
         if (dto.totalAmount() != null) order.setTotalAmount(dto.totalAmount());
         if (dto.quotationUrl() != null) order.setQuotationUrl(dto.quotationUrl());
         if (dto.contractUrl() != null) order.setContractUrl(dto.contractUrl());
-        if (dto.staffId() != null) {
-            User staff = userRepository.findById(dto.staffId())
-                    .orElseThrow(() -> new RuntimeException("Staff not found"));
-            order.setStaff(staff);
-        }
+//        if (dto.staffId() != null) {
+//            User staff = userRepository.findById(dto.staffId())
+//                    .orElseThrow(() -> new RuntimeException("Staff not found"));
+//            order.setStaff(staff);
+//        }
 
         return OrderDetailDto.fromModel(orderRepository.save(order));
     }

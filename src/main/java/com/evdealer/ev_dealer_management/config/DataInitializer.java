@@ -60,6 +60,17 @@ public class DataInitializer implements CommandLineRunner {
                 .build());
 
         requests.add(RegisterRequest.builder()
+                .username("sg.dealer.staff001")
+                .password("00000")
+                .fullName("Nguyễn Văn Quý")
+                .email("dealer_staff001@evdcompany.com")
+                .phone("0916777021")
+                .city("Thành phố Hồ Chí Minh")
+                .isActive(true)
+                .role(RoleType.DEALER_STAFF)
+                .build());
+
+        requests.add(RegisterRequest.builder()
                 .username("hn.dealer.manager001")
                 .password("00000")
                 .fullName("Đại lý Hà Nội")
@@ -71,12 +82,67 @@ public class DataInitializer implements CommandLineRunner {
                 .build());
 
         requests.add(RegisterRequest.builder()
-                .username("sg.dealer.staff001")
+                .username("hn.dealer.staff001")
                 .password("00000")
-                .fullName("Nguyễn Văn A")
-                .email("dealer_staff001@evdcompany.com")
+                .fullName("Nguyễn Văn Bình")
+                .email("hn.dealer_staff001@evdcompany.com")
                 .phone("0916951021")
                 .city("Thủ đô Hà Nội")
+                .isActive(true)
+                .role(RoleType.DEALER_STAFF)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("qn.dealer.manager001")
+                .password("00000")
+                .fullName("Đại lý Quy Nhơn")
+                .email("qn_dealer_manager001@evdcompany.com")
+                .phone("0912345678")
+                .city("Quy Nhơn")
+                .isActive(true)
+                .role(RoleType.DEALER_MANAGER)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("qn.dealer.staff001")
+                .password("00000")
+                .fullName("Trần Thị Hạnh")
+                .email("qn_dealer_staff001@evdcompany.com")
+                .phone("0918765432")
+                .city("Quy Nhơn")
+                .isActive(true)
+                .role(RoleType.DEALER_STAFF)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("qn.dealer.staff002")
+                .password("00000")
+                .fullName("Trần Thị Liên")
+                .email("qn_dealer_staff002@evdcompany.com")
+                .phone("0900065432")
+                .city("Quy Nhơn")
+                .isActive(true)
+                .role(RoleType.DEALER_STAFF)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("hp.dealer.manager001")
+                .password("00000")
+                .fullName("Đại lý Hải Phòng")
+                .email("hp_dealer_manager001@evdcompany.com")
+                .phone("0913456789")
+                .city("Hải Phòng")
+                .isActive(true)
+                .role(RoleType.DEALER_MANAGER)
+                .build());
+
+        requests.add(RegisterRequest.builder()
+                .username("hp.dealer.staff001")
+                .password("00000")
+                .fullName("Phạm Văn Dũng")
+                .email("hp_dealer_staff001@evdcompany.com")
+                .phone("0919876543")
+                .city("Hải Phòng")
                 .isActive(true)
                 .role(RoleType.DEALER_STAFF)
                 .build());

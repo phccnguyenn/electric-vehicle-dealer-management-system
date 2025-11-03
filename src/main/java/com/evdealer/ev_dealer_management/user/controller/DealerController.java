@@ -26,7 +26,7 @@ public class DealerController {
 
     @GetMapping("/customers/by-phone")
     public ResponseEntity<CustomerDetailGetDto> getCustomerInfoByPhone(@RequestParam(name = "phone") String phone) {
-        return ResponseEntity.ok(dealerService.getCustomerByPhone(phone));
+        return ResponseEntity.ok(dealerService.getCustomerByPhone(phone, CustomerDetailGetDto.class));
     }
 
     @PostMapping("/customers")

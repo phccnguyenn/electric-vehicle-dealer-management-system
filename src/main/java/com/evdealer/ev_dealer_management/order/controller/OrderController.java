@@ -70,6 +70,7 @@ public class OrderController {
         return paymentService.getRevenueByStaff(staffId);
     }
 
+    // ADMIN - DONE
     @Operation(summary = "Get revenue by dealers") // Bên hãng xe - admin
     @GetMapping("/reports/revenue/dealer")
     public List<RevenueByDealerDto> getRevenueByDealer() {

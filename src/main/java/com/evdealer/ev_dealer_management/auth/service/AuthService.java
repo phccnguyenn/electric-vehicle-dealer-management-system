@@ -11,6 +11,7 @@ import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -131,6 +133,17 @@ public class AuthService {
 //                .build();
 //    }
 
+    public void updateParentId(User user) {
+
+        User admin = userRepository.findByUsername("evd.admin").orElse(null);
+        log.info(admin.getFullName());
+
+        if (user.getParent() == null && !user.getRole().equals(RoleType.EVM_ADMIN))
+            user.setParent(admin);
+
+        userRepository.save(user);
+    }
+
     public RegisterResponse register(RegisterRequest request) {
 
         if (checkExistUsername(request.username()))
@@ -148,6 +161,9 @@ public class AuthService {
         user.setActive(isActive);
         user.setRole(request.role());
         User savedUser = userRepository.save(user);
+
+        if (savedUser.getParent() == null)
+            updateParentId(savedUser);
 
         // Custom
 //        String jwtToken = jwtService.generateToken(savedUser);

@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 
 public record OrderCreateDto(
         Long carId,
-        Long staffId,
-        Long customerId,
-        BigDecimal totalAmount,
-        String quotationUrl,     // Optional
-        String contractUrl       // Optional
+        String customerPhone,
+        BigDecimal totalAmount
 ) { }

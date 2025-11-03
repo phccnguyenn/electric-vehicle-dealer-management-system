@@ -46,3 +46,4 @@ jwt:
 
 file:
   directory: ./uploads/thumbnail/image/
+  contract: ./uploads/thumbnail/contract_and_quotation

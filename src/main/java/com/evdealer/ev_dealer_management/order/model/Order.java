@@ -29,7 +29,7 @@ public class Order extends AbstractAuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String orderCode;
+    // private String orderCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)

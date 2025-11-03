@@ -53,10 +53,18 @@ public class DealerService extends UserService {
         );
     }
 
-    public CustomerDetailGetDto getCustomerByPhone(String phoneNumber) {
+    public <T> T getCustomerByPhone(String phoneNumber, Class<T> type) {
         Customer customer = customerRepository.findByPhone(phoneNumber)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CUSTOMER_WITH_PHONE_NUMBER_NOT_EXIST, phoneNumber));
-        return CustomerDetailGetDto.fromModel(customer);
+
+        if (type.equals(Customer.class)) {
+            return type.cast(customer); // return entity
+        } else if (type.equals(CustomerDetailGetDto.class)) {
+            return type.cast(CustomerDetailGetDto.fromModel(customer)); // return DTO
+        } else {
+            throw new IllegalArgumentException("Unsupported return type: " + type);
+        }
+
     }
 
     public CustomerDetailGetDto createCustomerIfNotExists(CustomerPostDto customerPostDto) {

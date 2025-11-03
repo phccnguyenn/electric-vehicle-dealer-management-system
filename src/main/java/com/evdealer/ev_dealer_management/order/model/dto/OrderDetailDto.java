@@ -7,13 +7,15 @@ import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserDetailGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailGetDto;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public record OrderDetailDto(
         Long id,
-        String orderCode,
+        //String orderCode,
         CarInfoGetDto car,
         UserDetailGetDto staff,
         CustomerDetailGetDto customer,
@@ -23,12 +25,21 @@ public record OrderDetailDto(
         String contractUrl,
         OrderStatus status,
         PaymentStatus paymentStatus,
-        List<PaymentResponseDto> payments
+        Optional<List<PaymentResponseDto>> payments
 ) {
     public static OrderDetailDto fromModel(Order order) {
+
+        Optional<List<PaymentResponseDto>> payments = Optional.of(
+                order.getPayments() != null
+                        ? order.getPayments().stream()
+                        .map(PaymentResponseDto::fromModel)
+                        .collect(Collectors.toList())
+                        : List.of()
+        );
+
         return new OrderDetailDto(
                 order.getId(),
-                order.getOrderCode(),
+                //order.getOrderCode(),
                 CarInfoGetDto.fromModel(order.getCar()),
                 UserDetailGetDto.fromModel(order.getStaff()),
                 CustomerDetailGetDto.fromModel(order.getCustomer()),
@@ -38,9 +49,7 @@ public record OrderDetailDto(
                 order.getContractUrl(),
                 order.getStatus(),
                 order.getPaymentStatus(),
-                order.getPayments().stream()
-                        .map(PaymentResponseDto::fromModel)
-                        .collect(Collectors.toList())
+                payments
         );
     }
 }
