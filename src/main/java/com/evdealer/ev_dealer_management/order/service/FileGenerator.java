@@ -17,9 +17,10 @@ import java.time.LocalDateTime;
 @Service
 public class FileGenerator {
 
+    private final static String URL_BASE = "http://localhost:8000/evdealer";
     private final OrderRepository orderRepository;
 
-    @Value("${file.directory}")
+    @Value("${file.contract}")
     private String uploadDir;
 
     public FileGenerator(OrderRepository orderRepository) {
@@ -42,12 +43,11 @@ public class FileGenerator {
             document.add(new Paragraph("Customer: " + order.getCustomer().getFullName()));
             document.add(new Paragraph("Total Amount: " + order.getTotalAmount()));
             document.add(new Paragraph("Generated at: " + LocalDateTime.now()));
-        } finally {
             document.close();
         }
 
         // Save URL in DB
-        order.setQuotationUrl("/files/" + fileName);
+        order.setQuotationUrl(URL_BASE + fullPath.substring(1).replace("\\", "/"));
         orderRepository.save(order);
     }
 
@@ -68,12 +68,11 @@ public class FileGenerator {
             document.add(new Paragraph("Staff: " + order.getStaff().getFullName()));
             document.add(new Paragraph("Customer: " + order.getCustomer().getFullName()));
             document.add(new Paragraph("Signed on: " + LocalDateTime.now().toLocalDate()));
-        } finally {
             document.close();
         }
 
         // Save URL in DB
-        order.setContractUrl("/files/" + fileName);
+        order.setContractUrl(URL_BASE + fullPath.substring(1).replace("\\", "/"));
         orderRepository.save(order);
     }
 }

@@ -9,6 +9,7 @@ import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailG
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public record OrderDetailDto(
@@ -22,9 +23,18 @@ public record OrderDetailDto(
         String contractUrl,
         OrderStatus status,
         PaymentStatus paymentStatus,
-        List<PaymentResponseDto> payments
+        Optional<List<PaymentResponseDto>> payments
 ) {
     public static OrderDetailDto fromModel(Order order) {
+
+        Optional<List<PaymentResponseDto>> payments = Optional.of(
+                order.getPayments() != null
+                        ? order.getPayments().stream()
+                        .map(PaymentResponseDto::fromModel)
+                        .collect(Collectors.toList())
+                        : List.of()
+        );
+
         return new OrderDetailDto(
                 order.getId(),
                 CarInfoGetDto.fromModel(order.getCar()),
@@ -36,9 +46,7 @@ public record OrderDetailDto(
                 order.getContractUrl(),
                 order.getStatus(),
                 order.getPaymentStatus(),
-                order.getPayments().stream()
-                        .map(PaymentResponseDto::fromModel)
-                        .collect(Collectors.toList())
+                payments
         );
     }
 }

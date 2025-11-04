@@ -1,4 +1,6 @@
-IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = N'evdealer_db')
+USE evdealer_db;
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.orders_activities') AND type = 'U')
 BEGIN
 CREATE TABLE dbo.orders_activities (
         id BIGINT IDENTITY(1,1) PRIMARY KEY,

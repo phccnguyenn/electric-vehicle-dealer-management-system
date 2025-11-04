@@ -152,7 +152,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth ->
                                 auth
-                                    // Nhân viên và dealer manager
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders/sales-speed").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders/{orderId}/activities").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.POST, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
@@ -160,7 +161,6 @@ public class SecurityConfig {
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
-                                    // Reports
                                     .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
                                     .requestMatchers("/api/v1/orders/reports/revenue/dealer").hasRole("EVM_ADMIN")
                                     .requestMatchers("/api/v1/orders/reports/revenue/city").hasRole("EVM_ADMIN")

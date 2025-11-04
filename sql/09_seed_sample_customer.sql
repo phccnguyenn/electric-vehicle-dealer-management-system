@@ -1,6 +1,6 @@
 USE evdealer_db;
 
-IF NOT EXISTS (SELECT 1 FROM dbo.category)
+IF NOT EXISTS (SELECT 1 FROM dbo.customer)
 BEGIN
 INSERT INTO dbo.customer (dealer_id, full_name, email, phone, address, created_by, created_on, last_modified_by, last_modified_on)
 VALUES

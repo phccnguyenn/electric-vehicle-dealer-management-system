@@ -146,6 +146,11 @@ public class AuthService {
 
     public RegisterResponse register(RegisterRequest request) {
 
+        Integer level = null;
+        if (request.role() == RoleType.DEALER_MANAGER) {
+            level = request.level();
+        }
+
         if (checkExistUsername(request.username()))
             throw new DuplicatedException(Constants.ErrorCode.USERNAME_ALREADY_EXIST, request.username());
 
@@ -157,6 +162,7 @@ public class AuthService {
         user.setEmail(request.email());
         user.setPhone(request.phone());
         user.setCity(request.city());
+        user.setLevel(level);
         boolean isActive = request.isActive() != null;
         user.setActive(isActive);
         user.setRole(request.role());
