@@ -52,6 +52,16 @@ public class OrderController {
         return orderService.createOrder(dto);
     }
 
+    @Operation(summary = "Update order details or change status") // Dealer Manager / Staff
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderDetailDto> updateOrder(
+            @PathVariable Long id,
+            @RequestBody OrderUpdateDto dto
+    ) {
+        OrderDetailDto updatedOrder = orderService.updateOrder(id, dto);
+        return ResponseEntity.ok(updatedOrder);
+    }
+
     @Operation(summary = "Add payment to an order") // Nhân viên
     @PostMapping("/{id}/payments")
     public OrderDetailDto addPayment(@PathVariable Long id, @RequestBody PaymentDto paymentDto) {
