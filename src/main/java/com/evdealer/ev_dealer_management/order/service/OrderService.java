@@ -32,7 +32,7 @@ public class OrderService {
     private final FileGenerator fileGenerator;
     private final DealerService dealerService;
     private final CarRepository carRepository;
-
+    private final OrderActivityService orderActivityService;
 
     public OrderDetailDto createOrder(OrderCreateDto dto) {
         Car car = carRepository.findById(dto.carId())
@@ -51,6 +51,7 @@ public class OrderService {
                 .build();
 
         order = orderRepository.save(order);
+        orderActivityService.logActivity(order.getId(), OrderStatus.PENDING);
         // Save entity, not DTO
         try {
             fileGenerator.generateQuotation(order);
@@ -72,6 +73,10 @@ public class OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
+        if (dto.status() != null && dto.status() != order.getStatus()) {
+            orderActivityService.logActivity(order.getId(), dto.status());
+        }
+
         if (dto.totalAmount() != null) order.setTotalAmount(dto.totalAmount());
         if (dto.quotationUrl() != null) order.setQuotationUrl(dto.quotationUrl());
         if (dto.contractUrl() != null) order.setContractUrl(dto.contractUrl());
@@ -86,6 +91,7 @@ public class OrderService {
 
         order.setStatus(OrderStatus.CANCELLED);
         orderRepository.save(order);
+        orderActivityService.logActivity(order.getId(), OrderStatus.CANCELLED);
     }
 
     public List<Order> getOrders(Optional<Long> staffId, Optional<OrderStatus> status) {
