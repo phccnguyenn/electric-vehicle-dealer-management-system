@@ -9,9 +9,11 @@ import com.evdealer.ev_dealer_management.order.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -104,5 +106,14 @@ public class OrderController {
         OrderActivitiesResponse response = new OrderActivitiesResponse(orderId, dto);
 
         return ResponseEntity.ok(response);
+    }
+    @GetMapping("/sales-speed")
+    public ResponseEntity<List<SalesSpeedResponseDto>> getSalesSpeedByDealer(
+            @RequestParam("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
+            @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
+    ) {
+        return ResponseEntity.ok(
+                orderService.getSalesSpeedByDealer(startTime, endTime)
+        );
     }
 }

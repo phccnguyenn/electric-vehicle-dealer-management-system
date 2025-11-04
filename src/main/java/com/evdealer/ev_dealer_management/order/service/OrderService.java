@@ -3,15 +3,12 @@ package com.evdealer.ev_dealer_management.order.service;
 import com.evdealer.ev_dealer_management.car.model.Car;
 import com.evdealer.ev_dealer_management.car.repository.CarRepository;
 import com.evdealer.ev_dealer_management.order.model.Order;
-import com.evdealer.ev_dealer_management.order.model.dto.OrderCreateDto;
-import com.evdealer.ev_dealer_management.order.model.dto.OrderDetailDto;
-import com.evdealer.ev_dealer_management.order.model.dto.OrderUpdateDto;
+import com.evdealer.ev_dealer_management.order.model.dto.*;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
 import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.User;
-import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
 import com.itextpdf.text.DocumentException;
 import jakarta.transaction.Transactional;
@@ -20,6 +17,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,7 +30,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final FileGenerator fileGenerator;
     private final DealerService dealerService;
-    private final CustomerRepository customerRepository;
     private final CarRepository carRepository;
 
 
@@ -101,5 +100,9 @@ public class OrderService {
                 .filter(o -> status.map(s -> o.getStatus() == s)
                         .orElse(o.getStatus() != OrderStatus.CANCELLED))
                 .collect(Collectors.toList());
+    }
+
+    public List<SalesSpeedResponseDto> getSalesSpeedByDealer(LocalDateTime startTime, LocalDateTime endTime) {
+        return orderRepository.getSalesSpeedByDealer(startTime, endTime);
     }
 }
