@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.order.service;
 
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.OrderActivity;
+import com.evdealer.ev_dealer_management.order.model.dto.SalesSpeedResponseDto;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.repository.OrderActivityRepository;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
@@ -44,5 +45,9 @@ public class OrderActivityService {
      */
     public List<OrderActivity> getActivities(Long orderId) {
         return orderActivityRepository.findByOrderIdOrderByChangedAtAsc(orderId);
+    }
+
+    public List<SalesSpeedResponseDto> getSalesSpeedByDealer(LocalDateTime startTime, LocalDateTime endTime) {
+        return orderActivityRepository.getSalesSpeedByDealer(startTime, endTime);
     }
 }

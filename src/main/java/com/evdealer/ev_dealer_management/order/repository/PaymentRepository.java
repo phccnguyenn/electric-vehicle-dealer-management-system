@@ -39,21 +39,30 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     List<CustomerDebtDto> getCustomerDebts();
 
     @Query("""
-        SELECT 
-            o.staff.parent.id AS dealerId,
-            o.staff.parent.fullName AS dealerName,
-            SUM(p.amount) AS revenue
-        FROM Payment p
-        JOIN p.order o
-        WHERE o.staff.parent.role = 'DEALER'
-        GROUP BY o.staff.parent.id, o.staff.parent.fullName
-    """)
+    SELECT s.parent.id AS dealerId,
+           s.parent.fullName AS dealerName,
+           SUM(p.amount) AS revenue
+    FROM Payment p
+    JOIN p.order o
+    JOIN o.staff s
+    WHERE s.role = 'DEALER_STAFF'
+      AND s.parent IS NOT NULL
+      AND o.status IN ('DELIVERED','COMPLETED')
+    GROUP BY s.parent.id, s.parent.fullName
+""")
     List<RevenueByDealerDto> getRevenueByDealer();
 
-    @Query("SELECT s.parent.city, SUM(o.totalAmount) " +
-            "FROM Order o JOIN o.staff s " +
-            "WHERE o.status = 'COMPLETED' " +
-            "GROUP BY s.parent.city")
+    @Query("""
+    SELECT s.parent.city AS city,
+           SUM(p.amount) AS revenue
+    FROM Payment p
+    JOIN p.order o
+    JOIN o.staff s
+    WHERE s.role = 'DEALER_STAFF'
+      AND s.parent IS NOT NULL
+      AND o.status IN ('DELIVERED','COMPLETED')
+    GROUP BY s.parent.city
+""")
     List<RevenueByCityDto> getRevenueByCity();
 
     List<Payment> findByOrderId(Long orderId);

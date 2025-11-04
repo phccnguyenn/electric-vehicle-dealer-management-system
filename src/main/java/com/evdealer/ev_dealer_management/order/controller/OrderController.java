@@ -113,7 +113,7 @@ public class OrderController {
             @RequestParam("endTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime
     ) {
         return ResponseEntity.ok(
-                orderService.getSalesSpeedByDealer(startTime, endTime)
+                orderActivityService.getSalesSpeedByDealer(startTime, endTime)
         );
     }
 }

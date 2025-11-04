@@ -108,8 +108,4 @@ public class OrderService {
                         .orElse(o.getStatus() != OrderStatus.CANCELLED))
                 .collect(Collectors.toList());
     }
-
-    public List<SalesSpeedResponseDto> getSalesSpeedByDealer(LocalDateTime startTime, LocalDateTime endTime) {
-        return orderRepository.getSalesSpeedByDealer(startTime, endTime);
-    }
 }
