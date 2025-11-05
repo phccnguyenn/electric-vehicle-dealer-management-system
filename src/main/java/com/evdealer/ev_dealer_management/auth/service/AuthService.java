@@ -133,7 +133,16 @@ public class AuthService {
 //                .build();
 //    }
 
-    public void updateParentId(User user) {
+    public void updateParentId(User user, RegisterRequest request) {
+
+        if (request.role().equals(RoleType.DEALER_STAFF)){
+            User parent = userRepository.findByPhone(request.parentPhone())
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_WITH_PHONE_NUMBER_NOT_EXIST, request.parentPhone()));
+
+            user.setParent(parent);
+            userRepository.save(user);
+            return;
+        }
 
         User admin = userRepository.findByUsername("evd.admin").orElse(null);
         log.info(admin.getFullName());
@@ -169,7 +178,7 @@ public class AuthService {
         User savedUser = userRepository.save(user);
 
         if (savedUser.getParent() == null)
-            updateParentId(savedUser);
+            updateParentId(savedUser, request);
 
         // Custom
 //        String jwtToken = jwtService.generateToken(savedUser);

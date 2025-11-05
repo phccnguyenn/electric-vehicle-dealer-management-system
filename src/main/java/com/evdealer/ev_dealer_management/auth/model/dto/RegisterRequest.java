@@ -14,6 +14,7 @@ public record RegisterRequest(
         String city,
         Boolean isActive,
         RoleType role,
-        Integer level
+        Integer level,
+        String parentPhone
 ) {
 }

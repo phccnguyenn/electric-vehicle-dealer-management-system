@@ -53,7 +53,7 @@ public class ManufacturerService extends UserService {
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USERNAME_NOT_FOUND, currentUser.getId()));
 
         // Only admin must create new account
-        if (parent.getRole() != RoleType.EVM_ADMIN) {
+        if (parent.getRole() != RoleType.EVM_ADMIN && parent.getRole() != RoleType.EVM_STAFF) {
             throw new InvalidRoleException(Constants.ErrorCode.INVALID_ROLE_TYPE, parent.getRole());
         }
 
@@ -159,6 +159,11 @@ public class ManufacturerService extends UserService {
     }
 
     private User createUserUnderParent(User parent, UserPostDto userPostDto) {
+
+        if (userPostDto.role().equals(RoleType.DEALER_STAFF)){
+            parent = userRepository.findByPhone(userPostDto.parentPhone())
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_WITH_PHONE_NUMBER_NOT_EXIST, userPostDto.parentPhone()));
+        }
 
         validateUsername(userPostDto.username());
         validateEmail(userPostDto.email());

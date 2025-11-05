@@ -11,6 +11,7 @@ public record UserPostDto(
         String city,
         boolean isActive,
         RoleType role,
-        Integer level
+        Integer level,
+        String parentPhone
 ) {
 }

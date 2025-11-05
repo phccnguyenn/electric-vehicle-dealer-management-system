@@ -36,6 +36,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .role(RoleType.EVM_ADMIN)
                 .level(null)
+                .parentPhone(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -48,6 +49,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .role(RoleType.EVM_STAFF)
                 .level(null)
+                .parentPhone(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -59,6 +61,7 @@ public class DataInitializer implements CommandLineRunner {
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.DEALER_MANAGER)
+                .parentPhone(null)
                 .level(1)
                 .build());
 
@@ -72,6 +75,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .level(null)
                 .role(RoleType.DEALER_STAFF)
+                .parentPhone("0986194321")
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -84,6 +88,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .level(2)
                 .role(RoleType.DEALER_MANAGER)
+                .parentPhone(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -96,6 +101,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .level(null)
                 .role(RoleType.DEALER_STAFF)
+                .parentPhone("0986094321")
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -108,6 +114,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .level(3)
                 .role(RoleType.DEALER_MANAGER)
+                .parentPhone(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -120,6 +127,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .level(null)
                 .role(RoleType.DEALER_STAFF)
+                .parentPhone("0912345678")
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -132,6 +140,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .level(null)
                 .role(RoleType.DEALER_STAFF)
+                .parentPhone("0912345678")
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -144,6 +153,7 @@ public class DataInitializer implements CommandLineRunner {
                 .isActive(true)
                 .level(3)
                 .role(RoleType.DEALER_MANAGER)
+                .parentPhone(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
@@ -156,6 +166,7 @@ public class DataInitializer implements CommandLineRunner {
                 .level(null)
                 .isActive(true)
                 .role(RoleType.DEALER_STAFF)
+                .parentPhone("0913456789")
                 .build());
 
         try {
