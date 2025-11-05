@@ -13,7 +13,9 @@ public final class Constants {
         public final static String EMAIL_ALREADY_EXIST = "EMAIL_ALREADY_EXIST";
         public final static String PHONE_ALREADY_EXIST = "PHONE_ALREADY_EXIST";
 
+        public final static String PRICE_PROGRAM_NOT_FOUND = "PRICE_PROGRAM_NOT_FOUND";
         public final static String BOOKING_NOT_FOUND = "BOOKING_NOT_FOUND";
+        public final static String DEALER_HIERARCHY_NOT_FOUND = "DEALER_HIERARCHY_NOT_FOUND";
         public final static String COLOR_NOT_FOUND = "CATEGORY_NOT_FOUND";
         public final static String SLOT_NOT_FOUND = "SLOT_NOT_FOUND";
         public final static String CATEGORY_NOT_FOUND = "CATEGORY_NOT_FOUND";

@@ -5,7 +5,7 @@ BEGIN
     CREATE TABLE dbo.dealer_hierarchy (
         id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
         dealer_id           BIGINT NULL,
-        dealer_level        INT NOT NULL,
+        level_type        INT NOT NULL,
 
         CONSTRAINT fk_dealer_id
             FOREIGN KEY (dealer_id)
@@ -16,7 +16,7 @@ GO
 
 IF NOT EXISTS (SELECT 1 FROM dbo.dealer_hierarchy)
 BEGIN
-    INSERT INTO dbo.dealer_hierarchy (dealer_level)
+    INSERT INTO dbo.dealer_hierarchy (level_type)
     VALUES (1), (2), (3);
 END;
 GO

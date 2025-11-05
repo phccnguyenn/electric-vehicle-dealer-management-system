@@ -27,7 +27,7 @@ public class DealerHierarchy {
     @NotNull
     @Min(value = 1, message = "Level must be at least 1")
     @Max(value = 3, message = "Level must not be greater than 3")
-    @Column(name = "dealer_level")
-    private Integer dealerLevel;
+    @Column(name = "level_type")
+    private Integer levelType;
 
 }

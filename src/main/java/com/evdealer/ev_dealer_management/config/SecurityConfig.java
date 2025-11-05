@@ -219,6 +219,29 @@ public class SecurityConfig {
                 .build();
     }
 
+    @Bean
+    @Order(6)
+    public SecurityFilterChain saleDomainSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .securityMatcher("/api/v1/price-program")
+                .cors(cors -> cors.configurationSource(corsConfig()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .authenticationProvider(authProvider)
+                .authorizeHttpRequests(
+                        auth ->
+                                auth
+                                        .requestMatchers(HttpMethod.GET, "api/v1/price-program/detail/{id}", "api/v1/price-program/hierarchy/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                                        .requestMatchers(HttpMethod.POST, "/api/v1/price-program").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                        .requestMatchers(HttpMethod.PATCH, "/api/v1/price-program/{id}").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                        .requestMatchers(HttpMethod.DELETE, "/api/v1/price-program/{id}").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                        .anyRequest().authenticated()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
     /**
      * Swagger Security
      * @param http
