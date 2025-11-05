@@ -159,6 +159,7 @@ public class SecurityConfig {
                                     .requestMatchers(HttpMethod.POST, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.POST, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
                                     .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
@@ -207,12 +208,10 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                         .requestMatchers(HttpMethod.GET, "/api/v1/slot/all").permitAll()
-                                        .requestMatchers("/api/v1/slot/create", "/api/v1/slot/update", "/api/v1/slot/delete/**")
-                                        .hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                        .requestMatchers("/api/v1/slot/create", "/api/v1/slot/update", "/api/v1/slot/delete/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
                                         .requestMatchers(HttpMethod.POST, "/api/v1/booking/create").permitAll()
-                                        .requestMatchers("/api/v1/booking/slot/**", "/api/v1/booking/**")
-                                        .hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                        .requestMatchers("/api/v1/booking/slot/**", "/api/v1/booking/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())

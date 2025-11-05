@@ -18,6 +18,7 @@ CREATE TABLE dbo.orders (
             created_on DATETIMEOFFSET NOT NULL DEFAULT SYSUTCDATETIME(),
             last_modified_by NVARCHAR(100) NULL,
             last_modified_on DATETIMEOFFSET NOT NULL DEFAULT SYSUTCDATETIME(),
+
             CONSTRAINT FK_orders_car FOREIGN KEY (car_id) REFERENCES car(id),
             CONSTRAINT FK_orders_staff FOREIGN KEY (staff_id) REFERENCES users(user_id),
             CONSTRAINT FK_orders_customer FOREIGN KEY (customer_id) REFERENCES customer(id)

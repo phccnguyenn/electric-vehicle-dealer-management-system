@@ -62,7 +62,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
       AND s.parent IS NOT NULL
       AND o.status IN ('DELIVERED','COMPLETED')
     GROUP BY s.parent.city
-""")
+    """)
     List<RevenueByCityDto> getRevenueByCity();
 
     List<Payment> findByOrderId(Long orderId);

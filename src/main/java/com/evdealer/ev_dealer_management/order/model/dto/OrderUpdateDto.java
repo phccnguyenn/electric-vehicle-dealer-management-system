@@ -8,6 +8,5 @@ public record OrderUpdateDto(
         BigDecimal totalAmount,   // Can update total amount
         String quotationUrl,      // Update quotation
         String contractUrl,       // Update contract
-        Long staffId,             // Optionally change staff
         OrderStatus status
 ) { }

@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @Operation(summary = "Update order details or change status") // Dealer Manager / Staff
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<OrderDetailDto> updateOrder(
             @PathVariable Long id,
             @RequestBody OrderUpdateDto dto
