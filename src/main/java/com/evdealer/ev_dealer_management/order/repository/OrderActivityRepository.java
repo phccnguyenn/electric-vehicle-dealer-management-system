@@ -16,7 +16,7 @@ public interface OrderActivityRepository extends JpaRepository<OrderActivity, Lo
     SELECT 
         s.parent_id AS dealerId,
         COUNT(DISTINCT oa.order_id) * 1.0 / (DATEDIFF(MONTH, :startTime, :endTime) + 1) AS salesPerMonth
-    FROM dbo.order_activities oa
+    FROM dbo.orders_activities oa
     JOIN dbo.orders o ON oa.order_id = o.id
     JOIN dbo.users s ON o.staff_id = s.user_id
     WHERE oa.status IN ('DELIVERED', 'COMPLETED')
