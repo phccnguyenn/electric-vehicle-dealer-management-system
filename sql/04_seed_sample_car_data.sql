@@ -155,16 +155,16 @@ BEGIN
         last_modified_on
     )
     VALUES
-    (1, 1, 1, 1, 'Sedan LX', 35000, 'FWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (2, 2, 2, 2, 'SUV GX', 45000, 'AWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (3, 3, 3, 3, 'Hatchback ZX', 28000, 'FWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (4, 4, 4, 4, 'Electric EV1', 55000, 'RWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (1, 5, 5, 5, 'Hybrid HVX', 42000, 'AWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (2, 1, 1, 6, 'Truck TX', 60000, 'FOUR_WD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (3, 2, 2, 7, 'Van VX', 40000, 'FWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (4, 3, 3, 8, 'Convertible CVX', 70000, 'RWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (5, 4, 4, 9, 'Sports Car SX', 95000, 'RWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
-    (5, 5, 5, 10, 'Luxury LX', 120000, 'AWD', 2025, 'admin', GETDATE(), 'admin', GETDATE());
+    (1, 1, 1, 1, 'Sedan LX', 0, 'FWD', 2023, 'admin', GETDATE(), 'admin', GETDATE()),
+    (2, 2, 2, 2, 'SUV GX', 0, 'AWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
+    (3, 3, 3, 3, 'Hatchback ZX', 0, 'FWD', 2023, 'admin', GETDATE(), 'admin', GETDATE()),
+    (4, 4, 4, 4, 'Electric EV1', 0, 'RWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
+    (1, 5, 5, 5, 'Hybrid HVX', 0, 'AWD', 2024, 'admin', GETDATE(), 'admin', GETDATE()),
+    (2, 1, 1, 6, 'Truck TX', 0, 'FOUR_WD', 2024, 'admin', GETDATE(), 'admin', GETDATE()),
+    (3, 2, 2, 7, 'Van VX', 0, 'FWD', 2022, 'admin', GETDATE(), 'admin', GETDATE()),
+    (4, 3, 3, 8, 'Convertible CVX', 0, 'RWD', 2022, 'admin', GETDATE(), 'admin', GETDATE()),
+    (5, 4, 4, 9, 'Sports Car SX', 0, 'RWD', 2025, 'admin', GETDATE(), 'admin', GETDATE()),
+    (5, 5, 5, 10, 'Luxury LX', 0, 'AWD', 2023, 'admin', GETDATE(), 'admin', GETDATE());
 END;
 
 -- =================== car_image ===================

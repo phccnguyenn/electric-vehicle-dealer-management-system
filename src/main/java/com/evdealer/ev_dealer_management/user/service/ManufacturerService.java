@@ -5,8 +5,10 @@ import com.evdealer.ev_dealer_management.common.exception.InvalidRoleException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.dto.account.*;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -104,6 +106,20 @@ public class ManufacturerService extends UserService {
         }
 
         userRepository.save(user);
+    }
+
+    public void rankDealer(Long dealerId, int newLevel) {
+
+        User dealer = getDealerByDealerId(dealerId);
+
+        if (newLevel < 1 || newLevel > 3)
+            throw new IllegalArgumentException("Invalid dealer level: " + newLevel);
+
+        if (!dealer.getRole().equals(RoleType.DEALER_MANAGER))
+            throw new IllegalStateException("Only Dealer Manager can change rank.");
+
+        dealer.setLevel(newLevel);
+        userRepository.save(dealer);
     }
 
     public void UserBanManagement(Long userId, boolean isBan) {

@@ -57,6 +57,15 @@ public class ManufacturerController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/hierarchy/{dealerId}")
+    public ResponseEntity<Void> rankDealer(
+            @PathVariable(name = "dealerId") Long dealerId,
+            @RequestParam(name = "level") Integer level
+    ) {
+        manufacturerService.rankDealer(dealerId, level);
+        return ResponseEntity.noContent().build();
+    }
+
     @PatchMapping("/{userId}/ban")
     public ResponseEntity<Void> banUserById(@PathVariable(name = "userId") Long userId) {
         manufacturerService.UserBanManagement(userId, true);
