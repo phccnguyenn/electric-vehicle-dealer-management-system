@@ -32,7 +32,7 @@ public class PriceProgram extends AbstractAuditEntity {
     @Column(name = "end_day", nullable = false)
     private OffsetDateTime endDay;
 
-    @OneToMany(mappedBy = "priceProgram", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "priceProgram")
     private List<ProgramDetail> programDetails = new ArrayList<>();
 
 }

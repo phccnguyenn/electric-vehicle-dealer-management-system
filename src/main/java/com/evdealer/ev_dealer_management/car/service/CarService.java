@@ -79,6 +79,13 @@ public class CarService {
         return CarDetailGetDto.fromModel(carRepository.save(savedCar));
     }
 
+    public CarDetailGetDto updateCarPriceByDealer(Long carId, BigDecimal price) {
+        Car car = carRepository.findById(carId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_NOT_FOUND, carId));
+        car.setPrice(price);
+        return CarDetailGetDto.fromModel(carRepository.save(car));
+    }
+
     public CarDetailGetDto uploadImagesForCar(Long carId, MultipartFile[] images) {
 
         Car car = carRepository.findById(carId)

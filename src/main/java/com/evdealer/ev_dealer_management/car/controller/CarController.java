@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/car")
@@ -42,6 +44,13 @@ public class CarController {
             @PathVariable(name = "carId") Long carId,
             @RequestPart("files") MultipartFile[] files) {
         return ResponseEntity.ok(carService.uploadImagesForCar(carId, files));
+    }
+
+    @PatchMapping("/{carId}/update-price")
+    public ResponseEntity<Void> partialUpdate(@PathVariable(value = "carId") Long carId,
+                                              @RequestParam(name = "price") BigDecimal price) {
+        carService.updateCarPriceByDealer(carId, price);
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{carId}/update")
