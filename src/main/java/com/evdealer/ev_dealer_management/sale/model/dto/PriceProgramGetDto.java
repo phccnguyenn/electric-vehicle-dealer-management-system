@@ -13,18 +13,23 @@ public record PriceProgramGetDto(
         List<ProgramDetailGetDto> programDetails
 ) {
     public static PriceProgramGetDto fromModel(PriceProgram model) {
+
         if (model == null) {
             return null;
         }
+
+        List<ProgramDetailGetDto> details = model.getProgramDetails() != null
+                ? model.getProgramDetails().stream()
+                .map(ProgramDetailGetDto::fromModel)
+                .toList()
+                : List.of();
 
         return new PriceProgramGetDto(
                 model.getId(),
                 model.getDealerHierarchy().getLevelType(),
                 model.getStartDay() != null ? model.getStartDay() : null,
                 model.getEndDay() != null ? model.getEndDay() : null,
-                model.getProgramDetails().stream()
-                        .map(ProgramDetailGetDto::fromModel)
-                        .toList()
+                details
         );
     }
 }

@@ -38,7 +38,7 @@ public class PriceProgramService {
 
     public PriceProgramGetDto createNewPriceProgram(PriceProgramPostDto priceProgramPostDto) {
 
-        if (validateDate(priceProgramPostDto.startDay(), priceProgramPostDto.endDay()))
+        if (!validateDate(priceProgramPostDto.startDay(), priceProgramPostDto.endDay()))
             throw new IllegalArgumentException("Start date must be before end date.");
 
         DealerHierarchy dealerHierarchy = dealerHierarchyRepository.findByLevelType(priceProgramPostDto.dealerHierarchy())
