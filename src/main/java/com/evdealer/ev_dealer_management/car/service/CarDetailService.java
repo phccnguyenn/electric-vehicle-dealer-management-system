@@ -57,6 +57,8 @@ public class CarDetailService {
 
         CarDetail carDetail = new CarDetail();
         carDetail.setCarName(carDetailPostDto.carName());
+        carDetail.setCarStatus(carDetailPostDto.carStatus());
+        carDetail.setColor(carDetailPostDto.color());
 
         // Set car performance (1:1)
         Performance performance = performanceService.createPerformance(carDetailPostDto.performancePostDto());
@@ -70,7 +72,7 @@ public class CarDetailService {
         CarDetail savedCarDetail = carDetailRepository.save(carDetail);
 
         // Set car model (car_model 1 : N car_detail)
-        CarModel carModel = carModelService.addSpecsCarToCategory(savedCarDetail.getId(), savedCarDetail);
+        CarModel carModel = carModelService.addSpecsCarToCategory(carDetailPostDto.carModelId(), savedCarDetail);
         savedCarDetail.setCarModel(carModel);
 
         return CarDetailGetDto.fromModel(carDetailRepository.save(savedCarDetail));
