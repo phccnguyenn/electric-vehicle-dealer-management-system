@@ -1,10 +1,11 @@
 package com.evdealer.ev_dealer_management.testdrive.controller;
 
-import com.evdealer.ev_dealer_management.testdrive.model.Slot;
 import com.evdealer.ev_dealer_management.testdrive.model.dto.SlotDetailsGetDto;
 import com.evdealer.ev_dealer_management.testdrive.model.dto.SlotPostDto;
 import com.evdealer.ev_dealer_management.testdrive.model.dto.SlotUpdateDto;
 import com.evdealer.ev_dealer_management.testdrive.service.SlotService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,29 +16,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/slot")
 @RequiredArgsConstructor
+@Tag(name = "Test Drive", description = "Test Drive APIs for Dealer only")
 public class SlotController {
 
     private final SlotService slotService;
 
+    @GetMapping("/detail/{slotId}")
+    public ResponseEntity<SlotDetailsGetDto> getSlotDetailById(@PathVariable("slotId") Long slotId) {
+        SlotDetailsGetDto slot = slotService.getSlotById(slotId, SlotDetailsGetDto.class);
+        return ResponseEntity.ok(slot);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<SlotDetailsGetDto>> getAllSlotsByCurrentDealer() {
+        List<SlotDetailsGetDto> slots = slotService.getAllSlotsByCurrentDealer();
+        return ResponseEntity.ok(slots);
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<SlotDetailsGetDto> createSlot(@RequestBody SlotPostDto dto) {
+    public ResponseEntity<SlotDetailsGetDto> createSlot(@Valid @RequestBody SlotPostDto dto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(slotService.createSlot(dto));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<SlotDetailsGetDto>> getAllSlotsByDealer() {
-        List<SlotDetailsGetDto> slots = slotService.getAllSlotByDealer();
-        return ResponseEntity.ok(slots);
-    }
-
-    @PatchMapping("/update")
-    public ResponseEntity<SlotDetailsGetDto> updateSlot(
-            @RequestBody SlotUpdateDto slotUpdateDto
-    ) {
-
-        return ResponseEntity.ok(slotService.updateSlot(slotUpdateDto));
+    @PatchMapping("/update/{slotId}")
+    public ResponseEntity<SlotDetailsGetDto> updateSlot(@PathVariable Long slotId, @Valid @RequestBody SlotUpdateDto slotUpdateDto) {
+        return ResponseEntity.ok(slotService.updateSlot(slotId, slotUpdateDto));
     }
 
     @DeleteMapping("/delete/{id}")

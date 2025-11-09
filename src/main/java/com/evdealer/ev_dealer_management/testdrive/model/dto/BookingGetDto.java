@@ -4,13 +4,15 @@ import com.evdealer.ev_dealer_management.testdrive.model.Booking;
 
 public record BookingGetDto(
         Long id,
-        Long slotId,
+        SlotDetailsGetDto slot,
+        String customerName,
         String customerPhone
 ) {
     public static BookingGetDto fromModel(Booking booking) {
         return new BookingGetDto(
                 booking.getId(),
-                booking.getSlot().getId(),
+                SlotDetailsGetDto.fromModel(booking.getSlot()),
+                booking.getCustomerName(),
                 booking.getCustomerPhone()
         );
     }

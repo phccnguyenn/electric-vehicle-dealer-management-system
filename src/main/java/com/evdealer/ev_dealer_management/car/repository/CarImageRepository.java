@@ -11,6 +11,4 @@ import java.util.List;
 public interface CarImageRepository
         extends JpaRepository<CarImage, Long> {
 
-    List<CarImage> findByCarId(@Param("carId") Long carId);
-
 }

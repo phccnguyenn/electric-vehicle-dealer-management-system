@@ -65,7 +65,7 @@ public class User extends AbstractAuditEntity
     @Column(name = "level")
     private Integer level;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<User> children = new ArrayList<>();
 
     @OneToMany(mappedBy = "dealer", fetch = FetchType.EAGER)

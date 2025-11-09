@@ -1,18 +1,16 @@
 package com.evdealer.ev_dealer_management.order.model;
 
 
-import com.evdealer.ev_dealer_management.car.model.Car;
+import com.evdealer.ev_dealer_management.car.model.CarDetail;
 import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
-import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentType;
 import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +31,9 @@ public class Order extends AbstractAuditEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
+    private CarDetail carDetail;
 
+    // No order generation permission for Manager
     @ManyToOne
     @JoinColumn(name = "staff_id", nullable = false)
     private User staff;

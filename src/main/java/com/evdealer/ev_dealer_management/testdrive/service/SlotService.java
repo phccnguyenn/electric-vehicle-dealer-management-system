@@ -1,15 +1,18 @@
 package com.evdealer.ev_dealer_management.testdrive.service;
 
-import com.evdealer.ev_dealer_management.car.model.Car;
-import com.evdealer.ev_dealer_management.car.service.CarService;
+import com.evdealer.ev_dealer_management.car.model.CarModel;
+import com.evdealer.ev_dealer_management.car.service.CarModelService;
+import com.evdealer.ev_dealer_management.common.exception.NoPermissionException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
+import com.evdealer.ev_dealer_management.testdrive.model.CarModelInSlot;
 import com.evdealer.ev_dealer_management.testdrive.model.Slot;
 import com.evdealer.ev_dealer_management.testdrive.model.dto.SlotDetailsGetDto;
 import com.evdealer.ev_dealer_management.testdrive.model.dto.SlotPostDto;
 import com.evdealer.ev_dealer_management.testdrive.model.dto.SlotUpdateDto;
 import com.evdealer.ev_dealer_management.testdrive.repository.SlotRepository;
 import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -24,41 +28,70 @@ import java.util.List;
 public class SlotService {
 
     private final DealerService dealerService;
-    private final CarService carService;
+    private final CarModelInSlotService carModelInSlotService;
     private final SlotRepository slotRepository;
 
-    public List<SlotDetailsGetDto> getAllSlotByDealer() {
-        // User dealer = dealerService.getCurrentUser();
-        return slotRepository.findAll()
+    public List<SlotDetailsGetDto> getAllSlotsByCurrentDealer() {
+
+        User dealer = dealerService.getCurrentUser();
+        String dealerManagerName = null;
+
+        if (dealer.getRole().equals(RoleType.DEALER_MANAGER)) {
+            dealerManagerName = dealer.getFullName();
+        } else if (dealer.getRole().equals(RoleType.DEALER_STAFF)) {
+            dealerManagerName = dealer.getParent().getFullName();
+        }
+
+        return slotRepository.findAllByCreatedBy(dealerManagerName)
                 .stream()
                 .map(SlotDetailsGetDto::fromModel)
                 .toList();
     }
 
+    public <T> T getSlotById(Long slotId, Class<T> type) {
+        Slot slot = slotRepository.findById(slotId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.SLOT_NOT_FOUND, slotId));
+
+        if (type.equals(Slot.class)) {
+            return type.cast(slot);
+        } else if (type.equals(SlotDetailsGetDto.class)) {
+            return type.cast(SlotDetailsGetDto.fromModel(slot));
+        } else {
+            throw new IllegalArgumentException("Unsupported return type: " + type);
+        }
+    }
+
     @Transactional
-    public SlotDetailsGetDto createSlot(SlotPostDto dto) {
+    public SlotDetailsGetDto createSlot(SlotPostDto slotPostDto) {
 
-        validateSlotTimeRange(dto.startTime(), dto.endTime());
-        User dealer = dealerService.getCurrentUser();
-        Car car = carService.getCarById(dto.carId());
+        // Get the current dealer manager
+        User dealerManager = dealerService.getCurrentUser();
+        if (!dealerManager.getRole().equals(RoleType.DEALER_MANAGER)) {
+            throw new NoPermissionException("You do not have permission for this function");
+        }
 
-        Slot slot = new Slot();
-        slot.setDealer(dealer);
-        slot.setCar(car);
-        slot.setAmount(dto.amount());
-        slot.setStartTime(dto.startTime());
-        slot.setEndTime(dto.endTime());
+        // Get Dealer Staff is in charge with this slot
+        User dealerStaff = dealerService.getDealerStaffByDealerManager(dealerManager.getId(), slotPostDto.dealerStaffId());
 
+        validateSlotTimeRange(slotPostDto.startTime(), slotPostDto.endTime());
+
+        Slot slot = Slot.builder()
+                .dealerStaff(dealerStaff)
+                .numCustomers(slotPostDto.numCustomers())
+                .startTime(slotPostDto.startTime())
+                .endTime(slotPostDto.endTime())
+                .build();
+
+        CarModelInSlot carModelInSlot = carModelInSlotService.createCarModelInSlot(slot, slotPostDto.carModelInSlotPostDto());
+        slot.getCarModelInSlots().add(carModelInSlot);
         return SlotDetailsGetDto.fromModel(slotRepository.save(slot));
     }
 
-    public SlotDetailsGetDto updateSlot(SlotUpdateDto slotUpdateDto) {
+    public SlotDetailsGetDto updateSlot(Long slotId, SlotUpdateDto slotUpdateDto) {
+
+        Slot slot = getSlotById(slotId, Slot.class);
 
         validateSlotTimeRange(slotUpdateDto.newStartTime(), slotUpdateDto.newEndTime());
-
-        Slot slot = slotRepository.findById(slotUpdateDto.slotId())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.SLOT_NOT_FOUND, slotUpdateDto.slotId()));
-
 
         if (slotUpdateDto.newStartTime() != null
                 && !slotUpdateDto.newStartTime().equals(slot.getStartTime())) {
@@ -70,9 +103,9 @@ public class SlotService {
             slot.setEndTime(slotUpdateDto.newEndTime());
         }
 
-        if (slotUpdateDto.newAmount() != null
-                && !slotUpdateDto.newAmount().equals(slot.getAmount())) {
-            slot.setAmount(slotUpdateDto.newAmount());
+        if (slotUpdateDto.newNumCustomers() != null
+                && !slotUpdateDto.newNumCustomers().equals(slot.getNumCustomers())) {
+            slot.setNumCustomers(slotUpdateDto.newNumCustomers());
         }
 
         return SlotDetailsGetDto.fromModel(slotRepository.save(slot));

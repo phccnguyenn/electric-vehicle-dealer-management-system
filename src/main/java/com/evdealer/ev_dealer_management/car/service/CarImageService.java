@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.car.service;
 
-import com.evdealer.ev_dealer_management.car.model.Car;
+import com.evdealer.ev_dealer_management.car.model.CarDetail;
 import com.evdealer.ev_dealer_management.car.model.CarImage;
 import com.evdealer.ev_dealer_management.car.repository.CarImageRepository;
 import com.evdealer.ev_dealer_management.thumbnail.repository.FileSystemRepository;
@@ -21,7 +21,7 @@ public class CarImageService {
     private final FileSystemRepository fileSystemRepository;
     private final CarImageRepository carImageRepository;
 
-    public List<CarImage> uploadImageToCar(Car car, MultipartFile[] files) {
+    public List<CarImage> uploadImageToCar(CarDetail carDetail, MultipartFile[] files) {
 
         List<CarImage> carImages = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class CarImageService {
                 carImage.setFileName(file.getOriginalFilename());
                 carImage.setFilePath(filePathStr);
                 carImage.setFileUrl(fileUrl);
-                carImage.setCar(car);
+                carImage.setCarDetail(carDetail);
 
                 carImages.add(carImage);
             }

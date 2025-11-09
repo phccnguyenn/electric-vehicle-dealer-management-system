@@ -1,7 +1,7 @@
 package com.evdealer.ev_dealer_management.order.service;
 
-import com.evdealer.ev_dealer_management.car.model.Car;
-import com.evdealer.ev_dealer_management.car.repository.CarRepository;
+import com.evdealer.ev_dealer_management.car.model.CarDetail;
+import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
@@ -17,9 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,17 +28,17 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final FileGenerator fileGenerator;
     private final DealerService dealerService;
-    private final CarRepository carRepository;
+    private final CarDetailRepository carDetailRepository;
     private final OrderActivityService orderActivityService;
 
     public OrderDetailDto createOrder(OrderCreateDto dto) {
-        Car car = carRepository.findById(dto.carId())
+        CarDetail carDetail = carDetailRepository.findById(dto.carId())
                 .orElseThrow(() -> new RuntimeException("Car not found"));
         User staff = dealerService.getCurrentUser();
         Customer customer = dealerService.getCustomerByPhone(dto.customerPhone(), Customer.class);
 
         Order order = Order.builder()
-                .car(car)
+                .carDetail(carDetail)
                 .staff(staff)
                 .customer(customer)
                 .totalAmount(dto.totalAmount())

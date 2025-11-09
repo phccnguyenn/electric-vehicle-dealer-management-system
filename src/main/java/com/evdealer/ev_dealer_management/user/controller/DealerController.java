@@ -5,6 +5,7 @@ import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerInfoUpd
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/dealer")
 @RequiredArgsConstructor
+@Tag(name = "Users", description = "Users management APIs")
 public class DealerController {
 
     private final DealerService dealerService;
@@ -31,7 +33,7 @@ public class DealerController {
 
     @PostMapping("/customers")
     public ResponseEntity<CustomerDetailGetDto> createNewCustomer(@RequestBody CustomerPostDto customerPostDto) {
-        CustomerDetailGetDto customerDetail = dealerService.createCustomerIfNotExists(customerPostDto);
+        CustomerDetailGetDto customerDetail = dealerService.createCustomerIfNotExists(customerPostDto, CustomerDetailGetDto.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(customerDetail);
     }
 

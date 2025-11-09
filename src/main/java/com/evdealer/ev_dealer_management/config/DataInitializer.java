@@ -4,7 +4,7 @@ import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
-import com.evdealer.ev_dealer_management.car.repository.CategoryRepository;
+import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
-    private final CategoryRepository categoryRepository;
+    private final CarModelRepository carModelRepository;
     private final AuthService authService;
 
     @Override

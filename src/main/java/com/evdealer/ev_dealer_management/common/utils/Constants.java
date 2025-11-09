@@ -17,15 +17,10 @@ public final class Constants {
         public final static String PRICE_PROGRAM_NOT_FOUND = "PRICE_PROGRAM_NOT_FOUND";
         public final static String BOOKING_NOT_FOUND = "BOOKING_NOT_FOUND";
         public final static String DEALER_HIERARCHY_NOT_FOUND = "DEALER_HIERARCHY_NOT_FOUND";
-        public final static String COLOR_NOT_FOUND = "CATEGORY_NOT_FOUND";
         public final static String SLOT_NOT_FOUND = "SLOT_NOT_FOUND";
-        public final static String CATEGORY_NOT_FOUND = "CATEGORY_NOT_FOUND";
-        public final static String CAR_NOT_FOUND = "CAR_NOT_FOUND";
-        public final static String BATTERY_NOT_FOUND = "BATTERY_NOT_FOUND";
+        public final static String CAR_MODEL_NOT_FOUND = "CAR_MODEL_NOT_FOUND";
+        public final static String CAR_DETAIL_NOT_FOUND = "CAR_DETAIL_NOT_FOUND";
         public final static String RATING_NOT_FOUND = "RATING_NOT_FOUND";
-        public final static String MOTOR_NOT_FOUND = "MOTOR_NOT_FOUND";
-        public final static String SERIAL_NUMBER_NULL = "SERIAL_NUMBER_NULL";
-        public final static String SERIAL_NUMBER_ALREADY_EXISTS = "SERIAL_NUMBER_ALREADY_EXISTS";
 
         public final static String INVALID_ROLE_TYPE = "INVALID_ROLE_TYPE";
         public final static String CONTRACT_NOT_FOUND = "CONTRACT_NOT_FOUND";

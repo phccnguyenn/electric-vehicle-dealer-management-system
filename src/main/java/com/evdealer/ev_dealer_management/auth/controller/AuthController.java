@@ -4,6 +4,7 @@ import com.evdealer.ev_dealer_management.auth.model.dto.AuthRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.AuthResponse;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name = "Auth", description = "Auth APIs")
 public class AuthController {
 
     private final AuthService authService;

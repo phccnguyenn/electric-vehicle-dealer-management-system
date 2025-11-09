@@ -79,7 +79,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain productDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/v1/battery/**", "/api/v1/motor/**", "/api/v1/car/**", "/api/v1/category/**")
+                .securityMatcher("/api/v1/car/**", "/api/v1/car-model/**")
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -87,21 +87,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                     auth ->
                         auth
-                            .requestMatchers(
-                                "/api/v1/battery/create",
-                                "/api/v1/battery/*/remove").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                            .requestMatchers(
-                                "/api/v1/motor/create",
-                                "/api/v1/motor/*/update",
-                                "/api/v1/motor/*/remove").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            // Car Model APIs
+                            .requestMatchers(HttpMethod.GET, "/api/v1/car-model/all")
+                                .hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                            .requestMatchers("/api/v1/car-model/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+
+                            // Car Details APIs
+                            .requestMatchers(HttpMethod.GET, "/api/v1/car/**")
+                                .hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                             .requestMatchers(
                                 "/api/v1/car/create",
                                 "/api/v1/car/*/update",
                                 "/api/v1/car/*/upload/images").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                            .requestMatchers(HttpMethod.POST, "/api/v1/category/create").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                            .requestMatchers("/api/v1/category/*/rename").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                                .requestMatchers(HttpMethod.PATCH, "/api/v1/car/{carId}/update-price").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
-                            .anyRequest().permitAll()
+                            .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
@@ -142,7 +140,7 @@ public class SecurityConfig {
      * @throws Exception
      */
     @Bean
-    @Order(3)
+    @Order(4)
     public SecurityFilterChain orderDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/api/v1/orders/**")
@@ -176,7 +174,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(4)
+    @Order(5)
     public SecurityFilterChain ratingDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/api/v1/rating/**")
@@ -197,7 +195,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(5)
+    @Order(6)
     public SecurityFilterChain driveDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/api/v1/slot/**", "/api/v1/booking/**")
@@ -208,11 +206,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth ->
                                 auth
-                                        .requestMatchers(HttpMethod.GET, "/api/v1/slot/all").permitAll()
-                                        .requestMatchers("/api/v1/slot/create", "/api/v1/slot/update", "/api/v1/slot/delete/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+//                                        .requestMatchers(HttpMethod.GET, "/api/v1/slot/all").permitAll()
+//                                        .requestMatchers("/api/v1/slot/create", "/api/v1/slot/update", "/api/v1/slot/delete/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+//
+//                                        .requestMatchers(HttpMethod.POST, "/api/v1/booking/create").permitAll()
+//                                        .requestMatchers("/api/v1/booking/slot/**", "/api/v1/booking/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+//                                        .anyRequest().authenticated()
 
-                                        .requestMatchers(HttpMethod.POST, "/api/v1/booking/create").permitAll()
-                                        .requestMatchers("/api/v1/booking/slot/**", "/api/v1/booking/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                        .requestMatchers("/api/v1/slot/**", "/api/v1/booking/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                         .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
@@ -221,7 +222,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(6)
+    @Order(7)
     public SecurityFilterChain saleDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher("/api/v1/price-program", "api/v1/price-program/**", "api/v1/program-detail", "api/v1/program-detail/**")

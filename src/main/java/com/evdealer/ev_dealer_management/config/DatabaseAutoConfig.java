@@ -18,7 +18,7 @@ import java.util.Optional;
                 "com.evdealer.ev_dealer_management.auth.repository",
                 "com.evdealer.ev_dealer_management.user.repository",
                 "com.evdealer.ev_dealer_management.car.repository",
-                "com.evdealer.ev_dealer_management.stock.repository",
+                "com.evdealer.ev_dealer_management.warehouse.repository",
                 "com.evdealer.ev_dealer_management.order.repository",
                 "com.evdealer.ev_dealer_management.rating.repository",
                 "com.evdealer.ev_dealer_management.testdrive.repository",
@@ -30,7 +30,7 @@ import java.util.Optional;
                 "com.evdealer.ev_dealer_management.auth.model",
                 "com.evdealer.ev_dealer_management.user.model",
                 "com.evdealer.ev_dealer_management.car.model",
-                "com.evdealer.ev_dealer_management.stock.model",
+                "com.evdealer.ev_dealer_management.warehouse.model",
                 "com.evdealer.ev_dealer_management.order.model",
                 "com.evdealer.ev_dealer_management.rating.model",
                 "com.evdealer.ev_dealer_management.testdrive.model",
@@ -45,7 +45,7 @@ public class DatabaseAutoConfig {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (authentication == null) {
-                return Optional.of("");
+                return Optional.empty();
             }
 
             return Optional.of(authentication.getName());

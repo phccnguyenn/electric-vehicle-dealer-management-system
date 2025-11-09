@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface DimensionRepository extends JpaRepository<Dimension,Integer> {
+public interface DimensionRepository
+        extends JpaRepository<Dimension, Long> {
 }

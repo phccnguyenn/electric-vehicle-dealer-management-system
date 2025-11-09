@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface SlotRepository
         extends JpaRepository<Slot, Long> {
-    List<Slot> findAllByDealer(User dealer);
+    List<Slot> findAllByCreatedBy(String createdBy);
 }

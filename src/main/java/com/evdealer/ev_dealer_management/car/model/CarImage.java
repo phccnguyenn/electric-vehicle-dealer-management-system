@@ -17,8 +17,8 @@ public class CarImage {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "car_id")
-    private Car car;
+    @JoinColumn(name = "car_detail_id")
+    private CarDetail carDetail;
 
     @Column(name = "file_name")
     private String fileName;

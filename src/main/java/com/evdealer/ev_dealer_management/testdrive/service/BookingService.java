@@ -9,7 +9,9 @@ import com.evdealer.ev_dealer_management.testdrive.model.dto.BookingPostDto;
 import com.evdealer.ev_dealer_management.testdrive.repository.BookingRepository;
 import com.evdealer.ev_dealer_management.testdrive.repository.SlotRepository;
 import com.evdealer.ev_dealer_management.user.model.Customer;
+import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
 import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
+import com.evdealer.ev_dealer_management.user.service.DealerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BookingService {
 
+    private final DealerService dealerService;
     private final CustomerRepository customerRepository;
     private final BookingRepository bookingRepository;
     private final SlotRepository slotRepository;
@@ -27,20 +30,23 @@ public class BookingService {
     @Transactional
     public BookingGetDto createBooking(BookingPostDto bookingPostDto) {
 
+        CustomerPostDto customerPostDto = new CustomerPostDto(bookingPostDto.customerName(), "", bookingPostDto.customerPhone(), "");
+
         Customer customer = customerRepository.findByPhone(bookingPostDto.customerPhone())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CUSTOMER_WITH_PHONE_NUMBER_NOT_EXIST, bookingPostDto.customerPhone()));
+                .orElse(dealerService.createCustomerIfNotExists(customerPostDto, Customer.class));
 
         Slot slot = slotRepository.findById(bookingPostDto.slotId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.SLOT_NOT_FOUND, bookingPostDto.slotId()));
 
         // check capacity
         int bookedCount = bookingRepository.countBySlot(slot);
-        if (bookedCount >= slot.getAmount()) {
+        if (bookedCount >= slot.getNumCustomers()) {
             throw new IllegalStateException("Slot is fully booked");
         }
 
         Booking booking = Booking.builder()
                 .slot(slot)
+                .customerName(customer.getFullName())
                 .customerPhone(customer.getPhone())
                 .build();
 

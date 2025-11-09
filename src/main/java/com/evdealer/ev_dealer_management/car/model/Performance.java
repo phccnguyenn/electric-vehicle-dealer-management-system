@@ -1,5 +1,7 @@
 package com.evdealer.ev_dealer_management.car.model;
 
+import com.evdealer.ev_dealer_management.car.model.enumeration.BatteryType;
+import com.evdealer.ev_dealer_management.car.model.enumeration.MotorType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.apache.commons.lang3.IntegerRange;
@@ -18,13 +20,13 @@ public class Performance {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "battery_id")
-    private Battery battery;
+    @Column(name = "battery_type")
+    @Enumerated(EnumType.STRING)
+    private BatteryType batteryType;
 
-    @ManyToOne
-    @JoinColumn(name = "motor_id")
-    private Motor motor;
+    @Column(name = "motor_type")
+    @Enumerated(EnumType.STRING)
+    private MotorType motorType;
 
     @Column(name = "range_miles")
     private Float rangeMiles;

@@ -6,6 +6,7 @@ import com.evdealer.ev_dealer_management.user.model.dto.account.UserPostDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.service.ManufacturerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
+@Tag(name = "Users", description = "Users management APIs")
 public class ManufacturerController {
 
     private final ManufacturerService manufacturerService;

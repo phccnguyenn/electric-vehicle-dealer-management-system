@@ -110,7 +110,7 @@ public class OrderController {
         List<OrderActivity> activities = orderActivityService.getActivities(orderId);
 
         List<OrderActivityDto> dto = activities.stream()
-                .map(a -> new OrderActivityDto(a.getId(), a.getStatus(), a.getChangedAt()))
+                .map(a -> new OrderActivityDto(a.getId(), a.getOrderStatus(), a.getChangedAt()))
                 .toList();
 
         OrderActivitiesResponse response = new OrderActivitiesResponse(orderId, dto);

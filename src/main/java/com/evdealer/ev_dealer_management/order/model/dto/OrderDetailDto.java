@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.order.model.dto;
 
-import com.evdealer.ev_dealer_management.car.model.dto.car.CarInfoGetDto;
+import com.evdealer.ev_dealer_management.car.model.dto.details.CarInfoGetDto;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
@@ -37,7 +37,7 @@ public record OrderDetailDto(
 
         return new OrderDetailDto(
                 order.getId(),
-                CarInfoGetDto.fromModel(order.getCar()),
+                CarInfoGetDto.fromModel(order.getCarDetail()),
                 UserDetailGetDto.fromModel(order.getStaff()),
                 CustomerDetailGetDto.fromModel(order.getCustomer()),
                 order.getTotalAmount(),

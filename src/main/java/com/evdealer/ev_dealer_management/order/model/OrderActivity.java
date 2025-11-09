@@ -24,7 +24,8 @@ public class OrderActivity {
     private Order order;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    @Column(name = "order_status")
+    private OrderStatus orderStatus;
 
     private LocalDateTime changedAt;
 

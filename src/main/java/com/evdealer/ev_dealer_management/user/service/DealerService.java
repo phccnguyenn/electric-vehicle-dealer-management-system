@@ -8,9 +8,11 @@ import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailG
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerInfoUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -30,6 +33,19 @@ public class DealerService extends UserService {
                          CustomerRepository customerRepository) {
         super(passwordEncoder, userRepository);
         this.customerRepository = customerRepository;
+    }
+
+    //
+    @Transactional
+    public User getDealerStaffByDealerManager(Long managerId, Long dealerStaffId) {
+        User dealerManager = userRepository.findByIdWithChildren(managerId)
+                .orElseThrow(() -> new RuntimeException("Dealer Manager not found"));
+
+        return dealerManager.getChildren().stream()
+                .filter(child -> Objects.equals(child.getId(), dealerStaffId)
+                        && child.getRole().equals(RoleType.DEALER_STAFF))
+                .findFirst()
+                .orElse(null);
     }
 
     public CustomerListDto getAllCustomersByCurrentDealer(int pageNo, int pageSize) {
@@ -67,14 +83,20 @@ public class DealerService extends UserService {
 
     }
 
-    public CustomerDetailGetDto createCustomerIfNotExists(CustomerPostDto customerPostDto) {
+    public <T> T createCustomerIfNotExists(CustomerPostDto customerPostDto, Class<T> type) {
 
         User currentDealer = getCurrentUser();
         Optional<Customer> existingCustomer =
                 customerRepository.findByPhoneAndDealer(customerPostDto.phone(), currentDealer);
 
         if (existingCustomer.isPresent()) {
-            return CustomerDetailGetDto.fromModel(existingCustomer.get());
+            if (type.equals(Customer.class)) {
+                return type.cast(existingCustomer.get()); // return entity
+            } else if (type.equals(CustomerDetailGetDto.class)) {
+                return type.cast(CustomerDetailGetDto.fromModel(existingCustomer.get())); // return DTO
+            } else {
+                throw new IllegalArgumentException("Unsupported return type: " + type);
+            }
         }
 
         validateCustomerEmail(customerPostDto.email());
@@ -91,7 +113,13 @@ public class DealerService extends UserService {
         currentDealer.getCustomers().add(savedCustomer);
         userRepository.save(currentDealer);
 
-        return CustomerDetailGetDto.fromModel(savedCustomer);
+        if (type.equals(Customer.class)) {
+            return type.cast(savedCustomer); // return entity
+        } else if (type.equals(CustomerDetailGetDto.class)) {
+            return type.cast(CustomerDetailGetDto.fromModel(savedCustomer)); // return DTO
+        } else {
+            throw new IllegalArgumentException("Unsupported return type: " + type);
+        }
     }
 
     public void updateCustomerInfoByCustomerIdOrPhoneNumber(

@@ -1,5 +1,6 @@
 package com.evdealer.ev_dealer_management.testdrive.model;
 
+import com.evdealer.ev_dealer_management.car.model.CarModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +21,11 @@ public class Booking {
     @JoinColumn(name = "slot_id", nullable = false)
     private Slot slot;
 
+    @Column(name = "customer_name", nullable = false)
+    private String customerName;
+
     @Column(name = "customer_phone", nullable = false, length = 20)
     private String customerPhone;
+
 
 }

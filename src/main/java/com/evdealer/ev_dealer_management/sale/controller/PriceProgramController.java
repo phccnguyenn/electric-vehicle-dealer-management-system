@@ -3,6 +3,7 @@ package com.evdealer.ev_dealer_management.sale.controller;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramGetDto;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramPostDto;
 import com.evdealer.ev_dealer_management.sale.service.PriceProgramService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/price-program")
 @RequiredArgsConstructor
+@Tag(name = "Price Program", description = "Price Program APIs")
 public class PriceProgramController {
 
     private final PriceProgramService priceProgramService;

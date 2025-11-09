@@ -35,4 +35,5 @@ public class Payment extends AbstractAuditEntity {
 
     @Enumerated(EnumType.STRING)
     private PaymentType type; // CASH, BANK_TRANSFER, etc.
+
 }

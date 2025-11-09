@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.testdrive.model;
 
-import com.evdealer.ev_dealer_management.car.model.Car;
+import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import com.evdealer.ev_dealer_management.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,18 +16,18 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Slot {
+public class Slot extends AbstractAuditEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "dealer_id", nullable = false)
-    private User dealer;
+    @JoinColumn(name = "dealer_staff_id", nullable = false)
+    private User dealerStaff;    // staff who is in charge of managing this slot
 
-    @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
+    @Column(name = "num_customers", nullable = false)
+    private Integer numCustomers;
 
     @Column(name = "start_time", nullable = false)
     private OffsetDateTime startTime;
@@ -35,11 +35,13 @@ public class Slot {
     @Column(name = "end_time", nullable = false)
     private OffsetDateTime endTime;
 
-    @Column(name = "amount", nullable = false)
-    private Integer amount;
-
     // One slot can have many bookings
     @OneToMany(mappedBy = "slot", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Booking> bookings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "slot")
+    @Builder.Default
+    private List<CarModelInSlot> carModelInSlots = new ArrayList<>();
 
 }

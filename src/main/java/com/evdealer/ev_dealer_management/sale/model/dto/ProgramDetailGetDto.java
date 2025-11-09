@@ -16,7 +16,7 @@ public record ProgramDetailGetDto(
         return new ProgramDetailGetDto (
                 model.getId(),
                 model.getPriceProgram().getId(),
-                model.getCar().getCarName(),
+                model.getCarDetail().getCarName(),
                 model.getMinPrice(),
                 model.getSuggestedPrice(),
                 model.getMaxPrice()

@@ -30,7 +30,7 @@ public class OrderActivityService {
 
         OrderActivity activity = OrderActivity.builder()
                 .order(order)
-                .status(newStatus)
+                .orderStatus(newStatus)
                 .changedAt(LocalDateTime.now())
                 .build();
 
