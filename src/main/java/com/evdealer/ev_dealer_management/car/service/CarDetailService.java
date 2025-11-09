@@ -3,6 +3,7 @@ package com.evdealer.ev_dealer_management.car.service;
 import com.evdealer.ev_dealer_management.car.model.*;
 import com.evdealer.ev_dealer_management.car.model.dto.details.*;
 import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
+import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,7 @@ public class CarDetailService {
     private final CarImageService carImageService;
     private final CarModelService carModelService;
     private final CarDetailRepository carDetailRepository;
+    private final CarModelRepository carModelRepository;
 
     public CarListGetDto getAllCars(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
@@ -90,16 +92,47 @@ public class CarDetailService {
         return CarDetailGetDto.fromModel(carDetailRepository.save(carDetail));
     }
 
+    @Transactional
     public void updatePartialCarByCarId(Long carId, CarPatchDto carPatchDto) {
 
         CarDetail carDetail = carDetailRepository.findById(carId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, carId));
 
-        if (carPatchDto.carName() != null && !carDetail.getCarName().equals(carPatchDto.carName())) {
-            carDetail.setCarName(carPatchDto.carName());
+        // Update carModelId
+        if (carPatchDto.carModelId() != null &&
+                (carDetail.getCarModel() == null || !carPatchDto.carModelId().equals(carDetail.getCarModel().getId()))) {
+
+            // Lấy CarModel mới
+            CarModel newCarModel = carModelRepository.findById(carPatchDto.carModelId())
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, carPatchDto.carModelId()));
+
+            // Xóa CarDetail khỏi CarModel cũ
+            CarModel oldCarModel = carDetail.getCarModel();
+            if (oldCarModel != null) {
+                oldCarModel.getCarDetails().remove(carDetail);
+                carModelRepository.save(oldCarModel); // phải save thủ công
+            }
+
+            // Thêm CarDetail vào CarModel mới
+            newCarModel.getCarDetails().add(carDetail);
+            carModelRepository.save(newCarModel); // phải save thủ công
+
+            // Cập nhật reference CarDetail
+            carDetail.setCarModel(newCarModel);
         }
 
-        carDetailRepository.save(carDetail);
+        // Các field khác
+        if (carPatchDto.carName() != null && !carPatchDto.carName().equals(carDetail.getCarName())) {
+            carDetail.setCarName(carPatchDto.carName());
+        }
+        if (carPatchDto.carStatus() != null && carPatchDto.carStatus() != carDetail.getCarStatus()) {
+            carDetail.setCarStatus(carPatchDto.carStatus());
+        }
+        if (carPatchDto.color() != null && !carPatchDto.color().equals(carDetail.getColor())) {
+            carDetail.setColor(carPatchDto.color());
+        }
+
+        carDetailRepository.save(carDetail); // save CarDetail
     }
 
     private CarListGetDto toCarListGetDto(Page<CarDetail> carPage) {
