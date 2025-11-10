@@ -4,6 +4,7 @@ import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public abstract class UserService {
 
     protected final PasswordEncoder passwordEncoder;
     protected final UserRepository userRepository;
+    protected final DealerHierarchyRepository dealerHierarchyRepository;
 
     public void changePassword(String oldPassword, String newPassword) {
 

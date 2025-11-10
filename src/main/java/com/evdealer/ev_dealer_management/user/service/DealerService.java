@@ -3,6 +3,7 @@ package com.evdealer.ev_dealer_management.user.service;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.Customer;
+import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerInfoUpdateDto;
@@ -10,6 +11,7 @@ import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
+import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
 import jakarta.transaction.Transactional;
@@ -30,8 +32,9 @@ public class DealerService extends UserService {
 
     public DealerService(PasswordEncoder passwordEncoder,
                          UserRepository userRepository,
-                         CustomerRepository customerRepository) {
-        super(passwordEncoder, userRepository);
+                         CustomerRepository customerRepository,
+                         DealerHierarchyRepository dealerHierarchyRepository) {
+        super(passwordEncoder, userRepository, dealerHierarchyRepository);
         this.customerRepository = customerRepository;
     }
 

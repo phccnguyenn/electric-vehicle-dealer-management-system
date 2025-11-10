@@ -6,12 +6,14 @@ import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.auth.model.Token;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
+import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
@@ -19,6 +21,7 @@ import com.evdealer.ev_dealer_management.common.utils.Constants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +40,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
@@ -44,18 +48,7 @@ public class AuthService {
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-
-    public AuthService(PasswordEncoder passwordEncoder,
-                       UserRepository userRepository,
-                       TokenRepository tokenRepository,
-                       JwtService jwtService,
-                       AuthenticationManager authenticationManager) {
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.tokenRepository = tokenRepository;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
-    }
+    private final DealerHierarchyRepository dealerHierarchyRepository;
 
     public UserInfoListDto getAllUser(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
@@ -163,6 +156,12 @@ public class AuthService {
         if (checkExistUsername(request.username()))
             throw new DuplicatedException(Constants.ErrorCode.USERNAME_ALREADY_EXIST, request.username());
 
+        DealerHierarchy dealerHierarchy = null;
+        if (request.role() == RoleType.DEALER_MANAGER) {
+            dealerHierarchy = dealerHierarchyRepository.findById(Long.valueOf(level.longValue()))
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_HIERARCHY_NOT_FOUND));
+        }
+
         User user = new User();
         user.setUsername(request.username());
         String hashPassword = passwordEncoder.encode(request.password());
@@ -171,7 +170,7 @@ public class AuthService {
         user.setEmail(request.email());
         user.setPhone(request.phone());
         user.setCity(request.city());
-        user.setLevel(level);
+        user.setDealerHierarchy(dealerHierarchy);
         boolean isActive = request.isActive() != null;
         user.setActive(isActive);
         user.setRole(request.role());

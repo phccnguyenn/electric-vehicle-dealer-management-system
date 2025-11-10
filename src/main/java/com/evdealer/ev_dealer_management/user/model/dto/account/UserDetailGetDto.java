@@ -24,7 +24,7 @@ public record UserDetailGetDto(
                 user.isActive(),
                 user.getRole(),
                 user.getCity(),
-                user.getLevel()
+                user.getDealerHierarchy() != null ? user.getDealerHierarchy().getLevelType() : null
         );
     }
 }

@@ -3,6 +3,7 @@ package com.evdealer.ev_dealer_management.user.service;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
 import com.evdealer.ev_dealer_management.common.exception.InvalidRoleException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
+import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.dto.account.*;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
@@ -22,8 +23,9 @@ import java.util.List;
 public class ManufacturerService extends UserService {
 
     public ManufacturerService(PasswordEncoder passwordEncoder,
-                               UserRepository userRepository) {
-        super(passwordEncoder, userRepository);
+                               UserRepository userRepository,
+                               DealerHierarchyRepository dealerHierarchyRepository) {
+        super(passwordEncoder, userRepository, dealerHierarchyRepository);
     }
 
     public UserInfoListDto getAllUsers(int pageNo, int pageSize) {
@@ -108,7 +110,7 @@ public class ManufacturerService extends UserService {
         userRepository.save(user);
     }
 
-    public void rankDealer(Long dealerId, int newLevel) {
+    public void rankDealer(Long dealerId, Integer newLevel) {
 
         User dealer = getDealerByDealerId(dealerId);
 
@@ -118,7 +120,9 @@ public class ManufacturerService extends UserService {
         if (!dealer.getRole().equals(RoleType.DEALER_MANAGER))
             throw new IllegalStateException("Only Dealer Manager can change rank.");
 
-        dealer.setLevel(newLevel);
+        DealerHierarchy dealerHierarchy = dealerHierarchyRepository.findById(newLevel.longValue())
+                        .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_HIERARCHY_NOT_FOUND));
+        dealer.setDealerHierarchy(dealerHierarchy);
         userRepository.save(dealer);
     }
 
@@ -169,8 +173,14 @@ public class ManufacturerService extends UserService {
         validateEmail(userPostDto.email());
         validatePhoneNumber(userPostDto.phone());
 
-        Integer level = (userPostDto.role().equals(RoleType.DEALER_MANAGER))
-                ? userPostDto.level() : null;
+        DealerHierarchy dealerHierarchy = dealerHierarchyRepository.findById(userPostDto.level().longValue())
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_HIERARCHY_NOT_FOUND));
+
+        DealerHierarchy mainDealerHierarchy = (userPostDto.role().equals(RoleType.DEALER_MANAGER))
+                ? dealerHierarchy : null;
+
+
+
 
         String hashedPassword = passwordEncoder.encode(userPostDto.password());
         User newUser = User.builder()
@@ -183,7 +193,7 @@ public class ManufacturerService extends UserService {
                 .city(userPostDto.city())
                 .isActive(userPostDto.isActive())
                 .role(userPostDto.role())
-                .level(level)
+                .dealerHierarchy(mainDealerHierarchy)
                 .build();
         return userRepository.save(newUser);
     }

@@ -28,13 +28,13 @@ public class ProgramDetail {
     @JoinColumn(name = "price_program_id")
     private PriceProgram priceProgram;
 
-    @Column(name = "min_price", precision = 15, scale = 2)
+    @Column(name = "min_sale_price", precision = 15, scale = 2)
     private BigDecimal minPrice;
 
-    @Column(name = "suggested_price", precision = 15, scale = 2)
+    @Column(name = "suggested_sale_price", precision = 15, scale = 2)
     private BigDecimal suggestedPrice;
 
-    @Column(name = "max_price", precision = 15, scale = 2)
+    @Column(name = "max_sale_price", precision = 15, scale = 2)
     private BigDecimal maxPrice;
 
 }

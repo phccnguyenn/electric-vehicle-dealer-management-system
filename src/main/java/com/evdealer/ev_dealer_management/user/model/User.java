@@ -38,6 +38,10 @@ public class User extends AbstractAuditEntity
     @JoinColumn(name = "parent_id")
     private User parent;
 
+    @ManyToOne
+    @JoinColumn(name = "dealer_hierarchy_id")
+    private DealerHierarchy dealerHierarchy;
+
     @Column(name = "city")
     private String city;
 
@@ -62,8 +66,8 @@ public class User extends AbstractAuditEntity
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-    @Column(name = "level")
-    private Integer level;
+//    @Column(name = "level")
+//    private Integer level;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<User> children = new ArrayList<>();

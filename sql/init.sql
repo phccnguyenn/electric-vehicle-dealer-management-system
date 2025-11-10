@@ -12,6 +12,7 @@ BEGIN
     CREATE TABLE dbo.users (
         user_id             BIGINT IDENTITY(1,1) PRIMARY KEY,
         parent_id           BIGINT NULL,
+        dealer_hierarchy_id BIGINT NULL,
         username            VARCHAR(100)  NOT NULL UNIQUE,
         hashed_password     VARCHAR(255)  NOT NULL,
         full_name           NVARCHAR(150) NOT NULL,
@@ -20,7 +21,6 @@ BEGIN
         is_active           BIT           NOT NULL DEFAULT 1,
         role                VARCHAR(50)   NULL,
         city                NVARCHAR(255) NULL,
-        level               INT,
         created_by          NVARCHAR(100) NULL,
         created_on          DATETIMEOFFSET NULL,
         last_modified_by    NVARCHAR(100) NULL,
@@ -520,5 +520,110 @@ BEGIN
         (5, N'Phạm Văn Dũng', N'0938456789'),
         (7, N'Đỗ Văn Kiên', N'0945678901'),
         (7, N'Lê Văn Thắng', N'0943456789');
+END;
+GO
+
+--========================== PRICE PROGRAM DOMAIN ==================================
+--========================== PRICE PROGRAM DOMAIN ==================================
+--========================== PRICE PROGRAM DOMAIN ==================================
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.dealer_hierarchy') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.dealer_hierarchy (
+        id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
+        dealer_id           BIGINT NULL,
+        level_type          INT NOT NULL,
+
+        CONSTRAINT fk_dealer_hierarchy_id
+            FOREIGN KEY (dealer_id)
+            REFERENCES dbo.users(user_id)
+    );
+END;
+GO
+
+ALTER TABLE dbo.dealer_hierarchy NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.dealer_hierarchy)
+BEGIN
+    INSERT INTO dbo.dealer_hierarchy (level_type)
+    VALUES (1), (2), (3);
+END;
+GO
+ALTER TABLE dbo.dealer_hierarchy CHECK CONSTRAINT ALL;
+
+-- ====== PRICE_PROGRAM TABLE ======
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.price_program') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.price_program (
+        id                      BIGINT IDENTITY(1,1) PRIMARY KEY,
+        dealer_hierarchy_id     BIGINT NULL,
+        start_day               DATETIMEOFFSET NOT NULL,
+        end_day                 DATETIMEOFFSET NOT NULL,
+        created_by              NVARCHAR(100) NULL,
+        last_modified_on        DATETIMEOFFSET NULL,
+        created_on              DATETIMEOFFSET DEFAULT GETDATE(),
+        last_modified_by        NVARCHAR(100) NULL
+
+        CONSTRAINT fk_price_program_dealer_hierarchy
+                    FOREIGN KEY (dealer_hierarchy_id)
+                    REFERENCES dbo.dealer_hierarchy(id)
+                    ON DELETE SET NULL
+                    ON UPDATE CASCADE
+    );
+END;
+GO
+
+-- ====== PROGRAM DETAIL TABLE ======
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.program_detail') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.program_detail (
+        id BIGINT               IDENTITY(1,1) PRIMARY KEY,
+        car_model_id            BIGINT NOT NULL,
+        price_program_id        BIGINT NOT NULL,
+        min_sale_price               DECIMAL(15,2) NULL,
+        suggested_sale_price         DECIMAL(15,2) NULL,
+        max_sale_price               DECIMAL(15,2) NULL,
+
+        CONSTRAINT fk_price_program_id
+            FOREIGN KEY (price_program_id)
+            REFERENCES dbo.price_program(id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+
+        CONSTRAINT fk_car_model_id
+            FOREIGN KEY (car_model_id)
+            REFERENCES dbo.car_model(id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+    );
+END;
+GO
+
+-- Insert sample Price Programs
+IF NOT EXISTS (SELECT 1 FROM dbo.price_program)
+BEGIN
+    INSERT INTO dbo.price_program (dealer_hierarchy_id, start_day, end_day, created_by)
+    VALUES
+    (1, '2025-11-05', '2025-12-31', 'EVD Administrator'),
+    (2, '2025-12-01', '2026-01-31', 'EVD Staff'),
+    (3, '2025-10-15', '2025-11-30', 'EVD Administrator');
+    END;
+GO
+
+-- Insert Program Details for each program
+IF NOT EXISTS (SELECT 1 FROM dbo.program_detail)
+BEGIN
+    INSERT INTO dbo.program_detail (car_model_id, price_program_id, min_sale_price, suggested_sale_price, max_sale_price)
+    VALUES
+    -- For Program 1
+    (4, 1, 750000000, 800000000, 875000000),
+    (3, 1, 1200000000, 1237500000, 1300000000),
+
+    -- For Program 2
+    (1, 2, 875000000, 925000000, 1000000000),
+    (5, 2, 1050000000, 1125000000, 1200000000),
+
+    -- For Program 3
+    (2, 3, 775000000, 850000000, 900000000),
+    (3, 3, 700000000, 737500000, 800000000);
 END;
 GO

@@ -23,7 +23,7 @@ public record UserProfileGetDto(
                 user.getRole() != null ? user.getRole().name() : null,
                 user.getCity(),
                 user.isActive(),
-                user.getLevel()
+                user.getDealerHierarchy().getLevelType()
         );
     }
 }
