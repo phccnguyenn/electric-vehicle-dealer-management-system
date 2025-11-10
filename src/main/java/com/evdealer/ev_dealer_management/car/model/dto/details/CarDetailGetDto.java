@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public record CarDetailGetDto (
         Long carDetailId,
-        CarModelInfoGetDto carModel,
+        String carModelName,
         String carName,
         DimensionDetailGetDto dimension,
         PerformanceDetailGetDto performanceDetailGetDto,
@@ -20,7 +20,7 @@ public record CarDetailGetDto (
     public static CarDetailGetDto fromModel(CarDetail carDetail) {
         return new CarDetailGetDto (
                 carDetail.getId(),
-                CarModelInfoGetDto.fromModel(carDetail.getCarModel()),
+                CarModelInfoGetDto.fromModel(carDetail.getCarModel()).carModelName(),
                 carDetail.getCarName(),
                 DimensionDetailGetDto.fromModel(carDetail.getDimension()),
                 PerformanceDetailGetDto.fromModel(carDetail.getPerformance()),
