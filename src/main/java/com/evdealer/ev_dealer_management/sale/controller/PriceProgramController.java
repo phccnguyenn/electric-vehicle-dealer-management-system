@@ -4,6 +4,7 @@ import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramGetDto;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramPostDto;
 import com.evdealer.ev_dealer_management.sale.service.PriceProgramService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,7 @@ public class PriceProgramController {
     }
 
     @PostMapping
-    public ResponseEntity<PriceProgramGetDto> create(@RequestBody PriceProgramPostDto dto) {
+    public ResponseEntity<PriceProgramGetDto> create(@Valid @RequestBody PriceProgramPostDto dto) {
         PriceProgramGetDto created = priceProgramService.createNewPriceProgram(dto);
         return ResponseEntity.ok(created);
     }
@@ -39,7 +40,7 @@ public class PriceProgramController {
     @PatchMapping("/{id}")
     public ResponseEntity<PriceProgramGetDto> updatePartialById(
             @PathVariable Long id,
-            @RequestBody PriceProgramPostDto dto) {
+            @Valid @RequestBody PriceProgramPostDto dto) {
         PriceProgramGetDto updated = priceProgramService.updatePartialById(id, dto);
         return ResponseEntity.ok(updated);
     }
