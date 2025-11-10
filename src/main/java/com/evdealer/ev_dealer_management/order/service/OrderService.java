@@ -66,6 +66,9 @@ public class OrderService {
         return OrderDetailDto.fromModel(order);
     }
 
+    public List<OrderFileDto> getOrderFilesByCustomerPhone(String phone) {
+        return orderRepository.findFileUrlsByCustomerPhone(phone);
+    }
     public OrderDetailDto updateOrder(Long id, OrderUpdateDto dto) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));

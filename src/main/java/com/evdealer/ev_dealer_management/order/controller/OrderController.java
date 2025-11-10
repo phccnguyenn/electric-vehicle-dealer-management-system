@@ -62,6 +62,13 @@ public class OrderController {
         return ResponseEntity.ok(updatedOrder);
     }
 
+    @GetMapping("/files")
+    public ResponseEntity<List<OrderFileDto>> getFilesByCustomerPhone(
+            @RequestParam String phone
+    ) {
+        return ResponseEntity.ok(orderService.getOrderFilesByCustomerPhone(phone));
+    }
+
     @Operation(summary = "Add payment to an order") // Nhân viên
     @PostMapping("/{id}/payments")
     public OrderDetailDto addPayment(@PathVariable Long id, @RequestBody PaymentDto paymentDto) {
