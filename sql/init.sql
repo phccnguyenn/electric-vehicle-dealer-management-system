@@ -531,12 +531,12 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.deale
 BEGIN
     CREATE TABLE dbo.dealer_hierarchy (
         id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
-        dealer_id           BIGINT NULL,
+        --dealer_id           BIGINT NULL,
         level_type          INT NOT NULL,
 
-        CONSTRAINT fk_dealer_hierarchy_id
-            FOREIGN KEY (dealer_id)
-            REFERENCES dbo.users(user_id)
+--        CONSTRAINT fk_dealer_hierarchy_id
+--            FOREIGN KEY (dealer_id)
+--            REFERENCES dbo.users(user_id)
     );
 END;
 GO
@@ -561,7 +561,7 @@ BEGIN
         created_by              NVARCHAR(100) NULL,
         last_modified_on        DATETIMEOFFSET NULL,
         created_on              DATETIMEOFFSET DEFAULT GETDATE(),
-        last_modified_by        NVARCHAR(100) NULL
+        last_modified_by        NVARCHAR(100) NULL,
 
         CONSTRAINT fk_price_program_dealer_hierarchy
                     FOREIGN KEY (dealer_hierarchy_id)
@@ -570,6 +570,17 @@ BEGIN
                     ON UPDATE CASCADE
     );
 END;
+GO
+
+-- Insert sample Price Programs
+IF NOT EXISTS (SELECT 1 FROM dbo.price_program)
+BEGIN
+    INSERT INTO dbo.price_program (dealer_hierarchy_id, start_day, end_day, created_by, created_on, last_modified_by, last_modified_on)
+    VALUES
+    (1, '2025-11-05', '2025-12-31', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (2, '2025-12-01', '2026-01-31', 'EVD Staff', GETDATE(), 'EVD Administrator', GETDATE()),
+    (3, '2025-10-15', '2025-11-30', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE());
+    END;
 GO
 
 -- ====== PROGRAM DETAIL TABLE ======
@@ -596,17 +607,6 @@ BEGIN
             ON UPDATE CASCADE
     );
 END;
-GO
-
--- Insert sample Price Programs
-IF NOT EXISTS (SELECT 1 FROM dbo.price_program)
-BEGIN
-    INSERT INTO dbo.price_program (dealer_hierarchy_id, start_day, end_day, created_by)
-    VALUES
-    (1, '2025-11-05', '2025-12-31', 'EVD Administrator'),
-    (2, '2025-12-01', '2026-01-31', 'EVD Staff'),
-    (3, '2025-10-15', '2025-11-30', 'EVD Administrator');
-    END;
 GO
 
 -- Insert Program Details for each program

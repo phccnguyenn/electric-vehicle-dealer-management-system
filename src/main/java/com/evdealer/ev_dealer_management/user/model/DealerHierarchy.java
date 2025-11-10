@@ -20,9 +20,9 @@ public class DealerHierarchy {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "dealer_id")
-    private User dealer;
+//    @ManyToOne
+//    @JoinColumn(name = "dealer_id")
+//    private User dealer;
 
     @NotNull
     @Min(value = 1, message = "Level must be at least 1")
