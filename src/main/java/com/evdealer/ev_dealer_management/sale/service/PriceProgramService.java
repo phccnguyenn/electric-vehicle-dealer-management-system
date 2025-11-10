@@ -38,7 +38,7 @@ public class PriceProgramService {
 
     public PriceProgramGetDto createNewPriceProgram(PriceProgramPostDto priceProgramPostDto) {
 
-        if (!validateDate(priceProgramPostDto.startDay(), priceProgramPostDto.endDay()))
+        if (!dateRangeValidation(priceProgramPostDto.startDay(), priceProgramPostDto.endDay()))
             throw new IllegalArgumentException("Start date must be before end date.");
 
         DealerHierarchy dealerHierarchy = dealerHierarchyRepository.findByLevelType(priceProgramPostDto.dealerHierarchy())
@@ -57,7 +57,7 @@ public class PriceProgramService {
         PriceProgram existing = priceProgramRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.PRICE_PROGRAM_NOT_FOUND));
 
-        if (dto.startDay() != null && dto.endDay() != null && !validateDate(dto.startDay(), dto.endDay())) {
+        if (dto.startDay() != null && dto.endDay() != null && !dateRangeValidation(dto.startDay(), dto.endDay())) {
             throw new IllegalArgumentException("Start date must be before end date.");
         }
 
@@ -84,7 +84,7 @@ public class PriceProgramService {
         priceProgramRepository.delete(priceProgram);
     }
 
-    private boolean validateDate(OffsetDateTime startDate, OffsetDateTime endDate) {
+    private boolean dateRangeValidation(OffsetDateTime startDate, OffsetDateTime endDate) {
         if (startDate == null || endDate == null)
             return false;
         return startDate.isBefore(endDate);

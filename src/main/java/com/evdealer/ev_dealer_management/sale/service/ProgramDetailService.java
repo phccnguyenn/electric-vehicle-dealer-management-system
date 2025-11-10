@@ -1,7 +1,9 @@
 package com.evdealer.ev_dealer_management.sale.service;
 
 import com.evdealer.ev_dealer_management.car.model.CarDetail;
+import com.evdealer.ev_dealer_management.car.model.CarModel;
 import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
+import com.evdealer.ev_dealer_management.car.service.CarModelService;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
 import com.evdealer.ev_dealer_management.sale.model.PriceProgram;
@@ -19,7 +21,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class ProgramDetailService {
 
-    private final CarDetailRepository carDetailRepository;
+    private final CarModelService carModelService;
     private final PriceProgramRepository priceProgramRepository;
     private final ProgramDetailRepository programDetailRepository;
 
@@ -31,11 +33,9 @@ public class ProgramDetailService {
         PriceProgram priceProgram = priceProgramRepository.findById(priceProgramId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.PRICE_PROGRAM_NOT_FOUND, priceProgramId));
 
-        CarDetail carDetail = carDetailRepository.findById(programDetailPostDto.carId())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, programDetailPostDto.carId()));
-
+        CarModel carModel = carModelService.getCarModelById(programDetailPostDto.carModelId(), CarModel.class);
         ProgramDetail programDetail = ProgramDetail.builder()
-                .carDetail(carDetail)
+                .carModel(carModel)
                 .priceProgram(priceProgram)
                 .minPrice(programDetailPostDto.minPrice())
                 .maxPrice(programDetailPostDto.maxPrice())
@@ -57,10 +57,9 @@ public class ProgramDetailService {
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.PROGRAM_DETAIL_NOT_FOUND, detailId));
 
         // Optional: update car if ID is provided
-        if (updateDto.carId() != null) {
-            CarDetail carDetail = carDetailRepository.findById(updateDto.carId())
-                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, updateDto.carId()));
-            existingDetail.setCarDetail(carDetail);
+        if (updateDto.carModelId() != null) {
+            CarModel carModel = carModelService.getCarModelById(updateDto.carModelId(), CarModel.class);
+            existingDetail.setCarModel(carModel);
         }
 
         // Update fields

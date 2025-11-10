@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public record ProgramDetailGetDto(
         Long id,
         Long priceProgramId,
-        String carName,
+        String carModelName,
         BigDecimal minPrice,
         BigDecimal suggestedPrice,
         BigDecimal maxPrice
@@ -16,7 +16,7 @@ public record ProgramDetailGetDto(
         return new ProgramDetailGetDto (
                 model.getId(),
                 model.getPriceProgram().getId(),
-                model.getCarDetail().getCarName(),
+                model.getCarModel().getCarModelName(),
                 model.getMinPrice(),
                 model.getSuggestedPrice(),
                 model.getMaxPrice()

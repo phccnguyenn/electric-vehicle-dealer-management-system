@@ -69,6 +69,10 @@ END;
 
 
 
+--========================== CAR DOMAIN ==================================
+--========================== CAR DOMAIN ==================================
+--========================== CAR DOMAIN ==================================
+
 -- /* ============== dimension ========================= */
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.dimension') AND type = 'U')
 BEGIN
@@ -87,7 +91,6 @@ CREATE TABLE dbo.dimension (
 );
 END;
 
--- /* ============== dimension =========================== */
 IF NOT EXISTS (SELECT 1 FROM dbo.dimension)
 BEGIN
     INSERT INTO dbo.dimension (seat_number, weight_lbs, ground_clearance_in, width_folded_in, width_extended_in, height_in, length_mm, length_in, wheels_size_cm)
@@ -154,7 +157,6 @@ BEGIN
     -- Luxury LX
     ('STANDARD', 'PERMANENT_MAGNET', 300, 6.8, 160, 1200);
 END;
-
 
 -- /* ============== car model =========================== */
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.car_model') AND type = 'U')
@@ -340,3 +342,9 @@ BEGIN
     (10, 'yellow_banana_intorior_03.png', '/uploads/thumbnail/image/yellow_banana_intorior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_03.png');
 
 END;
+
+
+
+--========================== CAR DOMAIN ==================================
+--========================== CAR DOMAIN ==================================
+--========================== CAR DOMAIN ==================================

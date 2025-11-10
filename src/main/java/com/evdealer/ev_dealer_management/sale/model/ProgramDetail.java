@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.sale.model;
 
 import com.evdealer.ev_dealer_management.car.model.CarDetail;
+import com.evdealer.ev_dealer_management.car.model.CarModel;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,8 +21,8 @@ public class ProgramDetail {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "car_id")
-    private CarDetail carDetail;
+    @JoinColumn(name = "car_model_id")
+    private CarModel carModel;
 
     @ManyToOne
     @JoinColumn(name = "price_program_id")
