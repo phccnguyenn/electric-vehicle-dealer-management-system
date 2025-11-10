@@ -82,9 +82,11 @@ public class SlotService {
                 .endTime(slotPostDto.endTime())
                 .build();
 
-        CarModelInSlot carModelInSlot = carModelInSlotService.createCarModelInSlot(slot, slotPostDto.carModelInSlotPostDto());
-        slot.getCarModelInSlots().add(carModelInSlot);
-        return SlotDetailsGetDto.fromModel(slotRepository.save(slot));
+        Slot savedSlot = slotRepository.save(slot);
+
+        CarModelInSlot carModelInSlot = carModelInSlotService.createCarModelInSlot(savedSlot, slotPostDto.carModelInSlotPostDto());
+        savedSlot.getCarModelInSlots().add(carModelInSlot);
+        return SlotDetailsGetDto.fromModel(slotRepository.save(savedSlot));
     }
 
     public SlotDetailsGetDto updateSlot(Long slotId, SlotUpdateDto slotUpdateDto) {

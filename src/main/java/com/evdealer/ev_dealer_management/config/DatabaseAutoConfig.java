@@ -1,5 +1,6 @@
 package com.evdealer.ev_dealer_management.config;
 
+import com.evdealer.ev_dealer_management.user.model.User;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +49,9 @@ public class DatabaseAutoConfig {
                 return Optional.empty();
             }
 
-            return Optional.of(authentication.getName());
+            User userDetails = (User) authentication.getPrincipal();
+            //return Optional.of(authentication.getName());
+            return  Optional.of(userDetails.getFullName());
         };
     }
 

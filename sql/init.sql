@@ -27,7 +27,7 @@ BEGIN
         last_modified_on    DATETIMEOFFSET NULL
     );
 END;
-
+GO
 
 
 --========================== tokens ==================================
@@ -47,7 +47,7 @@ BEGIN
             ON UPDATE CASCADE
     );
 END;
-
+GO
 
 
 --========================== customer ==================================
@@ -63,10 +63,56 @@ BEGIN
         created_by          NVARCHAR(100) NULL,
         created_on          DATETIMEOFFSET NULL,
         last_modified_by    NVARCHAR(100) NULL,
-        last_modified_on    DATETIMEOFFSET NULL
+        last_modified_on    DATETIMEOFFSET NULL,
+
+        CONSTRAINT FK_dealer_id FOREIGN KEY (dealer_id)
+                    REFERENCES dbo.users(user_id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE
     );
 END;
+GO
 
+ALTER TABLE dbo.customer NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.customer)
+BEGIN
+INSERT INTO dbo.customer (dealer_id, full_name, email, phone, address, created_by, created_on, last_modified_by, last_modified_on)
+VALUES
+-- TP.HCM
+(3, N'Nguyễn Thị Mai', 'mai.nguyen@example.com', '0901234567', N'12 Lê Lợi, Quận 1, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Trần Văn Hưng', 'hung.tran@example.com', '0902345678', N'34 Nguyễn Huệ, Quận 1, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Lê Thị Hồng', 'hong.le@example.com', '0903456789', N'56 Hai Bà Trưng, Quận 3, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Phạm Văn Nam', 'nam.pham@example.com', '0904567890', N'78 Võ Thị Sáu, Quận 3, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Đặng Thị Phương', 'phuong.dang@example.com', '0905678901', N'90 Cách Mạng Tháng 8, Quận 10, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Hoàng Văn Tuấn', 'tuan.hoang@example.com', '0906789012', N'123 Lý Thường Kiệt, Quận 10, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Ngô Thị Lan', 'lan.ngo@example.com', '0907890123', N'456 Trường Chinh, Tân Bình, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Võ Văn Cường', 'cuong.vo@example.com', '0908901234', N'789 Hoàng Văn Thụ, Tân Bình, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Bùi Thị Hạnh', 'hanh.bui@example.com', '0910012345', N'321 Phan Xích Long, Phú Nhuận, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Trịnh Văn Long', 'long.trinh@example.com', '0911123456', N'654 Nguyễn Văn Trỗi, Phú Nhuận, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+
+-- HN
+(4, N'Nguyễn Văn Tiến', 'tien.nguyen@example.com', '0912345678', N'123 Lê Duẩn, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(4, N'Trần Thị Lan', 'lan.tran@example.com', '0987654321', N'456 Nguyễn Trãi, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(4, N'Lê Minh Tuấn', 'tuan.le@example.com', '0911223344', N'789 Phạm Hùng, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(4, N'Phạm Thị Hương', 'huong.pham@example.com', '0999887766', N'321 Trần Hưng Đạo, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(4, N'Đỗ Văn Quang', 'quang.do@example.com', '0955667788', N'654 Hoàng Hoa Thám, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+
+-- Quy Nhơn
+(7, N'Nguyễn Thị Thu', 'thu.nguyen@example.com', '0935123456', N'12 Nguyễn Tất Thành, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Trần Văn Hải', 'hai.tran@example.com', '0936234567', N'34 Trần Hưng Đạo, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Lê Thị Mỹ', 'my.le@example.com', '0937345678', N'56 Lý Thường Kiệt, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Phạm Văn Dũng', 'dung.pham@example.com', '0938456789', N'78 Nguyễn Huệ, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Đặng Thị Kim', 'kim.dang@example.com', '0939567890', N'90 Hai Bà Trưng, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+
+-- Hải Phòng
+(10, N'Nguyễn Văn Hòa', 'hoa.nguyen@example.com', '0941234567', N'12 Điện Biên Phủ, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(10, N'Trần Thị Liên', 'lien.tran@example.com', '0942345678', N'34 Trần Phú, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(10, N'Lê Văn Thắng', 'thang.le@example.com', '0943456789', N'56 Lạch Tray, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(10, N'Phạm Thị Mai', 'mai.pham@example.com', '0944567890', N'78 Tô Hiệu, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(10, N'Đỗ Văn Kiên', 'kien.do@example.com', '0945678901', N'90 Cầu Đất, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET());
+END;
+ALTER TABLE dbo.customer CHECK CONSTRAINT ALL;
+GO
 
 
 --========================== CAR DOMAIN ==================================
@@ -90,6 +136,7 @@ CREATE TABLE dbo.dimension (
 
 );
 END;
+GO
 
 IF NOT EXISTS (SELECT 1 FROM dbo.dimension)
 BEGIN
@@ -116,6 +163,7 @@ BEGIN
     -- Luxury LX
     (5, 5000, 5.5, 74, 76, 60, 5000, 197, 65);
 END;
+GO
 
 -- /* ============== performances ======================= */
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.performance') AND type = 'U')
@@ -131,6 +179,7 @@ CREATE TABLE dbo.performance (
     towing_lbs          FLOAT NOT NULL
 );
 END;
+GO
 
 IF NOT EXISTS (SELECT 1 FROM dbo.performance)
 BEGIN
@@ -157,6 +206,7 @@ BEGIN
     -- Luxury LX
     ('STANDARD', 'PERMANENT_MAGNET', 300, 6.8, 160, 1200);
 END;
+GO
 
 -- /* ============== car model =========================== */
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.car_model') AND type = 'U')
@@ -166,6 +216,7 @@ CREATE TABLE dbo.car_model (
     car_model_type         NVARCHAR(30) NOT NULL
 );
 END;
+GO
 
 IF NOT EXISTS (SELECT 1 FROM dbo.car_model)
 BEGIN
@@ -173,12 +224,13 @@ BEGIN
         car_model_type
     )
     VALUES
-    ('TESLA_MODEL_3'),
-    ('TESLA_MODEL_Y'),
-    ('TESLA_MODEL_S'),
-    ('TESLA_MODEL_X'),
-    ('TESLA_MODEL_Z');
+    (N'TESLA_MODEL_3'),
+    (N'TESLA_MODEL_Y'),
+    (N'TESLA_MODEL_S'),
+    (N'TESLA_MODEL_X'),
+    (N'TESLA_MODEL_Z');
 END;
+GO
 
 -- /* ============== car_detail ================================ */
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.car_detail') AND type = 'U')
@@ -215,6 +267,7 @@ CREATE TABLE dbo.car_detail (
         ON UPDATE NO ACTION ON DELETE SET NULL
 );
 END;
+GO
 
 IF NOT EXISTS (SELECT 1 FROM dbo.car_detail)
 BEGIN
@@ -242,6 +295,7 @@ BEGIN
     (5, 4, 4, 'Sports Car SX', 'TEST_DRIVE_ONLY', N'Vàng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
     (5, 5, 5, 'Luxury LX', 'TEST_DRIVE_ONLY', N'Vàng Nhạt', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE());
 END;
+GO
 
 -- /* ==============  car_image ========================== */
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.car_image') AND type = 'U')
@@ -258,6 +312,7 @@ CREATE TABLE dbo.car_image (
         ON UPDATE NO ACTION ON DELETE CASCADE
 );
 END;
+GO
 
 -- =================== car_image ===================
 IF NOT EXISTS (SELECT 1 FROM dbo.car_image)
@@ -342,9 +397,128 @@ BEGIN
     (10, 'yellow_banana_intorior_03.png', '/uploads/thumbnail/image/yellow_banana_intorior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_03.png');
 
 END;
+GO
+
+
+--========================== TEST DRIVING DOMAIN ==================================
+--========================== TEST DRIVING DOMAIN ==================================
+--========================== TEST DRIVING DOMAIN ==================================
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.slot') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.slot (
+        id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
+        dealer_staff_id     BIGINT NOT NULL,
+        num_customers       INT NOT NULL,
+        start_time          DATETIMEOFFSET NOT NULL,
+        end_time            DATETIMEOFFSET NOT NULL,
+        created_by            NVARCHAR(100) NOT NULL,
+        created_on            DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+        last_modified_by      NVARCHAR(100) NOT NULL,
+        last_modified_on      DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+
+        CONSTRAINT fk_slot_dealer_staff_id
+            FOREIGN KEY (dealer_staff_id)
+            REFERENCES dbo.users(user_id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+    );
+END;
+GO
+
+
+ALTER TABLE dbo.slot NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.slot)
+BEGIN
+    INSERT INTO dbo.slot (dealer_staff_id, num_customers, start_time, end_time, created_by, created_on, last_modified_by, last_modified_on) VALUES
+    (4, 4, '2025-11-06T08:00:00+07:00', '2025-11-06T09:00:00+07:00', N'Đại lý Sài Gòn', GETDATE(), N'Đại lý Sài Gòn', GETDATE()),
+    (4, 2, '2025-11-06T09:30:00+07:00', '2025-11-06T10:30:00+07:00', N'Đại lý Sài Gòn', GETDATE(), N'Đại lý Sài Gòn', GETDATE()),
+    (6, 4, '2025-11-06T13:00:00+07:00', '2025-11-06T14:00:00+07:00', N'Đại lý Hà Nội', GETDATE(), N'Đại lý Hà Nội', GETDATE()),
+    (6, 4, '2025-11-15T13:00:00+07:00', '2025-11-16T14:00:00+07:00', N'Đại lý Hà Nội', GETDATE(), N'Đại lý Hà Nội', GETDATE()),
+    (8, 3, '2025-11-07T10:00:00+07:00', '2025-11-07T11:00:00+07:00', N'Đại lý Quy Nhơn', GETDATE(), N'Đại lý Quy Nhơn', GETDATE()),
+    (9, 5, '2025-11-07T15:00:00+07:00', '2025-11-07T16:00:00+07:00', N'Đại lý Quy Nhơn', GETDATE(), N'Đại lý Quy Nhơn', GETDATE()),
+    (11, 3, '2025-11-08T08:30:00+07:00', '2025-11-08T09:30:00+07:00', N'Đại lý Hải Phòng', GETDATE(), N'Đại lý Hải Phòng', GETDATE());
+END;
+GO
+ALTER TABLE dbo.slot CHECK CONSTRAINT ALL;
 
 
 
---========================== CAR DOMAIN ==================================
---========================== CAR DOMAIN ==================================
---========================== CAR DOMAIN ==================================
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.car_model_in_slot') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.car_model_in_slot (
+        id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
+        slot_id             BIGINT NOT NULL,
+        car_model_id        BIGINT NOT NULL,
+        max_trial_car       INT NOT NULL,
+
+        CONSTRAINT fk_car_model_in_slot_slot_id
+            FOREIGN KEY (slot_id)
+            REFERENCES dbo.slot(id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE,
+
+        CONSTRAINT fk_car_model_in_slot_car_model_id
+            FOREIGN KEY (car_model_id)
+            REFERENCES dbo.car_model(id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.car_model_in_slot)
+BEGIN
+    INSERT INTO dbo.car_model_in_slot (slot_id, car_model_id, max_trial_car)
+    VALUES
+        (1, 4, 3),
+        (2, 2, 2),
+        (3, 5, 4),
+        (4, 5, 3),
+        (5, 2, 2),
+        (6, 4, 2),
+        (7, 2, 3);
+END;
+GO
+
+
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.booking') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.booking (
+        id              BIGINT IDENTITY(1,1) PRIMARY KEY,
+        slot_id         BIGINT NOT NULL,
+        customer_name   NVARCHAR(50) NOT NULL,
+        customer_phone  NVARCHAR(10) NOT NULL,
+
+        CONSTRAINT fk_booking_slot
+            FOREIGN KEY (slot_id)
+            REFERENCES dbo.slot(id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.booking)
+BEGIN
+    -- 5 6 QN
+    -- 7 HP
+    INSERT INTO dbo.booking (slot_id, customer_name, customer_phone)
+        VALUES
+        (1, N'Nguyễn Thị Mai', N'0901234567'),
+        (1, N'Ngô Thị Lan', N'0907890123'),
+        (2, N'Hoàng Văn Tuấn', N'0906789012'),
+        (3, N'Võ Văn Cường', N'0908901234'),
+        (4, N'Nguyễn Văn Tiến', N'0912345678'),
+        (4, N'Lê Minh Tuấn', N'0911223344'),
+        (3, N'Phạm Thị Hương', N'0999887766'),
+        (3, N'Đỗ Văn Quang', N'0955667788'),
+        (7, N'Trần Thị Liên', N'0942345678'),
+        (5, N'Nguyễn Thị Thu', N'0935123456'),
+        (6, N'Lê Thị Mỹ', N'0937345678'),
+        (5, N'Phạm Văn Dũng', N'0938456789'),
+        (7, N'Đỗ Văn Kiên', N'0945678901'),
+        (7, N'Lê Văn Thắng', N'0943456789');
+END;
+GO

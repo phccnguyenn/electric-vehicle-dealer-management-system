@@ -65,6 +65,7 @@ public class DataInitializer implements CommandLineRunner {
                 .level(1)
                 .build());
 
+        // 4
         requests.add(RegisterRequest.builder()
                 .username("sg.dealer.staff001")
                 .password("00000")
@@ -91,6 +92,7 @@ public class DataInitializer implements CommandLineRunner {
                 .parentPhone(null)
                 .build());
 
+        // 6
         requests.add(RegisterRequest.builder()
                 .username("hn.dealer.staff001")
                 .password("00000")
