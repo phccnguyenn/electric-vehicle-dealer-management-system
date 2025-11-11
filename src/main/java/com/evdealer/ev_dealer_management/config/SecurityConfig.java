@@ -119,7 +119,7 @@ public class SecurityConfig {
     @Order(3)
     public SecurityFilterChain stockDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/v1/inventory/**")
+                .securityMatcher("/api/v1/warehouse-car/**")
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -128,7 +128,7 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                         // create new stock for specific Dealer
-                                    .requestMatchers("/api/v1/inventory/admin/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers("/api/v1/warehouse-car/admin/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())

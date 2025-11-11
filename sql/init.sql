@@ -243,7 +243,7 @@ CREATE TABLE dbo.car_detail (
 
     car_name            NVARCHAR(255) NOT NULL,
     car_status          NVARCHAR(255) NOT NULL,
-    color               NVARCHAR(10) NOT NULL,
+    color               NVARCHAR(100) NOT NULL,
 
 	created_by            NVARCHAR(100) NOT NULL,
     created_on            DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
@@ -293,7 +293,17 @@ BEGIN
     (3, 2, 2, 'Van VX', 'TEST_DRIVE_ONLY', N'Đỏ', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
     (4, 3, 3, 'Convertible CVX', 'FOR_SALE', N'Trắng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
     (5, 4, 4, 'Sports Car SX', 'TEST_DRIVE_ONLY', N'Vàng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (5, 5, 5, 'Luxury LX', 'TEST_DRIVE_ONLY', N'Vàng Nhạt', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE());
+    (5, 5, 5, 'Luxury LX', 'TEST_DRIVE_ONLY', N'Vàng Nhạt', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (2, 3, 1, 'EcoCity S', 'FOR_SALE', N'Nâu', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (4, 2, 3, 'Speedster GT', 'FOR_SALE', N'Xanh Lá', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (1, 1, 2, 'Comfort XL', 'TEST_DRIVE_ONLY', N'Xám Bạc', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (3, 4, 2, 'Urban X', 'FOR_SALE', N'Xanh Dương Đậm', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (2, 2, 5, 'Traveler Z', 'TEST_DRIVE_ONLY', N'Đen Bóng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (6, 9, 1, 'EcoLite A1', 'SOLD_OUT', N'Trắng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (7, 6, 2, 'SpeedMax R', 'TEST_DRIVE_ONLY', N'Cam Vàng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (9, 7, 3, 'Comfort Plus', 'FOR_SALE', N'Bạc Sáng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (10, 10, 4, 'Urban X2', 'TEST_DRIVE_ONLY', N'Đen Bóng', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (8, 9, 5, 'Traveler Z', 'TEST_DRIVE_ONLY', N'Xanh Dương Nhạt', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE());
 END;
 GO
 
@@ -394,8 +404,77 @@ BEGIN
     (10, 'yellow_banana_02.png', '/uploads/thumbnail/image/yellow_banana_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_02.png'),
     (10, 'yellow_banana_intorior_01.png', '/uploads/thumbnail/image/yellow_banana_intorior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_01.png'),
     (10, 'yellow_banana_intorior_02.png', '/uploads/thumbnail/image/yellow_banana_intorior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_02.png'),
-    (10, 'yellow_banana_intorior_03.png', '/uploads/thumbnail/image/yellow_banana_intorior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_03.png');
+    (10, 'yellow_banana_intorior_03.png', '/uploads/thumbnail/image/yellow_banana_intorior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_03.png'),
 
+    (11, 'brown_01.png', '/uploads/thumbnail/image/brown_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown_01.png'),
+    (11, 'brown_02.png', '/uploads/thumbnail/image/brown_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown_02.png'),
+    (11, 'brown_03.png', '/uploads/thumbnail/image/brown_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown_03.png'),
+    (11, 'brown-interior-01.png', '/uploads/thumbnail/image/brown-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown-interior-01.png'),
+    (11, 'brown-interior-02.png', '/uploads/thumbnail/image/brown-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown-interior-02.png'),
+    (11, 'brown-interior-03.png', '/uploads/thumbnail/image/brown-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown-interior-03.png'),
+
+    (12, 'green-01.png', '/uploads/thumbnail/image/green-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-01.png'),
+    (12, 'green-02.png', '/uploads/thumbnail/image/green-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-02.png'),
+    (12, 'green-03.png', '/uploads/thumbnail/image/green-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-03.png'),
+    (12, 'green-interior-01.png', '/uploads/thumbnail/image/green-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-interior-01.png'),
+    (12, 'green-interior-02.png', '/uploads/thumbnail/image/green-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-interior-02.png'),
+    (12, 'green-interior-03.png', '/uploads/thumbnail/image/green-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-interior-03.png'),
+
+    (13, 'grey-01.png', '/uploads/thumbnail/image/grey-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-01.png'),
+    (13, 'grey-02.png', '/uploads/thumbnail/image/grey-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-02.png'),
+    (13, 'grey-03.png', '/uploads/thumbnail/image/grey-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-03.png'),
+    (13, 'grey-interior-01.png', '/uploads/thumbnail/image/grey-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-interior-01.png'),
+    (13, 'grey-interior-02.png', '/uploads/thumbnail/image/grey-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-interior-02.png'),
+    (13, 'grey-interior-03.png', '/uploads/thumbnail/image/grey-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-interior-03.png'),
+
+    (14, 'blue-01.png', '/uploads/thumbnail/image/blue-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-01.png'),
+    (14, 'blue-02.png', '/uploads/thumbnail/image/blue-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-02.png'),
+    (14, 'blue-03.png', '/uploads/thumbnail/image/blue-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-03.png'),
+    (14, 'blue-interior-01.png', '/uploads/thumbnail/image/blue-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-interior-01.png'),
+    (14, 'blue-interior-02.png', '/uploads/thumbnail/image/blue-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-interior-02.png'),
+    (14, 'blue-interior-03.png', '/uploads/thumbnail/image/blue-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-interior-03.png'),
+
+    (15, 'black-01.png', '/uploads/thumbnail/image/black-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-01.png'),
+    (15, 'black-02.png', '/uploads/thumbnail/image/black-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-02.png'),
+    (15, 'black-03.png', '/uploads/thumbnail/image/black-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-03.png'),
+    (15, 'black-interior-01.png', '/uploads/thumbnail/image/black-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-interior-01.png'),
+    (15, 'black-interior-02.png', '/uploads/thumbnail/image/black-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-interior-02.png'),
+    (15, 'black-interior-03.png', '/uploads/thumbnail/image/black-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-interior-03.png'),
+
+    (16, 'white-01.png', '/uploads/thumbnail/image/white-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-01.png'),
+    (16, 'white-02.png', '/uploads/thumbnail/image/white-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-02.png'),
+    (16, 'white-03.png', '/uploads/thumbnail/image/white-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-03.png'),
+    (16, 'white-interior-01.png', '/uploads/thumbnail/image/white-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-interior-01.png'),
+    (16, 'white-interior-02.png', '/uploads/thumbnail/image/white-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-interior-02.png'),
+    (16, 'white-interior-03.png', '/uploads/thumbnail/image/white-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-interior-03.png'),
+
+    (17, 'Orange-01.png', '/uploads/thumbnail/image/Orange-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-01.png'),
+    (17, 'Orange-02.png', '/uploads/thumbnail/image/Orange-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-02.png'),
+    (17, 'Orange-03.png', '/uploads/thumbnail/image/Orange-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-03.png'),
+    (17, 'Orange-interior-01.png', '/uploads/thumbnail/image/Orange-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-interior-01.png'),
+    (17, 'Orange-interior-02.png', '/uploads/thumbnail/image/Orange-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-interior-02.png'),
+    (17, 'Orange-interior-03.png', '/uploads/thumbnail/image/Orange-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-interior-03.png'),
+
+    (18, 'CopperMist-01.png', '/uploads/thumbnail/image/CopperMist-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-01.png'),
+    (18, 'CopperMist-02.png', '/uploads/thumbnail/image/CopperMist-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-02.png'),
+    (18, 'CopperMist-03.png', '/uploads/thumbnail/image/CopperMist-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-03.png'),
+    (18, 'CopperMist-interior-01.png', '/uploads/thumbnail/image/CopperMist-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-01.png'),
+    (18, 'CopperMist-interior-02.png', '/uploads/thumbnail/image/CopperMist-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-02.png'),
+    (18, 'CopperMist-interior-03.png', '/uploads/thumbnail/image/CopperMist-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-03.png'),
+
+    (19, 'GlossyBlack-01.png', '/uploads/thumbnail/image/GlossyBlack-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-01.png'),
+    (19, 'GlossyBlack-02.png', '/uploads/thumbnail/image/GlossyBlack-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-02.png'),
+    (19, 'GlossyBlack-03.png', '/uploads/thumbnail/image/GlossyBlack-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-03.png'),
+    (19, 'GlossyBlack-interior-01.png', '/uploads/thumbnail/image/GlossyBlack-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-01.png'),
+    (19, 'GlossyBlack-interior-02.png', '/uploads/thumbnail/image/GlossyBlack-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-02.png'),
+    (19, 'GlossyBlack-interior-03.png', '/uploads/thumbnail/image/GlossyBlack-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-03.png'),
+
+    (20, 'FrostBlue-01.png', '/uploads/thumbnail/image/FrostBlue-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-01.png'),
+    (20, 'FrostBlue-02.png', '/uploads/thumbnail/image/FrostBlue-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-02.png'),
+    (20, 'FrostBlue-03.png', '/uploads/thumbnail/image/FrostBlue-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-03.png'),
+    (20, 'FrostBlue-interior-01.png', '/uploads/thumbnail/image/FrostBlue-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-01.png'),
+    (20, 'FrostBlue-interior-02.png', '/uploads/thumbnail/image/FrostBlue-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-02.png'),
+    (20, 'FrostBlue-interior-03.png', '/uploads/thumbnail/image/FrostBlue-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-03.png');
 END;
 GO
 
@@ -403,7 +482,6 @@ GO
 --========================== TEST DRIVING DOMAIN ==================================
 --========================== TEST DRIVING DOMAIN ==================================
 --========================== TEST DRIVING DOMAIN ==================================
-
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.slot') AND type = 'U')
 BEGIN
     CREATE TABLE dbo.slot (
@@ -803,3 +881,82 @@ BEGIN
         (7, 'COMPLETED', DATEADD(DAY, 0, SYSUTCDATETIME()));
 END;
 GO
+
+
+
+--========================== WAREHOUSE DOMAIN ==================================
+--========================== WAREHOUSE DOMAIN ==================================
+--========================== WAREHOUSE DOMAIN ==================================
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.warehouse') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.warehouse (
+        id                      BIGINT IDENTITY(1,1) PRIMARY KEY,
+        warehouse_name          NVARCHAR(255) NOT NULL,
+    );
+END;
+
+IF NOT EXISTS (SELECT 1 FROM dbo.warehouse)
+BEGIN
+    INSERT INTO dbo.warehouse (warehouse_name)
+        VALUES (N'Kho Khu Vực TP. Hồ Chí Minh');
+END;
+GO
+
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.warehouse_car') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.warehouse_car (
+        id                      BIGINT IDENTITY(1,1) PRIMARY KEY,
+        warehouse_id            BIGINT NOT NULL,
+        car_detail_id           BIGINT NOT NULL,
+        quantity                INT NOT NULL,
+        warehouse_car_status    VARCHAR(50) NOT NULL,
+        created_by              NVARCHAR(100) NULL,
+        created_on              DATETIMEOFFSET NULL,
+        last_modified_by        NVARCHAR(100) NULL,
+        last_modified_on        DATETIMEOFFSET NULL,
+
+        CONSTRAINT fk_wc_warehouse_id
+            FOREIGN KEY (warehouse_id) REFERENCES dbo.warehouse(id)
+            ON DELETE CASCADE,
+
+        CONSTRAINT fk_wc_car_detail_id
+            FOREIGN KEY (car_detail_id) REFERENCES dbo.car_detail(id)
+            ON DELETE CASCADE
+    );
+END;
+
+ALTER TABLE dbo.warehouse_car NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.warehouse_car)
+BEGIN
+    INSERT INTO dbo.warehouse_car (
+            warehouse_id,
+            car_detail_id,
+            quantity,
+            warehouse_car_status,
+            created_by,
+            created_on,
+            last_modified_by,
+            last_modified_on
+        )
+    VALUES
+        (1, 2, 0, 'OUT_OF_STOCK',   N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 3, 0,'OUT_OF_STOCK',  N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 16, 0, 'OUT_OF_STOCK',   N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 1, 2, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 4, 4, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 5, 5, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 6, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 8, 2, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 11, 4, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 12, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 14, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 18, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
+        (1, 12, 1, 'RESERVED',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 14, 1, 'RESERVED',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 18, 1, 'RESERVED',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
+END;
+GO
+ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
+-- 1 4 5 6 8 11 12 14 18 for sale

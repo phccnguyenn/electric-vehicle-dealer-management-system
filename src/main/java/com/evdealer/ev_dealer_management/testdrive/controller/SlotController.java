@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/slot")
 @RequiredArgsConstructor
-@Tag(name = "Test Drive", description = "Test Drive APIs for Dealer only")
+@Tag(name = "Driving Test", description = "Driving Test APIs for Dealer only")
 public class SlotController {
 
     private final SlotService slotService;
