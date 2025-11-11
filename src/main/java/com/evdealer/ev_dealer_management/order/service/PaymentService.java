@@ -5,6 +5,8 @@ import com.evdealer.ev_dealer_management.order.model.Payment;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
 import com.evdealer.ev_dealer_management.order.repository.PaymentRepository;
+import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.service.DealerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
+    private final DealerService dealerService;
 
     // Add a new payment to an order
     @Transactional
@@ -52,7 +55,8 @@ public class PaymentService {
 
     // Revenue / reporting
     public List<RevenueByStaffDto> getRevenueByStaff(Long staffId) {
-        return paymentRepository.getRevenueByStaff(staffId);
+        Long dealerId = dealerService.getCurrentUser().getId();
+        return paymentRepository.getRevenueByStaff(staffId, dealerId);
     }
 
     public List<RevenueByDealerDto> getRevenueByDealer() {
@@ -64,6 +68,7 @@ public class PaymentService {
     }
 
     public List<CustomerDebtDto> getCustomerDebts() {
-        return paymentRepository.getCustomerDebts();
+        Long dealerId = dealerService.getCurrentUser().getId();
+        return paymentRepository.getCustomerDebts(dealerId);
     }
 }

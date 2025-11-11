@@ -22,21 +22,23 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     FROM Payment p
     JOIN p.order o
     WHERE (:staffId IS NULL OR o.staff.id = :staffId)
+    AND o.staff.parent.id = :dealerId
     GROUP BY o.staff.id, o.staff.fullName
 """)
-    List<RevenueByStaffDto> getRevenueByStaff(@Param("staffId") Long staffId);
+    List<RevenueByStaffDto> getRevenueByStaff(@Param("staffId") Long staffId, @Param("dealerId") Long dealerId);
 
     @Query("""
-        SELECT 
-            o.customer.id AS customerId,
-            o.customer.fullName AS customerName,
-            (o.totalAmount - COALESCE(SUM(p.amount), 0)) AS debt
-        FROM Order o
-        LEFT JOIN o.payments p
-        GROUP BY o.customer.id, o.customer.fullName, o.totalAmount
-        HAVING (o.totalAmount - COALESCE(SUM(p.amount), 0)) > 0
-    """)
-    List<CustomerDebtDto> getCustomerDebts();
+    SELECT 
+        o.customer.id AS customerId,
+        o.customer.fullName AS customerName,
+        (o.totalAmount - COALESCE(SUM(p.amount), 0)) AS debt
+    FROM Order o
+    LEFT JOIN o.payments p
+    WHERE o.customer.dealer.id = :dealerId
+    GROUP BY o.customer.id, o.customer.fullName, o.totalAmount
+    HAVING (o.totalAmount - COALESCE(SUM(p.amount), 0)) > 0
+""")
+    List<CustomerDebtDto> getCustomerDebts(@Param("dealerId") Long dealerId);
 
     @Query("""
     SELECT s.parent.id AS dealerId,
