@@ -19,6 +19,9 @@ public record OrderCreateDto(
         )
         String customerPhone,
 
+        @NotBlank(message = "Tên khách hàng không được để trống")
+        String customerName,
+
         @NotNull(message = "Tổng số tiền không được để trống")
         @DecimalMin(value = "0.0", inclusive = false, message = "Tổng số tiền phải lớn hơn 0")
         BigDecimal totalAmount

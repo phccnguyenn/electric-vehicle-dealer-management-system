@@ -59,7 +59,7 @@ BEGIN
         full_name           NVARCHAR(150) NOT NULL,
         email               VARCHAR(150) NULL,
         phone               VARCHAR(20) NOT NULL UNIQUE,
-        address             NVARCHAR(255) NOT NULL,
+        address             NVARCHAR(255) NULL,
         created_by          NVARCHAR(100) NULL,
         created_on          DATETIMEOFFSET NULL,
         last_modified_by    NVARCHAR(100) NULL,
@@ -526,7 +526,6 @@ GO
 --========================== PRICE PROGRAM DOMAIN ==================================
 --========================== PRICE PROGRAM DOMAIN ==================================
 --========================== PRICE PROGRAM DOMAIN ==================================
-
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.dealer_hierarchy') AND type = 'U')
 BEGIN
     CREATE TABLE dbo.dealer_hierarchy (
@@ -625,5 +624,182 @@ BEGIN
     -- For Program 3
     (2, 3, 775000000, 850000000, 900000000),
     (3, 3, 700000000, 737500000, 800000000);
+END;
+GO
+
+
+
+--========================== ORDER DOMAIN ==================================
+--========================== ORDER DOMAIN ==================================
+--========================== ORDER DOMAIN ==================================
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.orders') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.orders (
+        id BIGINT IDENTITY(1,1) PRIMARY KEY,
+        car_id BIGINT NOT NULL,
+        staff_id BIGINT NULL,
+        customer_id BIGINT NOT NULL,
+        total_amount DECIMAL(20,2) NOT NULL,
+        amount_paid DECIMAL(20,2) DEFAULT 0,
+        quotation_url NVARCHAR(255) NULL,
+        contract_url NVARCHAR(255) NULL,
+        status NVARCHAR(50) NOT NULL,
+        payment_status NVARCHAR(50) NOT NULL,
+        created_by NVARCHAR(100) NULL,
+        created_on DATETIMEOFFSET NOT NULL DEFAULT SYSUTCDATETIME(),
+        last_modified_by NVARCHAR(100) NULL,
+        last_modified_on DATETIMEOFFSET NOT NULL DEFAULT SYSUTCDATETIME(),
+
+        CONSTRAINT FK_orders_car FOREIGN KEY (car_id) REFERENCES car_detail(id),
+        CONSTRAINT FK_orders_staff FOREIGN KEY (staff_id) REFERENCES users(user_id),
+        CONSTRAINT FK_orders_customer FOREIGN KEY (customer_id) REFERENCES customer(id)
+    );
+END;
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.payments') AND type = 'U')
+BEGIN
+CREATE TABLE payments (
+           id BIGINT IDENTITY(1,1) PRIMARY KEY,
+           order_id BIGINT NOT NULL,
+           amount DECIMAL(20,2) NOT NULL,
+           paid_at DATETIMEOFFSET NOT NULL,
+           type NVARCHAR(50) NOT NULL,
+           created_by NVARCHAR(100) NULL,
+           created_on DATETIMEOFFSET NOT NULL DEFAULT SYSUTCDATETIME(),
+           last_modified_by NVARCHAR(100) NULL,
+           last_modified_on DATETIMEOFFSET NOT NULL DEFAULT SYSUTCDATETIME(),
+           CONSTRAINT FK_payments_order FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+END;
+GO
+
+-- Insert sample data into dbo.orders WITHOUT CONSTRAINT
+ALTER TABLE dbo.orders NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.orders)
+BEGIN
+    INSERT INTO dbo.orders (
+        car_id,
+        staff_id,
+        customer_id,
+        total_amount,
+        amount_paid,
+        quotation_url,
+        contract_url,
+        status,
+        payment_status,
+        created_by,
+        created_on,
+        last_modified_by,
+        last_modified_on
+    )
+    VALUES
+    (1,  4,  5, 75000.00,  5000.00,  N'https://files.evdealer.com/q/quotation_1001.pdf', N'https://files.evdealer.com/c/contract_1001.pdf', N'APPROVED',      N'PENDING', N'staff01', SYSUTCDATETIME(), N'staff01', SYSUTCDATETIME()),
+    (2,  6,  6, 82000.00, 82000.00,  N'https://files.evdealer.com/q/quotation_1002.pdf', N'https://files.evdealer.com/c/contract_1002.pdf', N'REJECTED',    N'DEPOSIT_PAID',            N'staff02', SYSUTCDATETIME(), N'staff02', SYSUTCDATETIME()),
+    (3,  4,  4, 65000.00,     0.00,  N'https://files.evdealer.com/q/quotation_1003.pdf', N'https://files.evdealer.com/c/contract_1003.pdf', N'DELIVERED',    N'PARTIAL',          N'staff03', SYSUTCDATETIME(), N'staff03', SYSUTCDATETIME()),
+    (4,  8,  8, 72000.00, 72000.00,  N'https://files.evdealer.com/q/quotation_1004.pdf', N'https://files.evdealer.com/c/contract_1004.pdf', N'DELIVERED',    N'DEPOSIT_PAID',            N'staff04', SYSUTCDATETIME(), N'staff04', SYSUTCDATETIME()),
+    (6,  11, 10, 88000.00,  5000.00,  N'https://files.evdealer.com/q/quotation_1006.pdf', N'https://files.evdealer.com/c/contract_1006.pdf', N'APPROVED',      N'PARTIAL',  N'staff06', SYSUTCDATETIME(), N'staff06', SYSUTCDATETIME()),
+    (7,  8, 11, 99000.00, 99000.00,  N'https://files.evdealer.com/q/quotation_1007.pdf', N'https://files.evdealer.com/c/contract_1007.pdf', N'COMPLETED',    N'DEPOSIT_PAID',            N'staff07', SYSUTCDATETIME(), N'staff07', SYSUTCDATETIME()),
+    (5,  6,  9, 95000.00, 25000.00,  N'https://files.evdealer.com/q/quotation_1005.pdf', N'https://files.evdealer.com/c/contract_1005.pdf', N'IN_DELIVERY',  N'PARTIAL',  N'staff05', SYSUTCDATETIME(), N'staff05', SYSUTCDATETIME());
+END;
+GO
+ALTER TABLE dbo.orders CHECK CONSTRAINT ALL;
+
+IF NOT EXISTS (SELECT 1 FROM dbo.payments)
+BEGIN
+    INSERT INTO dbo.payments (
+        order_id,
+        amount,
+        paid_at,
+        type,
+        created_by,
+        created_on,
+        last_modified_by,
+        last_modified_on
+    )
+    VALUES
+    -- Order 1: 75000 total, 5000 paid
+    (1, 5000.00, DATEADD(DAY, -20, SYSUTCDATETIME()), N'IN_FULL', N'staff01', SYSUTCDATETIME(), N'staff01', SYSUTCDATETIME()),
+
+    -- Order 2: Fully paid
+    (2, 82000.00, DATEADD(DAY, -15, SYSUTCDATETIME()), N'IN_FULL', N'staff02', SYSUTCDATETIME(), N'staff02', SYSUTCDATETIME()),
+
+    -- Order 3: 0 paid
+    -- No payments yet
+
+    -- Order 4: Fully paid
+    (4, 72000.00, DATEADD(DAY, -10, SYSUTCDATETIME()), N'INSTALLMENT', N'staff04', SYSUTCDATETIME(), N'staff04', SYSUTCDATETIME()),
+
+    -- Order 5: 95000 total, 25000 paid (installments)
+    (5, 10000.00, DATEADD(DAY, -12, SYSUTCDATETIME()), N'INSTALLMENT', N'staff05', SYSUTCDATETIME(), N'staff05', SYSUTCDATETIME()),
+    (5, 15000.00, DATEADD(DAY, -5, SYSUTCDATETIME()), N'INSTALLMENT', N'staff05', SYSUTCDATETIME(), N'staff05', SYSUTCDATETIME()),
+
+    -- Order 6: 88000 total, 5000 paid
+    (6, 5000.00, DATEADD(DAY, -3, SYSUTCDATETIME()), N'IN_FULL', N'staff06', SYSUTCDATETIME(), N'staff06', SYSUTCDATETIME()),
+
+    -- Order 7: Fully paid in two installments
+    (7, 40000.00, DATEADD(DAY, -30, SYSUTCDATETIME()), N'IN_FULL', N'staff07', SYSUTCDATETIME(), N'staff07', SYSUTCDATETIME()),
+    (7, 59000.00, DATEADD(DAY, -15, SYSUTCDATETIME()), N'INSTALLMENT', N'staff07', SYSUTCDATETIME(), N'staff07', SYSUTCDATETIME());
+
+END;
+GO
+
+
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.orders_activities') AND type = 'U')
+BEGIN
+CREATE TABLE dbo.orders_activities (
+        id BIGINT IDENTITY(1,1) PRIMARY KEY,
+        order_id BIGINT NOT NULL,
+        status NVARCHAR(50) NOT NULL,
+        changed_at DATETIME2 NOT NULL,
+
+        CONSTRAINT FK_orders_activities_order
+        FOREIGN KEY (order_id) REFERENCES dbo.orders(id)
+        ON DELETE CASCADE
+);
+END;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM dbo.orders_activities)
+BEGIN
+    INSERT INTO dbo.orders_activities (order_id, status, changed_at)
+        VALUES
+        -- Order 1 (APPROVED)
+        (1, 'CREATED', DATEADD(DAY, -5, SYSUTCDATETIME())),
+        (1, 'APPROVED', DATEADD(DAY, -2, SYSUTCDATETIME())),
+
+        -- Order 2 (REJECTED)
+        (2, 'CREATED', DATEADD(DAY, -10, SYSUTCDATETIME())),
+        (2, 'APPROVED', DATEADD(DAY, -7, SYSUTCDATETIME())),
+        (2, 'REJECTED', DATEADD(DAY, -1, SYSUTCDATETIME())),
+
+        -- Order 3 (DELIVERED)
+        (3, 'CREATED', DATEADD(DAY, -15, SYSUTCDATETIME())),
+        (3, 'APPROVED', DATEADD(DAY, -12, SYSUTCDATETIME())),
+        (3, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
+        (3, 'DELIVERED', DATEADD(DAY, -1, SYSUTCDATETIME())),
+
+        -- Order 4 (DELIVERED)
+        (4, 'CREATED', DATEADD(DAY, -20, SYSUTCDATETIME())),
+        (4, 'APPROVED', DATEADD(DAY, -18, SYSUTCDATETIME())),
+        (4, 'IN_DELIVERY', DATEADD(DAY, -10, SYSUTCDATETIME())),
+        (4, 'DELIVERED', DATEADD(DAY, -2, SYSUTCDATETIME())),
+
+        -- Order 5 (IN_DELIVERY)
+        (5, 'CREATED', DATEADD(DAY, -7, SYSUTCDATETIME())),
+        (5, 'APPROVED', DATEADD(DAY, -5, SYSUTCDATETIME())),
+        (5, 'IN_DELIVERY', DATEADD(DAY, -1, SYSUTCDATETIME())),
+
+        -- Order 6 (APPROVED)
+        (6, 'CREATED', DATEADD(DAY, -4, SYSUTCDATETIME())),
+        (6, 'APPROVED', DATEADD(DAY, -2, SYSUTCDATETIME())),
+
+        -- Order 7 (COMPLETED)
+        (7, 'CREATED', DATEADD(DAY, -12, SYSUTCDATETIME())),
+        (7, 'APPROVED', DATEADD(DAY, -10, SYSUTCDATETIME())),
+        (7, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
+        (7, 'DELIVERED', DATEADD(DAY, -2, SYSUTCDATETIME())),
+        (7, 'COMPLETED', DATEADD(DAY, 0, SYSUTCDATETIME()));
 END;
 GO

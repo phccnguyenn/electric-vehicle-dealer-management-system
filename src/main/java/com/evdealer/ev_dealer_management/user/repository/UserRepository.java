@@ -24,7 +24,7 @@ import java.util.Optional;
 public interface UserRepository
         extends JpaRepository<User, Long> {
 
-    Page<User> findAllByParentIdAndRole(Long parentId, RoleType role, Pageable pageable);
+    Page<User> findAllByParentId(Long parentId, Pageable pageable);
     Page<User> findAllByRole(RoleType role, Pageable pageable);
 
     @Query("SELECT u FROM User u LEFT JOIN FETCH u.children WHERE u.id = :id")

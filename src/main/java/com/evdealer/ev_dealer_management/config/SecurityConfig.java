@@ -61,6 +61,7 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.POST, "/api/v1/user/create").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .requestMatchers("/api/v1/user/change-password").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                             .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/dealer/staff").hasRole("DEALER_MANAGER")
                             .requestMatchers("/api/v1/dealer/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                             .anyRequest().authenticated()
                 )
@@ -334,7 +335,10 @@ public class SecurityConfig {
 
     private UrlBasedCorsConfigurationSource corsConfig() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "https://evm-system.vercel.app"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "https://evm-system.vercel.app"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(List.of("x-auth-token"));

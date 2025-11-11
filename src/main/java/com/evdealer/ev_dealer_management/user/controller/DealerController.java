@@ -1,5 +1,6 @@
 package com.evdealer.ev_dealer_management.user.controller;
 
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerInfoUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
@@ -18,6 +19,14 @@ import org.springframework.web.bind.annotation.*;
 public class DealerController {
 
     private final DealerService dealerService;
+
+    @GetMapping("/staff")
+    public ResponseEntity<UserInfoListDto> getStaffUnderDealer(
+            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return ResponseEntity.ok(dealerService.getAllStaffByCurrentManager(pageNo, pageSize));
+    }
 
     @GetMapping("/customers")
     public ResponseEntity<CustomerListDto> getAllCustomers(

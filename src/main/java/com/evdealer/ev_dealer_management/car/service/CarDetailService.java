@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.car.service;
 
 import com.evdealer.ev_dealer_management.car.model.*;
 import com.evdealer.ev_dealer_management.car.model.dto.details.*;
+import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
 import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,28 @@ public class CarDetailService {
         Page<CarDetail> carPage = carDetailRepository.findAllByCarModel(carModel, pageable);
 
         return toCarListGetDto(carPage);
+    }
+
+    public CarDetailGetDto getOneRandomCarDetail(Long carModelId, String color, CarStatus carDetailStatus) {
+        String carStatusStr = (carDetailStatus != null)
+                ? carDetailStatus.toString()
+                : "";
+
+        List<CarDetail> carDetails = carDetailRepository
+                .getOneRandomCarDetailByOptionalParameter(
+                        carModelId,
+                        color,
+                        carStatusStr
+                );
+
+        CarDetail carDetail = null;
+        if (carDetails.isEmpty())
+            throw new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND);
+        else {
+            carDetail = carDetails.get(new Random().nextInt(carDetails.size()));
+        }
+
+        return CarDetailGetDto.fromModel(carDetail);
     }
 
     public CarDetailGetDto getDetailCarById(Long carId) {

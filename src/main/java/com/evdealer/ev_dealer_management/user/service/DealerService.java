@@ -5,6 +5,8 @@ import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerInfoUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
@@ -36,6 +38,28 @@ public class DealerService extends UserService {
                          DealerHierarchyRepository dealerHierarchyRepository) {
         super(passwordEncoder, userRepository, dealerHierarchyRepository);
         this.customerRepository = customerRepository;
+    }
+
+    public UserInfoListDto getAllStaffByCurrentManager(int pageNo, int pageSize) {
+
+        User currentManager = getCurrentUser();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<User> staffPage = userRepository.findAllByParentId(currentManager.getId(), pageable);
+
+        List<UserProfileGetDto> staffProfileGetDtos = staffPage.getContent()
+                .stream()
+                .map(UserProfileGetDto::fromModel)
+                .toList();
+
+        return new UserInfoListDto(
+                staffProfileGetDtos,
+                staffPage.getNumber(),
+                staffPage.getSize(),
+                (int) staffPage.getTotalElements(),
+                staffPage.getTotalPages(),
+                staffPage.isLast()
+        );
     }
 
     //

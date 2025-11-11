@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.order.service;
 
 import com.evdealer.ev_dealer_management.car.model.CarDetail;
 import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
+import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
@@ -9,6 +10,7 @@ import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
 import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
 import com.itextpdf.text.DocumentException;
 import jakarta.transaction.Transactional;
@@ -35,7 +37,13 @@ public class OrderService {
         CarDetail carDetail = carDetailRepository.findById(dto.carId())
                 .orElseThrow(() -> new RuntimeException("Car not found"));
         User staff = dealerService.getCurrentUser();
-        Customer customer = dealerService.getCustomerByPhone(dto.customerPhone(), Customer.class);
+        Customer customer = null;
+        try {
+            customer = dealerService.getCustomerByPhone(dto.customerPhone(), Customer.class);
+        } catch (NotFoundException e) {
+            CustomerPostDto customerPostDto = new CustomerPostDto(dto.customerName(), null, dto.customerPhone(), null);
+            customer = dealerService.createCustomerIfNotExists(customerPostDto, Customer.class);
+        }
 
         Order order = Order.builder()
                 .carDetail(carDetail)

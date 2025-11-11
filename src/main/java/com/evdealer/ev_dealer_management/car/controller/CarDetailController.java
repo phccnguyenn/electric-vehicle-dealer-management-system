@@ -4,6 +4,7 @@ import com.evdealer.ev_dealer_management.car.model.dto.details.CarDetailGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.details.CarListGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.details.CarPatchDto;
 import com.evdealer.ev_dealer_management.car.model.dto.details.CarDetailPostDto;
+import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
 import com.evdealer.ev_dealer_management.car.service.CarDetailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -37,9 +38,23 @@ public class CarDetailController {
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
         return ResponseEntity.ok(carDetailService.getAllCarsByCarModelId(carModelId, pageNo, pageSize));
     }
+
     @GetMapping("/{carId}/detail")
     public ResponseEntity<CarDetailGetDto> getDetailCarById(@PathVariable("carId") Long carId) {
         return ResponseEntity.ok(carDetailService.getDetailCarById(carId));
+    }
+
+    @GetMapping("/random-detail-car")
+    public ResponseEntity<CarDetailGetDto> getOneRandomSpecCar(
+            @RequestParam(required = false) Long carModelId,
+            @RequestParam(required = false) CarStatus carDetailStatus,
+            @RequestParam(required = false) String carColor
+    ) {
+        return ResponseEntity.ok(carDetailService
+                .getOneRandomCarDetail(
+                        carModelId,
+                        carColor,
+                        carDetailStatus));
     }
 
     @PostMapping("/create")
