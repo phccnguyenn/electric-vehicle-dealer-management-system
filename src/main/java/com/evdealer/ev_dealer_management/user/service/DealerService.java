@@ -78,6 +78,13 @@ public class DealerService extends UserService {
     public CustomerListDto getAllCustomersByCurrentDealer(int pageNo, int pageSize) {
 
         User currentDealer = getCurrentUser();
+
+        if (currentDealer.getRole().equals(RoleType.DEALER_STAFF)) {
+            final Long parentId = currentDealer.getParent().getId();
+            currentDealer = userRepository.findById(parentId)
+                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USER_NOT_FOUND, parentId));
+        }
+
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Customer> customerPage = customerRepository.findByDealer(currentDealer, pageable);
 

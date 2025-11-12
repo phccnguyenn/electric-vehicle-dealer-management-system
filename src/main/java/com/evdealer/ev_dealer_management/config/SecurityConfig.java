@@ -110,7 +110,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Stock Domain Security
+     * Warehouse Domain Security
      * @param http
      * @return
      * @throws Exception
@@ -155,6 +155,7 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/sales-speed").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{orderId}/activities").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
@@ -165,9 +166,9 @@ public class SecurityConfig {
                                     .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
                                     .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
-                                    .requestMatchers("/api/v1/orders/reports/revenue/dealer").hasRole("EVM_ADMIN")
-                                    .requestMatchers("/api/v1/orders/reports/revenue/city").hasRole("EVM_ADMIN")
-                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers("/api/v1/orders/reports/revenue/dealer").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers("/api/v1/orders/reports/revenue/city").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasRole("DEALER_MANAGER")
 
                                     .anyRequest().authenticated()
                 )

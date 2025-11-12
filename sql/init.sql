@@ -79,37 +79,37 @@ BEGIN
 INSERT INTO dbo.customer (dealer_id, full_name, email, phone, address, created_by, created_on, last_modified_by, last_modified_on)
 VALUES
 -- TP.HCM
-(3, N'Nguyễn Thị Mai', 'mai.nguyen@example.com', '0901234567', N'12 Lê Lợi, Quận 1, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Trần Văn Hưng', 'hung.tran@example.com', '0902345678', N'34 Nguyễn Huệ, Quận 1, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Lê Thị Hồng', 'hong.le@example.com', '0903456789', N'56 Hai Bà Trưng, Quận 3, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Phạm Văn Nam', 'nam.pham@example.com', '0904567890', N'78 Võ Thị Sáu, Quận 3, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Đặng Thị Phương', 'phuong.dang@example.com', '0905678901', N'90 Cách Mạng Tháng 8, Quận 10, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Hoàng Văn Tuấn', 'tuan.hoang@example.com', '0906789012', N'123 Lý Thường Kiệt, Quận 10, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Ngô Thị Lan', 'lan.ngo@example.com', '0907890123', N'456 Trường Chinh, Tân Bình, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Võ Văn Cường', 'cuong.vo@example.com', '0908901234', N'789 Hoàng Văn Thụ, Tân Bình, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Bùi Thị Hạnh', 'hanh.bui@example.com', '0910012345', N'321 Phan Xích Long, Phú Nhuận, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(3, N'Trịnh Văn Long', 'long.trinh@example.com', '0911123456', N'654 Nguyễn Văn Trỗi, Phú Nhuận, TP.HCM', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(3, N'Nguyễn Thị Mai', 'mai.nguyen@example.com', '0901234567', N'12 Lê Lợi, Quận 1, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Trần Văn Hưng', 'hung.tran@example.com', '0902345678', N'34 Nguyễn Huệ, Quận 1, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Lê Thị Hồng', 'hong.le@example.com', '0903456789', N'56 Hai Bà Trưng, Quận 3, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Phạm Văn Nam', 'nam.pham@example.com', '0904567890', N'78 Võ Thị Sáu, Quận 3, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Đặng Thị Phương', 'phuong.dang@example.com', '0905678901', N'90 Cách Mạng Tháng 8, Quận 10, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Hoàng Văn Tuấn', 'tuan.hoang@example.com', '0906789012', N'123 Lý Thường Kiệt, Quận 10, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Ngô Thị Lan', 'lan.ngo@example.com', '0907890123', N'456 Trường Chinh, Tân Bình, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Võ Văn Cường', 'cuong.vo@example.com', '0908901234', N'789 Hoàng Văn Thụ, Tân Bình, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Bùi Thị Hạnh', 'hanh.bui@example.com', '0910012345', N'321 Phan Xích Long, Phú Nhuận, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(3, N'Trịnh Văn Long', 'long.trinh@example.com', '0911123456', N'654 Nguyễn Văn Trỗi, Phú Nhuận, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
 
 -- HN
-(4, N'Nguyễn Văn Tiến', 'tien.nguyen@example.com', '0912345678', N'123 Lê Duẩn, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(4, N'Trần Thị Lan', 'lan.tran@example.com', '0987654321', N'456 Nguyễn Trãi, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(4, N'Lê Minh Tuấn', 'tuan.le@example.com', '0911223344', N'789 Phạm Hùng, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(4, N'Phạm Thị Hương', 'huong.pham@example.com', '0999887766', N'321 Trần Hưng Đạo, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(4, N'Đỗ Văn Quang', 'quang.do@example.com', '0955667788', N'654 Hoàng Hoa Thám, Hà Nội', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
+(4, N'Nguyễn Văn Tiến', 'tien.nguyen@example.com', '0912345678', N'123 Lê Duẩn, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(4, N'Trần Thị Lan', 'lan.tran@example.com', '0987654321', N'456 Nguyễn Trãi, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(4, N'Lê Minh Tuấn', 'tuan.le@example.com', '0911223344', N'789 Phạm Hùng, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(4, N'Phạm Thị Hương', 'huong.pham@example.com', '0999887766', N'321 Trần Hưng Đạo, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(4, N'Đỗ Văn Quang', 'quang.do@example.com', '0955667788', N'654 Hoàng Hoa Thám, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
 
 -- Quy Nhơn
-(7, N'Nguyễn Thị Thu', 'thu.nguyen@example.com', '0935123456', N'12 Nguyễn Tất Thành, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Trần Văn Hải', 'hai.tran@example.com', '0936234567', N'34 Trần Hưng Đạo, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Lê Thị Mỹ', 'my.le@example.com', '0937345678', N'56 Lý Thường Kiệt, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Phạm Văn Dũng', 'dung.pham@example.com', '0938456789', N'78 Nguyễn Huệ, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Đặng Thị Kim', 'kim.dang@example.com', '0939567890', N'90 Hai Bà Trưng, Quy Nhơn, Bình Định', 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), 'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Nguyễn Thị Thu', 'thu.nguyen@example.com', '0935123456', N'12 Nguyễn Tất Thành, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Trần Văn Hải', 'hai.tran@example.com', '0936234567', N'34 Trần Hưng Đạo, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Lê Thị Mỹ', 'my.le@example.com', '0937345678', N'56 Lý Thường Kiệt, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Phạm Văn Dũng', 'dung.pham@example.com', '0938456789', N'78 Nguyễn Huệ, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(7, N'Đặng Thị Kim', 'kim.dang@example.com', '0939567890', N'90 Hai Bà Trưng, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
 
 -- Hải Phòng
-(10, N'Nguyễn Văn Hòa', 'hoa.nguyen@example.com', '0941234567', N'12 Điện Biên Phủ, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(10, N'Trần Thị Liên', 'lien.tran@example.com', '0942345678', N'34 Trần Phú, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(10, N'Lê Văn Thắng', 'thang.le@example.com', '0943456789', N'56 Lạch Tray, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(10, N'Phạm Thị Mai', 'mai.pham@example.com', '0944567890', N'78 Tô Hiệu, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET()),
-(10, N'Đỗ Văn Kiên', 'kien.do@example.com', '0945678901', N'90 Cầu Đất, Hải Phòng', 'system', SYSDATETIMEOFFSET(), 'system', SYSDATETIMEOFFSET());
+(10, N'Nguyễn Văn Hòa', 'hoa.nguyen@example.com', '0941234567', N'12 Điện Biên Phủ, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(10, N'Trần Thị Liên', 'lien.tran@example.com', '0942345678', N'34 Trần Phú, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(10, N'Lê Văn Thắng', 'thang.le@example.com', '0943456789', N'56 Lạch Tray, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(10, N'Phạm Thị Mai', 'mai.pham@example.com', '0944567890', N'78 Tô Hiệu, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(10, N'Đỗ Văn Kiên', 'kien.do@example.com', '0945678901', N'90 Cầu Đất, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET());
 END;
 ALTER TABLE dbo.customer CHECK CONSTRAINT ALL;
 GO
@@ -772,11 +772,12 @@ BEGIN
         last_modified_on
     )
     VALUES
-    (1,  4,  5, 75000.00,  5000.00,  N'https://files.evdealer.com/q/quotation_1001.pdf', N'https://files.evdealer.com/c/contract_1001.pdf', N'APPROVED',      N'PENDING', N'staff01', SYSUTCDATETIME(), N'staff01', SYSUTCDATETIME()),
-    (2,  6,  6, 82000.00, 82000.00,  N'https://files.evdealer.com/q/quotation_1002.pdf', N'https://files.evdealer.com/c/contract_1002.pdf', N'REJECTED',    N'DEPOSIT_PAID',            N'staff02', SYSUTCDATETIME(), N'staff02', SYSUTCDATETIME()),
-    (3,  4,  4, 65000.00,     0.00,  N'https://files.evdealer.com/q/quotation_1003.pdf', N'https://files.evdealer.com/c/contract_1003.pdf', N'DELIVERED',    N'PARTIAL',          N'staff03', SYSUTCDATETIME(), N'staff03', SYSUTCDATETIME()),
-    (4,  8,  8, 72000.00, 72000.00,  N'https://files.evdealer.com/q/quotation_1004.pdf', N'https://files.evdealer.com/c/contract_1004.pdf', N'DELIVERED',    N'DEPOSIT_PAID',            N'staff04', SYSUTCDATETIME(), N'staff04', SYSUTCDATETIME()),
-    (6,  11, 10, 88000.00,  5000.00,  N'https://files.evdealer.com/q/quotation_1006.pdf', N'https://files.evdealer.com/c/contract_1006.pdf', N'APPROVED',      N'PARTIAL',  N'staff06', SYSUTCDATETIME(), N'staff06', SYSUTCDATETIME()),
+    (2, 9, 20, 870000000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-1.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-1.pdf', N'PENDING', N'PENDING', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (3, 9, 17, 737500000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-2.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-2.pdf', N'PENDING', N'PENDING', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (4, 8, 18, 737500000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-3.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-3.pdf', N'PENDING', N'PENDING', N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+
+    (3,  8,  16, 65000.00,     0.00,  N'https://files.evdealer.com/q/quotation_1003.pdf', N'https://files.evdealer.com/c/contract_1003.pdf', N'DELIVERED',    N'PARTIAL',          N'staff03', SYSUTCDATETIME(), N'staff03', SYSUTCDATETIME()),
+    (6,  8, 17, 88000.00,  5000.00,  N'https://files.evdealer.com/q/quotation_1006.pdf', N'https://files.evdealer.com/c/contract_1006.pdf', N'APPROVED',      N'PARTIAL',  N'staff06', SYSUTCDATETIME(), N'staff06', SYSUTCDATETIME()),
     (7,  8, 11, 99000.00, 99000.00,  N'https://files.evdealer.com/q/quotation_1007.pdf', N'https://files.evdealer.com/c/contract_1007.pdf', N'COMPLETED',    N'DEPOSIT_PAID',            N'staff07', SYSUTCDATETIME(), N'staff07', SYSUTCDATETIME()),
     (5,  6,  9, 95000.00, 25000.00,  N'https://files.evdealer.com/q/quotation_1005.pdf', N'https://files.evdealer.com/c/contract_1005.pdf', N'IN_DELIVERY',  N'PARTIAL',  N'staff05', SYSUTCDATETIME(), N'staff05', SYSUTCDATETIME());
 END;
@@ -829,7 +830,7 @@ BEGIN
 CREATE TABLE dbo.orders_activities (
         id BIGINT IDENTITY(1,1) PRIMARY KEY,
         order_id BIGINT NOT NULL,
-        status NVARCHAR(50) NOT NULL,
+        order_status NVARCHAR(50) NOT NULL,
         changed_at DATETIME2 NOT NULL,
 
         CONSTRAINT FK_orders_activities_order
@@ -841,40 +842,40 @@ GO
 
 IF NOT EXISTS (SELECT 1 FROM dbo.orders_activities)
 BEGIN
-    INSERT INTO dbo.orders_activities (order_id, status, changed_at)
+    INSERT INTO dbo.orders_activities (order_id, order_status, changed_at)
         VALUES
         -- Order 1 (APPROVED)
-        (1, 'CREATED', DATEADD(DAY, -5, SYSUTCDATETIME())),
+        (1, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
         (1, 'APPROVED', DATEADD(DAY, -2, SYSUTCDATETIME())),
 
         -- Order 2 (REJECTED)
-        (2, 'CREATED', DATEADD(DAY, -10, SYSUTCDATETIME())),
+        (2, 'IN_DELIVERY', DATEADD(DAY, -10, SYSUTCDATETIME())),
         (2, 'APPROVED', DATEADD(DAY, -7, SYSUTCDATETIME())),
         (2, 'REJECTED', DATEADD(DAY, -1, SYSUTCDATETIME())),
 
         -- Order 3 (DELIVERED)
-        (3, 'CREATED', DATEADD(DAY, -15, SYSUTCDATETIME())),
+        (3, 'IN_DELIVERY', DATEADD(DAY, -15, SYSUTCDATETIME())),
         (3, 'APPROVED', DATEADD(DAY, -12, SYSUTCDATETIME())),
         (3, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
         (3, 'DELIVERED', DATEADD(DAY, -1, SYSUTCDATETIME())),
 
         -- Order 4 (DELIVERED)
-        (4, 'CREATED', DATEADD(DAY, -20, SYSUTCDATETIME())),
+        (4, 'REJECTED', DATEADD(DAY, -20, SYSUTCDATETIME())),
         (4, 'APPROVED', DATEADD(DAY, -18, SYSUTCDATETIME())),
         (4, 'IN_DELIVERY', DATEADD(DAY, -10, SYSUTCDATETIME())),
         (4, 'DELIVERED', DATEADD(DAY, -2, SYSUTCDATETIME())),
 
         -- Order 5 (IN_DELIVERY)
-        (5, 'CREATED', DATEADD(DAY, -7, SYSUTCDATETIME())),
+        (5, 'REJECTED', DATEADD(DAY, -7, SYSUTCDATETIME())),
         (5, 'APPROVED', DATEADD(DAY, -5, SYSUTCDATETIME())),
         (5, 'IN_DELIVERY', DATEADD(DAY, -1, SYSUTCDATETIME())),
 
         -- Order 6 (APPROVED)
-        (6, 'CREATED', DATEADD(DAY, -4, SYSUTCDATETIME())),
+        (6, 'REJECTED', DATEADD(DAY, -4, SYSUTCDATETIME())),
         (6, 'APPROVED', DATEADD(DAY, -2, SYSUTCDATETIME())),
 
         -- Order 7 (COMPLETED)
-        (7, 'CREATED', DATEADD(DAY, -12, SYSUTCDATETIME())),
+        (7, 'REJECTED', DATEADD(DAY, -12, SYSUTCDATETIME())),
         (7, 'APPROVED', DATEADD(DAY, -10, SYSUTCDATETIME())),
         (7, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
         (7, 'DELIVERED', DATEADD(DAY, -2, SYSUTCDATETIME())),
@@ -887,19 +888,20 @@ GO
 --========================== WAREHOUSE DOMAIN ==================================
 --========================== WAREHOUSE DOMAIN ==================================
 --========================== WAREHOUSE DOMAIN ==================================
-
+--========================== WAREHOUSE DOMAIN ==================================
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.warehouse') AND type = 'U')
 BEGIN
     CREATE TABLE dbo.warehouse (
-        id                      BIGINT IDENTITY(1,1) PRIMARY KEY,
-        warehouse_name          NVARCHAR(255) NOT NULL,
+        id              BIGINT IDENTITY(1,1) PRIMARY KEY,
+        warehouse_name  NVARCHAR(255) NOT NULL
     );
 END;
+GO
 
 IF NOT EXISTS (SELECT 1 FROM dbo.warehouse)
 BEGIN
     INSERT INTO dbo.warehouse (warehouse_name)
-        VALUES (N'Kho Khu Vực TP. Hồ Chí Minh');
+    VALUES (N'Kho Khu Vực TP. Hồ Chí Minh');
 END;
 GO
 
@@ -926,37 +928,40 @@ BEGIN
             ON DELETE CASCADE
     );
 END;
+GO
 
 ALTER TABLE dbo.warehouse_car NOCHECK CONSTRAINT ALL;
+
 IF NOT EXISTS (SELECT 1 FROM dbo.warehouse_car)
 BEGIN
     INSERT INTO dbo.warehouse_car (
-            warehouse_id,
-            car_detail_id,
-            quantity,
-            warehouse_car_status,
-            created_by,
-            created_on,
-            last_modified_by,
-            last_modified_on
-        )
+        warehouse_id,
+        car_detail_id,
+        quantity,
+        warehouse_car_status,
+        created_by,
+        created_on,
+        last_modified_by,
+        last_modified_on
+    )
     VALUES
-        (1, 2, 0, 'OUT_OF_STOCK',   N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 3, 0,'OUT_OF_STOCK',  N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 16, 0, 'OUT_OF_STOCK',   N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 1, 2, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 4, 4, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 5, 5, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 6, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 8, 2, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 11, 4, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 12, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 14, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 18, 3, 'IN_STOCK',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
-        (1, 12, 1, 'RESERVED',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 14, 1, 'RESERVED',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 18, 1, 'RESERVED',       N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
+        (1, 2, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 3, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 16, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 1, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 4, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 5, 5, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 6, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 8, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 11, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 12, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 14, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 18, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 12, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 14, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 18, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
 END;
 GO
+
 ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
 -- 1 4 5 6 8 11 12 14 18 for sale

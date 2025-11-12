@@ -51,7 +51,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
       AND s.parent IS NOT NULL
       AND o.status IN ('DELIVERED','COMPLETED')
     GROUP BY s.parent.id, s.parent.fullName
-""")
+    """)
     List<RevenueByDealerDto> getRevenueByDealer();
 
     @Query("""

@@ -4,7 +4,6 @@ import com.evdealer.ev_dealer_management.car.model.CarModel;
 import com.evdealer.ev_dealer_management.car.service.CarModelService;
 import com.evdealer.ev_dealer_management.testdrive.model.CarModelInSlot;
 import com.evdealer.ev_dealer_management.testdrive.model.Slot;
-import com.evdealer.ev_dealer_management.testdrive.model.dto.CarModelInSlotDetailDto;
 import com.evdealer.ev_dealer_management.testdrive.model.dto.CarModelInSlotPostDto;
 import com.evdealer.ev_dealer_management.testdrive.repository.CarModelInSlotRepository;
 import lombok.RequiredArgsConstructor;

@@ -7,6 +7,7 @@ public record CarModelInSlotDetailDto(
         Long carModelInSlotId,
         Long slotId,
         Long carModelId,
+        String carModelName,
         Integer maxTrialCar
 ) {
     public static CarModelInSlotDetailDto fromModel(CarModelInSlot model) {
@@ -14,6 +15,7 @@ public record CarModelInSlotDetailDto(
                 model.getId(),
                 model.getSlot().getId(),
                 model.getCarModel().getId(),
+                model.getCarModel().getCarModelName(),
                 model.getMaxTrialCar()
         );
     }
