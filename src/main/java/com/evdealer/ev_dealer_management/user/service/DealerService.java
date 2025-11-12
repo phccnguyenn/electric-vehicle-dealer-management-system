@@ -133,7 +133,7 @@ public class DealerService extends UserService {
             }
         }
 
-        validateCustomerEmail(customerPostDto.email());
+        // validateCustomerEmail(customerPostDto.email());
         validateCustomerPhone(customerPostDto.phone());
         Customer newCustomer = Customer.builder()
                 .dealer(currentDealer)

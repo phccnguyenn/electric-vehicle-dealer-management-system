@@ -24,7 +24,7 @@ public class Booking {
     @Column(name = "customer_name", nullable = false)
     private String customerName;
 
-    @Column(name = "customer_phone", nullable = false, length = 20)
+    @Column(name = "customer_phone", nullable = false)
     private String customerPhone;
 
 

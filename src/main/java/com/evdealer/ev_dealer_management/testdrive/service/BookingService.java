@@ -30,7 +30,11 @@ public class BookingService {
     @Transactional
     public BookingGetDto createBooking(BookingPostDto bookingPostDto) {
 
-        CustomerPostDto customerPostDto = new CustomerPostDto(bookingPostDto.customerName(), "", bookingPostDto.customerPhone(), "");
+        CustomerPostDto customerPostDto = new CustomerPostDto(
+                bookingPostDto.customerName(),
+                "",
+                bookingPostDto.customerPhone(),
+                "");
 
         Customer customer = customerRepository.findByPhone(bookingPostDto.customerPhone())
                 .orElse(dealerService.createCustomerIfNotExists(customerPostDto, Customer.class));
