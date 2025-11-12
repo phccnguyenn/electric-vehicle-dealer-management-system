@@ -1,7 +1,10 @@
 package com.evdealer.ev_dealer_management.order.controller;
 
+import com.evdealer.ev_dealer_management.car.model.dto.details.CarListGetDto;
 import com.evdealer.ev_dealer_management.order.model.OrderActivity;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
+import com.evdealer.ev_dealer_management.order.model.dto.evm.OrderListDto;
+import com.evdealer.ev_dealer_management.order.model.dto.evm.OrderUpdateForEVMDto;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.service.OrderActivityService;
 import com.evdealer.ev_dealer_management.order.service.OrderService;
@@ -27,6 +30,19 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderActivityService orderActivityService;
     private final PaymentService paymentService;
+
+    @GetMapping("/pending")
+    public ResponseEntity<OrderListDto> getPendingOrders(
+            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return ResponseEntity.ok(orderService.getAllOrderWithPendingStatus(pageNo, pageSize));
+    }
+
+    @PatchMapping("/approve-order")
+    public ResponseEntity<OrderDetailDto> OrderApprovalRequestByEVM(
+            OrderUpdateForEVMDto orderUpdateForEVMDto) {
+        return ResponseEntity.ok(orderService.orderApprovalRequestByEVM(orderUpdateForEVMDto));
+    }
 
     @Operation(summary = "Get order by ID") // Nhân viên
     @GetMapping("/{id}")

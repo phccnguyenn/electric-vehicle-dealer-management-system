@@ -1,6 +1,8 @@
 package com.evdealer.ev_dealer_management.order.model.dto;
 
 import com.evdealer.ev_dealer_management.car.model.dto.details.CarInfoGetDto;
+import com.evdealer.ev_dealer_management.car.model.dto.model.CarModelGetByOrderDto;
+import com.evdealer.ev_dealer_management.car.model.dto.model.CarModelGetDetailDto;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
@@ -14,7 +16,8 @@ import java.util.stream.Collectors;
 
 public record OrderDetailDto(
         Long id,
-        CarInfoGetDto car,
+        CarModelGetByOrderDto carModelGetDetailDto,
+        CarInfoGetDto carDetail,
         UserDetailGetDto staff,
         CustomerDetailGetDto customer,
         BigDecimal totalAmount,
@@ -37,7 +40,8 @@ public record OrderDetailDto(
 
         return new OrderDetailDto(
                 order.getId(),
-                CarInfoGetDto.fromModel(order.getCarDetail()),
+                order.getCarModel() != null ? CarModelGetByOrderDto.fromModel(order.getCarModel()) : null,
+                order.getCarDetail() != null ? CarInfoGetDto.fromModel(order.getCarDetail()) : null,
                 UserDetailGetDto.fromModel(order.getStaff()),
                 CustomerDetailGetDto.fromModel(order.getCustomer()),
                 order.getTotalAmount(),

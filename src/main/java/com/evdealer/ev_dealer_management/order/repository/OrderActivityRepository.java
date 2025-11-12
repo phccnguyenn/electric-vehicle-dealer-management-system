@@ -5,10 +5,12 @@ import com.evdealer.ev_dealer_management.order.model.dto.SalesSpeedResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface OrderActivityRepository extends JpaRepository<OrderActivity, Long> {
     List<OrderActivity> findByOrderIdOrderByChangedAtAsc(Long orderId);
 

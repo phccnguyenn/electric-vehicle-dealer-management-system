@@ -80,7 +80,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain productDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/v1/car/**", "/api/v1/car-model/**")
+                .securityMatcher("/api/v1/carDetail/**", "/api/v1/carDetail-model/**")
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -89,19 +89,19 @@ public class SecurityConfig {
                     auth ->
                         auth
                             // Car Model APIs
-                            .requestMatchers(HttpMethod.GET, "/api/v1/car-model/all")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/carDetail-model/all")
                                 .hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
-                            .requestMatchers(HttpMethod.GET, "/api/v1/car-model/get-trial-model-car")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/carDetail-model/get-trial-model-carDetail")
                                 .hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
-                            .requestMatchers("/api/v1/car-model/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers("/api/v1/carDetail-model/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
 
                             // Car Details APIs
-                            .requestMatchers(HttpMethod.GET, "/api/v1/car/**")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/carDetail/**")
                                 .hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                             .requestMatchers(
-                                "/api/v1/car/create",
-                                "/api/v1/car/*/update",
-                                "/api/v1/car/*/upload/images").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                "/api/v1/carDetail/create",
+                                "/api/v1/carDetail/*/update",
+                                "/api/v1/carDetail/*/upload/images").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
@@ -119,7 +119,7 @@ public class SecurityConfig {
     @Order(3)
     public SecurityFilterChain stockDomainSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .securityMatcher("/api/v1/warehouse-car/**")
+                .securityMatcher("/api/v1/warehouse-carDetail/**")
                 .cors(cors -> cors.configurationSource(corsConfig()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -128,7 +128,7 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                         // create new stock for specific Dealer
-                                    .requestMatchers("/api/v1/warehouse-car/admin/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers("/api/v1/warehouse-carDetail/admin/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
@@ -155,14 +155,14 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/sales-speed").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-
+                                    .requestMatchers( "/api/v1/orders/pending", "/api/v1/orders/approve-order").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{orderId}/activities").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
-                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER")
                                     .requestMatchers(HttpMethod.POST, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.POST, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
-                                    .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                    .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/{id}").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.DELETE, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
                                     .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
@@ -237,7 +237,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth ->
                                 auth
-                                        .requestMatchers(HttpMethod.GET, "/api/v1/price-program/detail/{id}", "api/v1/price-program/hierarchy/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                                        .requestMatchers("/api/v1/price-program/detail/{id}", "api/v1/price-program/hierarchy/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                                         .requestMatchers(HttpMethod.POST, "/api/v1/price-program").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                         .requestMatchers(HttpMethod.PATCH, "/api/v1/price-program/{id}").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                         .requestMatchers(HttpMethod.DELETE, "/api/v1/price-program/{id}").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
@@ -319,9 +319,9 @@ public class SecurityConfig {
 //                                "/api/v1/motor/*/update",
 //                                "/api/v1/motor/*/remove").hasRole("EVM_ADMIN")
 //                        .requestMatchers(
-//                                "/api/v1/car/create",
-//                                "/api/v1/car/*/update",
-//                                "/api/v1/car/*/upload/images").hasRole("EVM_ADMIN")
+//                                "/api/v1/carDetail/create",
+//                                "/api/v1/carDetail/*/update",
+//                                "/api/v1/carDetail/*/upload/images").hasRole("EVM_ADMIN")
 //                        .requestMatchers(
 //                                HttpMethod.POST, "/api/v1/category/create").hasRole("EVM_ADMIN")
 //                        .requestMatchers("/api/v1/category/*/rename").hasRole("EVM_ADMIN")

@@ -8,7 +8,7 @@ public record WarehouseCarPostDto(
 
         Long warehouseId,
 
-        @NotNull(message = "The car ID is required.")
+        @NotNull(message = "The carDetail ID is required.")
         Long carId,
 
         @NotNull(message = "The quantity is required.")

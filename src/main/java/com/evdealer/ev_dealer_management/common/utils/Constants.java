@@ -25,6 +25,8 @@ public final class Constants {
         public final static String INVALID_ROLE_TYPE = "INVALID_ROLE_TYPE";
         public final static String CONTRACT_NOT_FOUND = "CONTRACT_NOT_FOUND";
 
+        public final static String ORDER_NOT_FOUND = "ORDER_NOT_FOUND";
+
         public final static String WAREHOUSE_CAR_NOT_FOUND = "WAREHOUSE_CAR_NOT_FOUND";
         public final static String WAREHOUSE_NOT_FOUND = "WAREHOUSE_NOT_FOUND";
         public final static String INVENTORY_WITH_CAR_AND_DEALER_NOT_FOUND = "INVENTORY_WITH_CAR_AND_DEALER_NOT_FOUND";

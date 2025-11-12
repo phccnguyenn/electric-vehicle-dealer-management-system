@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/car")
+@RequestMapping("/api/v1/carDetail")
 @RequiredArgsConstructor
 @Tag(name = "Cars", description = "Car management APIs")
 public class CarDetailController {
@@ -31,7 +31,7 @@ public class CarDetailController {
         return ResponseEntity.ok(carDetailService.getAllCars(pageNo, pageSize));
     }
 
-    @GetMapping("/filter-with-car-model/{carModelId}")
+    @GetMapping("/filter-with-carDetail-model/{carModelId}")
     public ResponseEntity<CarListGetDto> getAllDetailCarsByCarModelId(
             @PathVariable(name = "carModelId") Long carModelId,
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
@@ -39,12 +39,12 @@ public class CarDetailController {
         return ResponseEntity.ok(carDetailService.getAllCarsByCarModelId(carModelId, pageNo, pageSize));
     }
 
-    @GetMapping("/{carId}/detail")
-    public ResponseEntity<CarDetailGetDto> getDetailCarById(@PathVariable("carId") Long carId) {
+    @GetMapping("/{carModelId}/detail")
+    public ResponseEntity<CarDetailGetDto> getDetailCarById(@PathVariable("carModelId") Long carId) {
         return ResponseEntity.ok(carDetailService.getDetailCarById(carId));
     }
 
-    @GetMapping("/random-detail-car")
+    @GetMapping("/random-detail-carDetail")
     public ResponseEntity<CarDetailGetDto> getOneRandomSpecCar(
             @RequestParam(required = false) Long carModelId,
             @RequestParam(required = false) CarStatus carDetailStatus,
@@ -62,15 +62,15 @@ public class CarDetailController {
         return ResponseEntity.ok(carDetailService.createCar(carDetailPostDto));
     }
 
-    @PostMapping(path = "/{carId}/upload/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/{carModelId}/upload/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CarDetailGetDto> uploadCarImages(
-            @PathVariable(name = "carId") Long carId,
+            @PathVariable(name = "carModelId") Long carId,
             @RequestPart("files") MultipartFile[] files) {
         return ResponseEntity.ok(carDetailService.uploadImagesForCar(carId, files));
     }
 
-    @PatchMapping("/{carId}/update")
-    public ResponseEntity<Void> partialUpdate(@PathVariable(value = "carId") Long carId,
+    @PatchMapping("/{carModelId}/update")
+    public ResponseEntity<Void> partialUpdate(@PathVariable(value = "carModelId") Long carId,
                                               @RequestBody CarPatchDto carPatchDto) {
         carDetailService.updatePartialCarByCarId(carId, carPatchDto);
         return ResponseEntity.noContent().build();

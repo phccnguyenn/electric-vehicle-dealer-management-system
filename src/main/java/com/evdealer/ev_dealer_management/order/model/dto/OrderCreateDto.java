@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public record OrderCreateDto(
 
         @NotNull(message = "Car ID không được để trống")
-        Long carId,
+        Long carModelId,
 
         @NotBlank(message = "Số điện thoại khách hàng không được để trống")
         @Pattern(

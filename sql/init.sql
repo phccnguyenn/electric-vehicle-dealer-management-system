@@ -714,7 +714,8 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.order
 BEGIN
     CREATE TABLE dbo.orders (
         id BIGINT IDENTITY(1,1) PRIMARY KEY,
-        car_id BIGINT NOT NULL,
+        car_model_id BIGINT NULL,
+        car_id BIGINT NULL,
         staff_id BIGINT NULL,
         customer_id BIGINT NOT NULL,
         total_amount DECIMAL(20,2) NOT NULL,
@@ -728,6 +729,7 @@ BEGIN
         last_modified_by NVARCHAR(100) NULL,
         last_modified_on DATETIMEOFFSET NOT NULL DEFAULT SYSUTCDATETIME(),
 
+        CONSTRAINT FK_orders_car_model FOREIGN KEY (car_model_id) REFERENCES car_model(id),
         CONSTRAINT FK_orders_car FOREIGN KEY (car_id) REFERENCES car_detail(id),
         CONSTRAINT FK_orders_staff FOREIGN KEY (staff_id) REFERENCES users(user_id),
         CONSTRAINT FK_orders_customer FOREIGN KEY (customer_id) REFERENCES customer(id)
@@ -757,6 +759,7 @@ ALTER TABLE dbo.orders NOCHECK CONSTRAINT ALL;
 IF NOT EXISTS (SELECT 1 FROM dbo.orders)
 BEGIN
     INSERT INTO dbo.orders (
+        car_model_id,
         car_id,
         staff_id,
         customer_id,
@@ -772,15 +775,14 @@ BEGIN
         last_modified_on
     )
     VALUES
-    (2, 9, 20, 870000000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-1.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-1.pdf', N'PENDING', N'PENDING', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
-    (3, 9, 17, 737500000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-2.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-2.pdf', N'PENDING', N'PENDING', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
-    (4, 8, 18, 737500000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-3.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-3.pdf', N'PENDING', N'PENDING', N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
-
-    (3,  8,  16, 65000.00,     0.00,  N'https://files.evdealer.com/q/quotation_1003.pdf', N'https://files.evdealer.com/c/contract_1003.pdf', N'DELIVERED',    N'PARTIAL',          N'staff03', SYSUTCDATETIME(), N'staff03', SYSUTCDATETIME()),
-    (6,  8, 17, 88000.00,  5000.00,  N'https://files.evdealer.com/q/quotation_1006.pdf', N'https://files.evdealer.com/c/contract_1006.pdf', N'APPROVED',      N'PARTIAL',  N'staff06', SYSUTCDATETIME(), N'staff06', SYSUTCDATETIME()),
-    (7,  8, 11, 99000.00, 99000.00,  N'https://files.evdealer.com/q/quotation_1007.pdf', N'https://files.evdealer.com/c/contract_1007.pdf', N'COMPLETED',    N'DEPOSIT_PAID',            N'staff07', SYSUTCDATETIME(), N'staff07', SYSUTCDATETIME()),
-    (5,  6,  9, 95000.00, 25000.00,  N'https://files.evdealer.com/q/quotation_1005.pdf', N'https://files.evdealer.com/c/contract_1005.pdf', N'IN_DELIVERY',  N'PARTIAL',  N'staff05', SYSUTCDATETIME(), N'staff05', SYSUTCDATETIME());
-END;
+    (2, 2, 9, 20, 870000000.00, 870005000.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-1.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-1.pdf', N'COMPLETED', N'FINISHED', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (3, 3, 9, 17, 737500000.00, 368750000.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-2.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-2.pdf', N'IN_DELIVERY', N'DEPOSIT_PAID', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (4, 4, 8, 18, 737500000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-3.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-3.pdf', N'APPROVED', N'PENDING', N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (3, 12,  6,  16, 1237500000.00, 1237500000.00,  N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-4.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-4.pdf', N'COMPLETED', N'FINISHED', N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (1, NULL,  4, 6, 880000000.00,  0.00,  NULL, NULL, N'PENDING', N'PENDING',  N'Nguyễn Văn Quý', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Quý', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (2, NULL,  11, 25, 990000000.00, 297000000.00,  NULL, NULL, N'PENDING', N'DEPOSIT_PAID', N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (5, NULL,  11,  21, 1220000000.00, 0.00,  NULL, NULL, N'PENDING', N'PENDING',  N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET));
+END
 GO
 ALTER TABLE dbo.orders CHECK CONSTRAINT ALL;
 
@@ -797,29 +799,12 @@ BEGIN
         last_modified_on
     )
     VALUES
-    -- Order 1: 75000 total, 5000 paid
-    (1, 5000.00, DATEADD(DAY, -20, SYSUTCDATETIME()), N'IN_FULL', N'staff01', SYSUTCDATETIME(), N'staff01', SYSUTCDATETIME()),
-
-    -- Order 2: Fully paid
-    (2, 82000.00, DATEADD(DAY, -15, SYSUTCDATETIME()), N'IN_FULL', N'staff02', SYSUTCDATETIME(), N'staff02', SYSUTCDATETIME()),
-
-    -- Order 3: 0 paid
-    -- No payments yet
-
-    -- Order 4: Fully paid
-    (4, 72000.00, DATEADD(DAY, -10, SYSUTCDATETIME()), N'INSTALLMENT', N'staff04', SYSUTCDATETIME(), N'staff04', SYSUTCDATETIME()),
-
-    -- Order 5: 95000 total, 25000 paid (installments)
-    (5, 10000.00, DATEADD(DAY, -12, SYSUTCDATETIME()), N'INSTALLMENT', N'staff05', SYSUTCDATETIME(), N'staff05', SYSUTCDATETIME()),
-    (5, 15000.00, DATEADD(DAY, -5, SYSUTCDATETIME()), N'INSTALLMENT', N'staff05', SYSUTCDATETIME(), N'staff05', SYSUTCDATETIME()),
-
-    -- Order 6: 88000 total, 5000 paid
-    (6, 5000.00, DATEADD(DAY, -3, SYSUTCDATETIME()), N'IN_FULL', N'staff06', SYSUTCDATETIME(), N'staff06', SYSUTCDATETIME()),
-
-    -- Order 7: Fully paid in two installments
-    (7, 40000.00, DATEADD(DAY, -30, SYSUTCDATETIME()), N'IN_FULL', N'staff07', SYSUTCDATETIME(), N'staff07', SYSUTCDATETIME()),
-    (7, 59000.00, DATEADD(DAY, -15, SYSUTCDATETIME()), N'INSTALLMENT', N'staff07', SYSUTCDATETIME(), N'staff07', SYSUTCDATETIME());
-
+    (1, 870000000.00, '2025-11-13T00:32:33.5774464+00:00', N'IN_FULL', N'Trần Thị Liên', '2025-11-13T00:32:33.5774464+00:00', N'Trần Thị Liên', '2025-11-13T00:32:33.5774464+00:00'),
+    (2, 368750000.00, '2025-11-13T00:32:33.5774464+00:00', N'INSTALLMENT', N'Trần Thị Liên', '2025-11-13T00:32:33.5774464+00:00', N'Trần Thị Liên', '2025-11-13T00:32:33.5774464+00:00'),
+    (3, 412500000.00, '2025-11-13T00:32:33.5774464+00:00', N'INSTALLMENT', N'Nguyễn Văn Bình', '2025-11-13T00:32:33.5774464+00:00', N'Nguyễn Văn Bình', '2025-11-13T00:32:33.5774464+00:00'),
+    (3, 412500000.00, '2025-11-13T00:32:33.5774464+00:00', N'INSTALLMENT', N'Nguyễn Văn Bình', '2025-11-13T00:32:33.5774464+00:00', N'Nguyễn Văn Bình', '2025-11-13T00:32:33.5774464+00:00'),
+    (3, 412500000.00, '2025-11-13T00:32:33.5774464+00:00', N'INSTALLMENT', N'Nguyễn Văn Bình', '2025-11-13T00:32:33.5774464+00:00', N'Nguyễn Văn Bình', '2025-11-13T00:32:33.5774464+00:00'),
+    (6, 297000000.00, '2025-11-13T00:32:33.5774464+00:00', N'INSTALLMENT', N'Phạm Văn Dũng', '2025-11-13T00:32:33.5774464+00:00', N'Phạm Văn Dũng', '2025-11-13T00:32:33.5774464+00:00');
 END;
 GO
 
@@ -845,41 +830,36 @@ BEGIN
     INSERT INTO dbo.orders_activities (order_id, order_status, changed_at)
         VALUES
         -- Order 1 (APPROVED)
-        (1, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
-        (1, 'APPROVED', DATEADD(DAY, -2, SYSUTCDATETIME())),
+        (1, 'PENDING', CAST('2025-11-05T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 'APPROVED', CAST('2025-11-05T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 'IN_DELIVERY', CAST('2025-11-06T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 'DELIVERED', CAST('2025-11-10T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 'COMPLETED', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
 
         -- Order 2 (REJECTED)
-        (2, 'IN_DELIVERY', DATEADD(DAY, -10, SYSUTCDATETIME())),
-        (2, 'APPROVED', DATEADD(DAY, -7, SYSUTCDATETIME())),
-        (2, 'REJECTED', DATEADD(DAY, -1, SYSUTCDATETIME())),
+        (2, 'PENDING', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (2, 'APPROVED', CAST('2025-11-10T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (2, 'IN_DELIVERY', CAST('2025-11-15T16:04:00+07:00' AS DATETIMEOFFSET)),
 
         -- Order 3 (DELIVERED)
-        (3, 'IN_DELIVERY', DATEADD(DAY, -15, SYSUTCDATETIME())),
-        (3, 'APPROVED', DATEADD(DAY, -12, SYSUTCDATETIME())),
-        (3, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
-        (3, 'DELIVERED', DATEADD(DAY, -1, SYSUTCDATETIME())),
+        (3, 'PENDING', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (3, 'APPROVED', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
 
         -- Order 4 (DELIVERED)
-        (4, 'REJECTED', DATEADD(DAY, -20, SYSUTCDATETIME())),
-        (4, 'APPROVED', DATEADD(DAY, -18, SYSUTCDATETIME())),
-        (4, 'IN_DELIVERY', DATEADD(DAY, -10, SYSUTCDATETIME())),
-        (4, 'DELIVERED', DATEADD(DAY, -2, SYSUTCDATETIME())),
+        (1, 'PENDING', CAST('2025-11-05T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (4, 'APPROVED', CAST('2025-11-05T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (4, 'IN_DELIVERY', CAST('2025-11-06T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (4, 'DELIVERED', CAST('2025-11-10T16:04:00+07:00' AS DATETIMEOFFSET)),
+        (4, 'COMPLETED', CAST('2025-11-20T16:04:00+07:00' AS DATETIMEOFFSET)),
 
         -- Order 5 (IN_DELIVERY)
-        (5, 'REJECTED', DATEADD(DAY, -7, SYSUTCDATETIME())),
-        (5, 'APPROVED', DATEADD(DAY, -5, SYSUTCDATETIME())),
-        (5, 'IN_DELIVERY', DATEADD(DAY, -1, SYSUTCDATETIME())),
+        (5, 'PENDING', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
 
         -- Order 6 (APPROVED)
-        (6, 'REJECTED', DATEADD(DAY, -4, SYSUTCDATETIME())),
-        (6, 'APPROVED', DATEADD(DAY, -2, SYSUTCDATETIME())),
+        (6, 'PENDING', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
 
         -- Order 7 (COMPLETED)
-        (7, 'REJECTED', DATEADD(DAY, -12, SYSUTCDATETIME())),
-        (7, 'APPROVED', DATEADD(DAY, -10, SYSUTCDATETIME())),
-        (7, 'IN_DELIVERY', DATEADD(DAY, -5, SYSUTCDATETIME())),
-        (7, 'DELIVERED', DATEADD(DAY, -2, SYSUTCDATETIME())),
-        (7, 'COMPLETED', DATEADD(DAY, 0, SYSUTCDATETIME()));
+        (7, 'PENDING', CAST('2025-11-15T16:04:00+07:00' AS DATETIMEOFFSET));
 END;
 GO
 

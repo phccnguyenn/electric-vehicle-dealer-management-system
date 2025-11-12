@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/car-model")
+@RequestMapping("/api/v1/carDetail-model")
 @RequiredArgsConstructor
 @Tag(name = "Cars", description = "Car management APIs")
 public class CarModelController {
@@ -23,7 +23,7 @@ public class CarModelController {
         return ResponseEntity.ok(carModelService.getAllCarModel());
     }
 
-    @GetMapping("/get-trial-model-car")
+    @GetMapping("/get-trial-model-carDetail")
     public ResponseEntity<List<CarModelInfoGetDto>> getTrialCarModel() {
         return ResponseEntity.ok(carModelService.getTrialCarModel());
     }

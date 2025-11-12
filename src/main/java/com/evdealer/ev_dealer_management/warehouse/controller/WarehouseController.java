@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/warehouse-car")
+@RequestMapping("/api/v1/warehouse-carDetail")
 @RequiredArgsConstructor
 @Tag(name = "Warehouse", description = "Warehouse Management for Manufacturer")
 public class WarehouseController {
@@ -35,7 +35,7 @@ public class WarehouseController {
         return ResponseEntity.ok(warehouseService.getAllWarehouseCar(pageNo, pageSize));
     }
 
-    @GetMapping("/admin/warehouse-car-status")
+    @GetMapping("/admin/warehouse-carDetail-status")
     public ResponseEntity<WarehouseCarListDto> getAllWarehouseCar(
             @RequestParam(name = "warehouseCarStatus", required = false) WarehouseCarStatus warehouseCarStatus,
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,

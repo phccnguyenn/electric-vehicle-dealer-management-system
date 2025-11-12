@@ -56,7 +56,7 @@ public class ProgramDetailService {
         ProgramDetail existingDetail = programDetailRepository.findById(detailId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.PROGRAM_DETAIL_NOT_FOUND, detailId));
 
-        // Optional: update car if ID is provided
+        // Optional: update carDetail if ID is provided
         if (updateDto.carModelId() != null) {
             CarModel carModel = carModelService.getCarModelById(updateDto.carModelId(), CarModel.class);
             existingDetail.setCarModel(carModel);

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public record CarModelGetDetailDto(
         Long carModelId,
-        String categoryName,
+        String carModelName,
         List<CarInfoGetDto> carInfoGetDtos
 ) {
     public static CarModelGetDetailDto fromModel(CarModel carModel) {

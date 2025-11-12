@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.order.model;
 
 
 import com.evdealer.ev_dealer_management.car.model.CarDetail;
+import com.evdealer.ev_dealer_management.car.model.CarModel;
 import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
@@ -30,7 +31,11 @@ public class Order extends AbstractAuditEntity {
     // private String orderCode;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id", nullable = false)
+    @JoinColumn(name = "car_model_id")
+    private CarModel carModel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
     private CarDetail carDetail;
 
     // No order generation permission for Manager
@@ -42,17 +47,25 @@ public class Order extends AbstractAuditEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
+
+    @Column(name = "amount_paid")
     private BigDecimal amountPaid;
 
     // PDF/DOC links
+    @Column(name = "quotation_url")
     private String quotationUrl;
+
+    @Column(name = "contract_url")
     private String contractUrl;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private OrderStatus status;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -79,8 +92,6 @@ public class Order extends AbstractAuditEntity {
             paymentStatus = PaymentStatus.PENDING;
         } else if(totalPaid.compareTo(totalAmount.multiply(new BigDecimal("0.3"))) <= 0) {
             paymentStatus = PaymentStatus.DEPOSIT_PAID;
-        } else if(totalPaid.compareTo(totalAmount) < 0) {
-            paymentStatus = PaymentStatus.PARTIAL;
         } else {
             paymentStatus = PaymentStatus.FINISHED;
         }

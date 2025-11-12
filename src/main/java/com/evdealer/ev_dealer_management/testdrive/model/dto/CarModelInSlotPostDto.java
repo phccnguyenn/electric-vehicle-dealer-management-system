@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotNull;
 
 public record CarModelInSlotPostDto(
 
-        @NotNull(message = "The car model id must not be null")
+        @NotNull(message = "The carDetail model id must not be null")
         Long carModelId,
 
         @NotNull(message = "The number of trial cars must not be null")
-        @Min(value = 1, message = "The number of trials car must be greater than 1")
+        @Min(value = 1, message = "The number of trials carDetail must be greater than 1")
         Integer maxTrialCar
 
 ) {

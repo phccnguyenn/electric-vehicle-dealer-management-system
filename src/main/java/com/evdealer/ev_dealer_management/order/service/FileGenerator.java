@@ -99,9 +99,9 @@ public class FileGenerator {
                 table.addCell(new PdfPCell(new Phrase(car.getCarModel().getCarModelName(), normalFont)));
             }
 
-//            if (car.getPerformance() != null) {
+//            if (carDetail.getPerformance() != null) {
 //                table.addCell(new PdfPCell(new Phrase("Hiệu suất", boldFont)));
-//                table.addCell(new PdfPCell(new Phrase(car.getPerformance().toString(), normalFont)));
+//                table.addCell(new PdfPCell(new Phrase(carDetail.getPerformance().toString(), normalFont)));
 //            }
 
             table.addCell(new PdfPCell(new Phrase("Giá niêm yết", boldFont)));
@@ -185,7 +185,7 @@ public class FileGenerator {
 //            document.add(Chunk.NEWLINE);
 //
 //            // --- Thông tin xe ---
-//            CarDetail car = order.getCarDetail();
+//            CarDetail carDetail = order.getCarDetail();
 //            document.add(new Paragraph("Thông tin xe:", boldFont));
 //
 //            PdfPTable table = new PdfPTable(2);
@@ -194,14 +194,14 @@ public class FileGenerator {
 //            table.setSpacingAfter(10f);
 //
 //            table.addCell("Tên xe");
-//            table.addCell(car.getCarName());
+//            table.addCell(carDetail.getCarName());
 //
 //            table.addCell("Màu sắc");
-//            table.addCell(car.getColor());
+//            table.addCell(carDetail.getColor());
 //
-//            if (car.getCarModel() != null) {
+//            if (carDetail.getCarModel() != null) {
 //                table.addCell("Dòng xe");
-//                table.addCell(car.getCarModel().getCarModelName());
+//                table.addCell(carDetail.getCarModel().getCarModelName());
 //            }
 //
 //            table.addCell("Giá bán");
