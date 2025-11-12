@@ -14,8 +14,8 @@ public record OrderCreateDto(
 
         @NotBlank(message = "Số điện thoại khách hàng không được để trống")
         @Pattern(
-                regexp = "^(0|\\+84)(\\d{9})$",
-                message = "Số điện thoại không hợp lệ (phải có 10 chữ số, bắt đầu bằng 0 hoặc +84)"
+                regexp = "^(0)(\\d{9})$",
+                message = "Số điện thoại không hợp lệ (phải có 10 chữ số, bắt đầu bằng 0)"
         )
         String customerPhone,
 
