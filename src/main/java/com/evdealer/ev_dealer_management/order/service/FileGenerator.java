@@ -117,6 +117,8 @@ public class FileGenerator {
 
             document.close();
         }
+        order.setQuotationUrl(URL_BASE + fullPath.substring(1).replace("\\", "/"));
+        orderRepository.save(order);
     }
     public void generateContract(Order order) throws IOException, DocumentException {
         String fileName = "contract-" + order.getId() + ".pdf";
