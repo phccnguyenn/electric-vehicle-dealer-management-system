@@ -30,8 +30,8 @@ public abstract class UserService {
         if (!passwordEncoder.matches(oldPassword, user.getHashedPassword()))
              throw new BadCredentialsException("Current password is incorrect");
 
-        if (newPassword.length() < 8)
-            throw new IllegalArgumentException("New password must be at least 8 characters long.");
+        if (newPassword.length() < 6)
+            throw new IllegalArgumentException("New password must be at least 6 characters long.");
 
         String hashedNewPassword = passwordEncoder.encode(newPassword);
         user.setHashedPassword(hashedNewPassword);

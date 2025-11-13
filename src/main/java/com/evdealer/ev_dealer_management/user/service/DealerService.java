@@ -119,9 +119,8 @@ public class DealerService extends UserService {
 
     public <T> T createCustomerIfNotExists(CustomerPostDto customerPostDto, Class<T> type) {
 
-        User currentDealer = getCurrentUser();
         Optional<Customer> existingCustomer =
-                customerRepository.findByPhoneAndDealer(customerPostDto.phone(), currentDealer);
+                customerRepository.findByPhone(customerPostDto.phone());
 
         if (existingCustomer.isPresent()) {
             if (type.equals(Customer.class)) {
@@ -131,6 +130,11 @@ public class DealerService extends UserService {
             } else {
                 throw new IllegalArgumentException("Unsupported return type: " + type);
             }
+        }
+
+        User currentDealer = getCurrentUser();
+        if (currentDealer.getRole().equals(RoleType.DEALER_STAFF)) {
+            currentDealer = currentDealer.getParent();
         }
 
         // validateCustomerEmail(customerPostDto.email());

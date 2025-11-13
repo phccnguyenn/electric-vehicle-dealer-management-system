@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .authenticationProvider(authProvider)
                 .authorizeHttpRequests(
                     auth ->
-                        auth
+                        auth.requestMatchers("/api/v1/auth/login").permitAll()
                             .requestMatchers("/api/v1/auth/profile").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                             .requestMatchers(HttpMethod.POST, "/api/v1/user/create").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .requestMatchers("/api/v1/user/change-password").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
