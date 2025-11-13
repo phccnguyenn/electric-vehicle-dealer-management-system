@@ -158,7 +158,7 @@ public class SecurityConfig {
                                     .requestMatchers( "/api/v1/orders/pending", "/api/v1/orders/approve-order").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{orderId}/activities").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
-                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER")
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF") //
                                     .requestMatchers(HttpMethod.POST, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.POST, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/*/payments").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")

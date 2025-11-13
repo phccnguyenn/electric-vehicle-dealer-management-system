@@ -13,6 +13,7 @@ public record CarDetailGetDto (
         Long carDetailId,
         String carModelName,
         String carName,
+        String color,
         DimensionDetailGetDto dimension,
         PerformanceDetailGetDto performanceDetailGetDto,
         List<CarImageGetDetailDto> carImages
@@ -22,6 +23,7 @@ public record CarDetailGetDto (
                 carDetail.getId(),
                 CarModelInfoGetDto.fromModel(carDetail.getCarModel()).carModelName(),
                 carDetail.getCarName(),
+                carDetail.getColor(),
                 DimensionDetailGetDto.fromModel(carDetail.getDimension()),
                 PerformanceDetailGetDto.fromModel(carDetail.getPerformance()),
                 carDetail.getCarImages().stream()

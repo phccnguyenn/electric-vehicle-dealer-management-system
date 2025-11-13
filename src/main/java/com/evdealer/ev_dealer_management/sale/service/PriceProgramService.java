@@ -28,6 +28,7 @@ public class PriceProgramService {
     }
 
     public List<PriceProgramGetDto> getByDealerHierarchy(Integer dealerLevel) {
+
         DealerHierarchy hierarchy = dealerHierarchyRepository.findByLevelType(dealerLevel)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_HIERARCHY_NOT_FOUND));
 

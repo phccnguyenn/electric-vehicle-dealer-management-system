@@ -39,8 +39,8 @@ public class CarDetailController {
         return ResponseEntity.ok(carDetailService.getAllCarsByCarModelId(carModelId, pageNo, pageSize));
     }
 
-    @GetMapping("/{carModelId}/detail")
-    public ResponseEntity<CarDetailGetDto> getDetailCarById(@PathVariable("carModelId") Long carId) {
+    @GetMapping("/{carId}/detail")
+    public ResponseEntity<CarDetailGetDto> getDetailCarById(@PathVariable("carId") Long carId) {
         return ResponseEntity.ok(carDetailService.getDetailCarById(carId));
     }
 
@@ -62,15 +62,15 @@ public class CarDetailController {
         return ResponseEntity.ok(carDetailService.createCar(carDetailPostDto));
     }
 
-    @PostMapping(path = "/{carModelId}/upload/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/{carId}/upload/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CarDetailGetDto> uploadCarImages(
-            @PathVariable(name = "carModelId") Long carId,
+            @PathVariable(name = "carId") Long carId,
             @RequestPart("files") MultipartFile[] files) {
         return ResponseEntity.ok(carDetailService.uploadImagesForCar(carId, files));
     }
 
-    @PatchMapping("/{carModelId}/update")
-    public ResponseEntity<Void> partialUpdate(@PathVariable(value = "carModelId") Long carId,
+    @PatchMapping("/{carId}/update")
+    public ResponseEntity<Void> partialUpdate(@PathVariable(value = "carId") Long carId,
                                               @RequestBody CarPatchDto carPatchDto) {
         carDetailService.updatePartialCarByCarId(carId, carPatchDto);
         return ResponseEntity.noContent().build();

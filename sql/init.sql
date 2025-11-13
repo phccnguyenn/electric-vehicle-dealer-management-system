@@ -6,13 +6,36 @@ GO
 
 USE evdealer_db
 
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.dealer_hierarchy') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.dealer_hierarchy (
+        id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
+        --dealer_id           BIGINT NULL,
+        level_type          INT NOT NULL,
+
+--        CONSTRAINT fk_dealer_hierarchy_id
+--            FOREIGN KEY (dealer_id)
+--            REFERENCES dbo.users(user_id)
+    );
+END;
+GO
+
+ALTER TABLE dbo.dealer_hierarchy NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.dealer_hierarchy)
+BEGIN
+    INSERT INTO dbo.dealer_hierarchy (level_type)
+    VALUES (1), (2), (3);
+END;
+GO
+ALTER TABLE dbo.dealer_hierarchy CHECK CONSTRAINT ALL;
+
 --========================== users ==================================
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.users') AND type = 'U')
 BEGIN
     CREATE TABLE dbo.users (
         user_id             BIGINT IDENTITY(1,1) PRIMARY KEY,
         parent_id           BIGINT NULL,
-        dealer_hierarchy_id BIGINT NULL,
+        dealer_hierarchy_id BIGINT NOT NULL,
         username            VARCHAR(100)  NOT NULL UNIQUE,
         hashed_password     VARCHAR(255)  NOT NULL,
         full_name           NVARCHAR(150) NOT NULL,
@@ -24,7 +47,7 @@ BEGIN
         created_by          NVARCHAR(100) NULL,
         created_on          DATETIMEOFFSET NULL,
         last_modified_by    NVARCHAR(100) NULL,
-        last_modified_on    DATETIMEOFFSET NULL
+        last_modified_on    DATETIMEOFFSET NULL,
     );
 END;
 GO
@@ -334,147 +357,147 @@ BEGIN
         file_url
     )
     VALUES
-    (1, 'sample_blue_01.jpg', '/uploads/thumbnail/image/sample_blue_01.jpg', 'http://localhost:8000/evdealer/uploads/thumbnail/image/sample_blue_01.jpg'),
-    (1, 'sample_blue_02.jpg', '/uploads/thumbnail/image/sample_blue_02.jpg', 'http://localhost:8000/evdealer/uploads/thumbnail/image/sample_blue_02.jpg'),
-    (1, 'sample_blue_03.jpg', '/uploads/thumbnail/image/sample_blue_03.jpg', 'http://localhost:8000/evdealer/uploads/thumbnail/image/sample_blue_03.jpg'),
-    (1, 'sample_blue_01.jpg', '/uploads/thumbnail/image/sample_blue_01.jpg', 'http://localhost:8000/evdealer/uploads/thumbnail/image/sample_blue_interior_01.jpg'),
-    (1, 'sample_blue_02.jpg', '/uploads/thumbnail/image/sample_blue_02.jpg', 'http://localhost:8000/evdealer/uploads/thumbnail/image/sample_blue_interior_02.jpg'),
-    (1, 'sample_blue_03.jpg', '/uploads/thumbnail/image/sample_blue_03.jpg', 'http://localhost:8000/evdealer/uploads/thumbnail/image/sample_blue_interior_03.jpg'),
+    (1, 'sample_blue_01.jpg', '/uploads/thumbnail/image/sample_blue_01.jpg', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/sample_blue_01.jpg'),
+    (1, 'sample_blue_02.jpg', '/uploads/thumbnail/image/sample_blue_02.jpg', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/sample_blue_02.jpg'),
+    (1, 'sample_blue_03.jpg', '/uploads/thumbnail/image/sample_blue_03.jpg', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/sample_blue_03.jpg'),
+    (1, 'sample_blue_01.jpg', '/uploads/thumbnail/image/sample_blue_01.jpg', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/sample_blue_interior_01.jpg'),
+    (1, 'sample_blue_02.jpg', '/uploads/thumbnail/image/sample_blue_02.jpg', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/sample_blue_interior_02.jpg'),
+    (1, 'sample_blue_03.jpg', '/uploads/thumbnail/image/sample_blue_03.jpg', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/sample_blue_interior_03.jpg'),
 
-    (2, 'black_gold_01.png', '/uploads/thumbnail/image/black_gold_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_gold_01.png'),
-    (2, 'black_gold_02.png', '/uploads/thumbnail/image/black_gold_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_gold_02.png'),
-    (2, 'black_gold_03.png', '/uploads/thumbnail/image/black_gold_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_gold_03.png'),
-    (2, 'black_gold_intorior_01.png', '/uploads/thumbnail/image/black_gold_intorior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_gold_intorior_01.png'),
-    (2, 'black_gold_intorior_02.png', '/uploads/thumbnail/image/black_gold_intorior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_gold_intorior_02.png'),
-    (2, 'black_gold_intorior_03.png', '/uploads/thumbnail/image/black_gold_intorior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_gold_intorior_03.png'),
+    (2, 'black_gold_01.png', '/uploads/thumbnail/image/black_gold_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_gold_01.png'),
+    (2, 'black_gold_02.png', '/uploads/thumbnail/image/black_gold_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_gold_02.png'),
+    (2, 'black_gold_03.png', '/uploads/thumbnail/image/black_gold_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_gold_03.png'),
+    (2, 'black_gold_intorior_01.png', '/uploads/thumbnail/image/black_gold_intorior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_gold_intorior_01.png'),
+    (2, 'black_gold_intorior_02.png', '/uploads/thumbnail/image/black_gold_intorior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_gold_intorior_02.png'),
+    (2, 'black_gold_intorior_03.png', '/uploads/thumbnail/image/black_gold_intorior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_gold_intorior_03.png'),
 
-    (3, 'black_orange_01.png', '/uploads/thumbnail/image/black_orange_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_orange_01.png'),
-    (3, 'black_orange_02.png', '/uploads/thumbnail/image/black_orange_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_orange_02.png'),
-    (3, 'black_orange_03.png', '/uploads/thumbnail/image/black_orange_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_orange_03.png'),
-    (3, 'black_orange_Interior_01.png', '/uploads/thumbnail/image/black_orange_Interior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_orange_Interior_01.png'),
-    (3, 'black_orange_Interior_02.png', '/uploads/thumbnail/image/black_orange_Interior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_orange_Interior_02.png'),
-    (3, 'black_orange_Interior_03.png', '/uploads/thumbnail/image/black_orange_Interior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_orange_Interior_03.png'),
+    (3, 'black_orange_01.png', '/uploads/thumbnail/image/black_orange_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_orange_01.png'),
+    (3, 'black_orange_02.png', '/uploads/thumbnail/image/black_orange_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_orange_02.png'),
+    (3, 'black_orange_03.png', '/uploads/thumbnail/image/black_orange_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_orange_03.png'),
+    (3, 'black_orange_Interior_01.png', '/uploads/thumbnail/image/black_orange_Interior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_orange_Interior_01.png'),
+    (3, 'black_orange_Interior_02.png', '/uploads/thumbnail/image/black_orange_Interior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_orange_Interior_02.png'),
+    (3, 'black_orange_Interior_03.png', '/uploads/thumbnail/image/black_orange_Interior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_orange_Interior_03.png'),
 
-    (4, 'black_pink_01.png', '/uploads/thumbnail/image/black_pink_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_pink_01.png'),
-    (4, 'black_pink_02.png', '/uploads/thumbnail/image/black_pink_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_pink_02.png'),
-    (4, 'black_pink_03.png', '/uploads/thumbnail/image/black_pink_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_pink_03.png'),
-    (4, 'black_pink_interior_01.png', '/uploads/thumbnail/image/black_pink_interior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_pink_interior_01.png'),
-    (4, 'black_pink_interior_02.png', '/uploads/thumbnail/image/black_pink_interior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_pink_interior_02.png'),
-    (4, 'black_pink_interior_03.png', '/uploads/thumbnail/image/black_pink_interior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black_pink_interior_03.png'),
+    (4, 'black_pink_01.png', '/uploads/thumbnail/image/black_pink_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_pink_01.png'),
+    (4, 'black_pink_02.png', '/uploads/thumbnail/image/black_pink_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_pink_02.png'),
+    (4, 'black_pink_03.png', '/uploads/thumbnail/image/black_pink_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_pink_03.png'),
+    (4, 'black_pink_interior_01.png', '/uploads/thumbnail/image/black_pink_interior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_pink_interior_01.png'),
+    (4, 'black_pink_interior_02.png', '/uploads/thumbnail/image/black_pink_interior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_pink_interior_02.png'),
+    (4, 'black_pink_interior_03.png', '/uploads/thumbnail/image/black_pink_interior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black_pink_interior_03.png'),
 
-    (5, 'blue_light_01.png', '/uploads/thumbnail/image/blue_light_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue_light_01.png'),
-    (5, 'blue_light_02.png', '/uploads/thumbnail/image/blue_light_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue_light_02.png'),
-    (5, 'blue_light_03.png', '/uploads/thumbnail/image/blue_light_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue_light_03.png'),
-    (5, 'blue_light_04.png', '/uploads/thumbnail/image/blue_light_04.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue_light_04.png'),
-    (5, 'blue_light_interior_01.png', '/uploads/thumbnail/image/blue_light_interior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue_light_interior_01.png'),
-    (5, 'blue_light_interior_02.png', '/uploads/thumbnail/image/blue_light_interior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue_light_interior_02.png'),
-    (5, 'blue_light_interior_03.png', '/uploads/thumbnail/image/blue_light_interior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue_light_interior_03.png'),
+    (5, 'blue_light_01.png', '/uploads/thumbnail/image/blue_light_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue_light_01.png'),
+    (5, 'blue_light_02.png', '/uploads/thumbnail/image/blue_light_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue_light_02.png'),
+    (5, 'blue_light_03.png', '/uploads/thumbnail/image/blue_light_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue_light_03.png'),
+    (5, 'blue_light_04.png', '/uploads/thumbnail/image/blue_light_04.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue_light_04.png'),
+    (5, 'blue_light_interior_01.png', '/uploads/thumbnail/image/blue_light_interior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue_light_interior_01.png'),
+    (5, 'blue_light_interior_02.png', '/uploads/thumbnail/image/blue_light_interior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue_light_interior_02.png'),
+    (5, 'blue_light_interior_03.png', '/uploads/thumbnail/image/blue_light_interior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue_light_interior_03.png'),
 
-    (6, 'green_brown_01.png', '/uploads/thumbnail/image/green_brown_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green_brown_01.png'),
-    (6, 'green_brown_04.png', '/uploads/thumbnail/image/green_brown_04.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green_brown_04.png'),
-    (6, 'green_brown_interior_01.png', '/uploads/thumbnail/image/green_brown_interior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green_brown_interior_01.png'),
-    (6, 'green_brown_interior_02.png', '/uploads/thumbnail/image/green_brown_interior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green_brown_interior_02.png'),
-    (6, 'green_brown_interior_03.png', '/uploads/thumbnail/image/green_brown_interior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green_brown_interior_03.png'),
+    (6, 'green_brown_01.png', '/uploads/thumbnail/image/green_brown_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green_brown_01.png'),
+    (6, 'green_brown_04.png', '/uploads/thumbnail/image/green_brown_04.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green_brown_04.png'),
+    (6, 'green_brown_interior_01.png', '/uploads/thumbnail/image/green_brown_interior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green_brown_interior_01.png'),
+    (6, 'green_brown_interior_02.png', '/uploads/thumbnail/image/green_brown_interior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green_brown_interior_02.png'),
+    (6, 'green_brown_interior_03.png', '/uploads/thumbnail/image/green_brown_interior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green_brown_interior_03.png'),
 
-    (7, 'red_01.png', '/uploads/thumbnail/image/red_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/red_01.png'),
-    (7, 'red_02.png', '/uploads/thumbnail/image/red_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/red_02.png'),
-    (7, 'red_03.png', '/uploads/thumbnail/image/red_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/red_03.png'),
-    (7, 'red_04.png', '/uploads/thumbnail/image/red_04.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/red_04.png'),
-    (7, 'red_05.png', '/uploads/thumbnail/image/red_05.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/red_05.png'),
-    (7, 'red_interior_01.png', '/uploads/thumbnail/image/red_interior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/red_interior_01.png'),
-    (7, 'red_interior_02.png', '/uploads/thumbnail/image/red_interior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/red_interior_02.png'),
+    (7, 'red_01.png', '/uploads/thumbnail/image/red_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/red_01.png'),
+    (7, 'red_02.png', '/uploads/thumbnail/image/red_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/red_02.png'),
+    (7, 'red_03.png', '/uploads/thumbnail/image/red_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/red_03.png'),
+    (7, 'red_04.png', '/uploads/thumbnail/image/red_04.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/red_04.png'),
+    (7, 'red_05.png', '/uploads/thumbnail/image/red_05.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/red_05.png'),
+    (7, 'red_interior_01.png', '/uploads/thumbnail/image/red_interior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/red_interior_01.png'),
+    (7, 'red_interior_02.png', '/uploads/thumbnail/image/red_interior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/red_interior_02.png'),
 
-    (8, 'white_01.png', '/uploads/thumbnail/image/white_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white_01.png'),
-    (8, 'white_02.png', '/uploads/thumbnail/image/white_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white_02.png'),
-    (8, 'white_03.png', '/uploads/thumbnail/image/white_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white_03.png'),
-    (8, 'white_Interior_01.png', '/uploads/thumbnail/image/white_Interior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white_Interior_01.png'),
-    (8, 'white_Interior_02.png', '/uploads/thumbnail/image/white_Interior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white_Interior_02.png'),
-    (8, 'white_Interior_03.png', '/uploads/thumbnail/image/white_Interior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white_Interior_03.png'),
+    (8, 'white_01.png', '/uploads/thumbnail/image/white_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white_01.png'),
+    (8, 'white_02.png', '/uploads/thumbnail/image/white_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white_02.png'),
+    (8, 'white_03.png', '/uploads/thumbnail/image/white_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white_03.png'),
+    (8, 'white_Interior_01.png', '/uploads/thumbnail/image/white_Interior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white_Interior_01.png'),
+    (8, 'white_Interior_02.png', '/uploads/thumbnail/image/white_Interior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white_Interior_02.png'),
+    (8, 'white_Interior_03.png', '/uploads/thumbnail/image/white_Interior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white_Interior_03.png'),
 
-    (9, 'yellow_01.png', '/uploads/thumbnail/image/yellow_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_01.png'),
-    (9, 'yellow_02.png', '/uploads/thumbnail/image/yellow_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_02.png'),
-    (9, 'yellow_03.png', '/uploads/thumbnail/image/yellow_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_03.png'),
-    (9, 'yellow_04.png', '/uploads/thumbnail/image/yellow_04.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_04.png'),
-    (9, 'yellow_05.png', '/uploads/thumbnail/image/yellow_05.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_05.png'),
-    (9, 'yellow_interior_01.png', '/uploads/thumbnail/image/yellow_interior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_interior_01.png'),
-    (9, 'yellow_interior_02.png', '/uploads/thumbnail/image/yellow_interior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_interior_02.png'),
-    (9, 'yellow_interior_03.png', '/uploads/thumbnail/image/yellow_interior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_interior_03.png'),
+    (9, 'yellow_01.png', '/uploads/thumbnail/image/yellow_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_01.png'),
+    (9, 'yellow_02.png', '/uploads/thumbnail/image/yellow_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_02.png'),
+    (9, 'yellow_03.png', '/uploads/thumbnail/image/yellow_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_03.png'),
+    (9, 'yellow_04.png', '/uploads/thumbnail/image/yellow_04.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_04.png'),
+    (9, 'yellow_05.png', '/uploads/thumbnail/image/yellow_05.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_05.png'),
+    (9, 'yellow_interior_01.png', '/uploads/thumbnail/image/yellow_interior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_interior_01.png'),
+    (9, 'yellow_interior_02.png', '/uploads/thumbnail/image/yellow_interior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_interior_02.png'),
+    (9, 'yellow_interior_03.png', '/uploads/thumbnail/image/yellow_interior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_interior_03.png'),
 
-    (10, 'yellow_banana_01.png', '/uploads/thumbnail/image/yellow_banana_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_01.png'),
-    (10, 'yellow_banana_02.png', '/uploads/thumbnail/image/yellow_banana_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_02.png'),
-    (10, 'yellow_banana_intorior_01.png', '/uploads/thumbnail/image/yellow_banana_intorior_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_01.png'),
-    (10, 'yellow_banana_intorior_02.png', '/uploads/thumbnail/image/yellow_banana_intorior_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_02.png'),
-    (10, 'yellow_banana_intorior_03.png', '/uploads/thumbnail/image/yellow_banana_intorior_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_03.png'),
+    (10, 'yellow_banana_01.png', '/uploads/thumbnail/image/yellow_banana_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_banana_01.png'),
+    (10, 'yellow_banana_02.png', '/uploads/thumbnail/image/yellow_banana_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_banana_02.png'),
+    (10, 'yellow_banana_intorior_01.png', '/uploads/thumbnail/image/yellow_banana_intorior_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_01.png'),
+    (10, 'yellow_banana_intorior_02.png', '/uploads/thumbnail/image/yellow_banana_intorior_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_02.png'),
+    (10, 'yellow_banana_intorior_03.png', '/uploads/thumbnail/image/yellow_banana_intorior_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/yellow_banana_intorior_03.png'),
 
-    (11, 'brown_01.png', '/uploads/thumbnail/image/brown_01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown_01.png'),
-    (11, 'brown_02.png', '/uploads/thumbnail/image/brown_02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown_02.png'),
-    (11, 'brown_03.png', '/uploads/thumbnail/image/brown_03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown_03.png'),
-    (11, 'brown-interior-01.png', '/uploads/thumbnail/image/brown-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown-interior-01.png'),
-    (11, 'brown-interior-02.png', '/uploads/thumbnail/image/brown-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown-interior-02.png'),
-    (11, 'brown-interior-03.png', '/uploads/thumbnail/image/brown-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/brown-interior-03.png'),
+    (11, 'brown_01.png', '/uploads/thumbnail/image/brown_01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/brown_01.png'),
+    (11, 'brown_02.png', '/uploads/thumbnail/image/brown_02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/brown_02.png'),
+    (11, 'brown_03.png', '/uploads/thumbnail/image/brown_03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/brown_03.png'),
+    (11, 'brown-interior-01.png', '/uploads/thumbnail/image/brown-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/brown-interior-01.png'),
+    (11, 'brown-interior-02.png', '/uploads/thumbnail/image/brown-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/brown-interior-02.png'),
+    (11, 'brown-interior-03.png', '/uploads/thumbnail/image/brown-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/brown-interior-03.png'),
 
-    (12, 'green-01.png', '/uploads/thumbnail/image/green-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-01.png'),
-    (12, 'green-02.png', '/uploads/thumbnail/image/green-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-02.png'),
-    (12, 'green-03.png', '/uploads/thumbnail/image/green-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-03.png'),
-    (12, 'green-interior-01.png', '/uploads/thumbnail/image/green-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-interior-01.png'),
-    (12, 'green-interior-02.png', '/uploads/thumbnail/image/green-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-interior-02.png'),
-    (12, 'green-interior-03.png', '/uploads/thumbnail/image/green-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/green-interior-03.png'),
+    (12, 'green-01.png', '/uploads/thumbnail/image/green-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green-01.png'),
+    (12, 'green-02.png', '/uploads/thumbnail/image/green-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green-02.png'),
+    (12, 'green-03.png', '/uploads/thumbnail/image/green-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green-03.png'),
+    (12, 'green-interior-01.png', '/uploads/thumbnail/image/green-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green-interior-01.png'),
+    (12, 'green-interior-02.png', '/uploads/thumbnail/image/green-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green-interior-02.png'),
+    (12, 'green-interior-03.png', '/uploads/thumbnail/image/green-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/green-interior-03.png'),
 
-    (13, 'grey-01.png', '/uploads/thumbnail/image/grey-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-01.png'),
-    (13, 'grey-02.png', '/uploads/thumbnail/image/grey-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-02.png'),
-    (13, 'grey-03.png', '/uploads/thumbnail/image/grey-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-03.png'),
-    (13, 'grey-interior-01.png', '/uploads/thumbnail/image/grey-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-interior-01.png'),
-    (13, 'grey-interior-02.png', '/uploads/thumbnail/image/grey-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-interior-02.png'),
-    (13, 'grey-interior-03.png', '/uploads/thumbnail/image/grey-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/grey-interior-03.png'),
+    (13, 'grey-01.png', '/uploads/thumbnail/image/grey-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/grey-01.png'),
+    (13, 'grey-02.png', '/uploads/thumbnail/image/grey-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/grey-02.png'),
+    (13, 'grey-03.png', '/uploads/thumbnail/image/grey-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/grey-03.png'),
+    (13, 'grey-interior-01.png', '/uploads/thumbnail/image/grey-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/grey-interior-01.png'),
+    (13, 'grey-interior-02.png', '/uploads/thumbnail/image/grey-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/grey-interior-02.png'),
+    (13, 'grey-interior-03.png', '/uploads/thumbnail/image/grey-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/grey-interior-03.png'),
 
-    (14, 'blue-01.png', '/uploads/thumbnail/image/blue-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-01.png'),
-    (14, 'blue-02.png', '/uploads/thumbnail/image/blue-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-02.png'),
-    (14, 'blue-03.png', '/uploads/thumbnail/image/blue-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-03.png'),
-    (14, 'blue-interior-01.png', '/uploads/thumbnail/image/blue-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-interior-01.png'),
-    (14, 'blue-interior-02.png', '/uploads/thumbnail/image/blue-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-interior-02.png'),
-    (14, 'blue-interior-03.png', '/uploads/thumbnail/image/blue-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/blue-interior-03.png'),
+    (14, 'blue-01.png', '/uploads/thumbnail/image/blue-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue-01.png'),
+    (14, 'blue-02.png', '/uploads/thumbnail/image/blue-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue-02.png'),
+    (14, 'blue-03.png', '/uploads/thumbnail/image/blue-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue-03.png'),
+    (14, 'blue-interior-01.png', '/uploads/thumbnail/image/blue-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue-interior-01.png'),
+    (14, 'blue-interior-02.png', '/uploads/thumbnail/image/blue-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue-interior-02.png'),
+    (14, 'blue-interior-03.png', '/uploads/thumbnail/image/blue-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/blue-interior-03.png'),
 
-    (15, 'black-01.png', '/uploads/thumbnail/image/black-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-01.png'),
-    (15, 'black-02.png', '/uploads/thumbnail/image/black-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-02.png'),
-    (15, 'black-03.png', '/uploads/thumbnail/image/black-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-03.png'),
-    (15, 'black-interior-01.png', '/uploads/thumbnail/image/black-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-interior-01.png'),
-    (15, 'black-interior-02.png', '/uploads/thumbnail/image/black-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-interior-02.png'),
-    (15, 'black-interior-03.png', '/uploads/thumbnail/image/black-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/black-interior-03.png'),
+    (15, 'black-01.png', '/uploads/thumbnail/image/black-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black-01.png'),
+    (15, 'black-02.png', '/uploads/thumbnail/image/black-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black-02.png'),
+    (15, 'black-03.png', '/uploads/thumbnail/image/black-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black-03.png'),
+    (15, 'black-interior-01.png', '/uploads/thumbnail/image/black-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black-interior-01.png'),
+    (15, 'black-interior-02.png', '/uploads/thumbnail/image/black-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black-interior-02.png'),
+    (15, 'black-interior-03.png', '/uploads/thumbnail/image/black-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/black-interior-03.png'),
 
-    (16, 'white-01.png', '/uploads/thumbnail/image/white-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-01.png'),
-    (16, 'white-02.png', '/uploads/thumbnail/image/white-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-02.png'),
-    (16, 'white-03.png', '/uploads/thumbnail/image/white-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-03.png'),
-    (16, 'white-interior-01.png', '/uploads/thumbnail/image/white-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-interior-01.png'),
-    (16, 'white-interior-02.png', '/uploads/thumbnail/image/white-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-interior-02.png'),
-    (16, 'white-interior-03.png', '/uploads/thumbnail/image/white-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/white-interior-03.png'),
+    (16, 'white-01.png', '/uploads/thumbnail/image/white-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white-01.png'),
+    (16, 'white-02.png', '/uploads/thumbnail/image/white-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white-02.png'),
+    (16, 'white-03.png', '/uploads/thumbnail/image/white-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white-03.png'),
+    (16, 'white-interior-01.png', '/uploads/thumbnail/image/white-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white-interior-01.png'),
+    (16, 'white-interior-02.png', '/uploads/thumbnail/image/white-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white-interior-02.png'),
+    (16, 'white-interior-03.png', '/uploads/thumbnail/image/white-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/white-interior-03.png'),
 
-    (17, 'Orange-01.png', '/uploads/thumbnail/image/Orange-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-01.png'),
-    (17, 'Orange-02.png', '/uploads/thumbnail/image/Orange-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-02.png'),
-    (17, 'Orange-03.png', '/uploads/thumbnail/image/Orange-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-03.png'),
-    (17, 'Orange-interior-01.png', '/uploads/thumbnail/image/Orange-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-interior-01.png'),
-    (17, 'Orange-interior-02.png', '/uploads/thumbnail/image/Orange-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-interior-02.png'),
-    (17, 'Orange-interior-03.png', '/uploads/thumbnail/image/Orange-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/Orange-interior-03.png'),
+    (17, 'Orange-01.png', '/uploads/thumbnail/image/Orange-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/Orange-01.png'),
+    (17, 'Orange-02.png', '/uploads/thumbnail/image/Orange-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/Orange-02.png'),
+    (17, 'Orange-03.png', '/uploads/thumbnail/image/Orange-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/Orange-03.png'),
+    (17, 'Orange-interior-01.png', '/uploads/thumbnail/image/Orange-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/Orange-interior-01.png'),
+    (17, 'Orange-interior-02.png', '/uploads/thumbnail/image/Orange-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/Orange-interior-02.png'),
+    (17, 'Orange-interior-03.png', '/uploads/thumbnail/image/Orange-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/Orange-interior-03.png'),
 
-    (18, 'CopperMist-01.png', '/uploads/thumbnail/image/CopperMist-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-01.png'),
-    (18, 'CopperMist-02.png', '/uploads/thumbnail/image/CopperMist-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-02.png'),
-    (18, 'CopperMist-03.png', '/uploads/thumbnail/image/CopperMist-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-03.png'),
-    (18, 'CopperMist-interior-01.png', '/uploads/thumbnail/image/CopperMist-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-01.png'),
-    (18, 'CopperMist-interior-02.png', '/uploads/thumbnail/image/CopperMist-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-02.png'),
-    (18, 'CopperMist-interior-03.png', '/uploads/thumbnail/image/CopperMist-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-03.png'),
+    (18, 'CopperMist-01.png', '/uploads/thumbnail/image/CopperMist-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/CopperMist-01.png'),
+    (18, 'CopperMist-02.png', '/uploads/thumbnail/image/CopperMist-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/CopperMist-02.png'),
+    (18, 'CopperMist-03.png', '/uploads/thumbnail/image/CopperMist-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/CopperMist-03.png'),
+    (18, 'CopperMist-interior-01.png', '/uploads/thumbnail/image/CopperMist-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-01.png'),
+    (18, 'CopperMist-interior-02.png', '/uploads/thumbnail/image/CopperMist-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-02.png'),
+    (18, 'CopperMist-interior-03.png', '/uploads/thumbnail/image/CopperMist-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/CopperMist-interior-03.png'),
 
-    (19, 'GlossyBlack-01.png', '/uploads/thumbnail/image/GlossyBlack-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-01.png'),
-    (19, 'GlossyBlack-02.png', '/uploads/thumbnail/image/GlossyBlack-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-02.png'),
-    (19, 'GlossyBlack-03.png', '/uploads/thumbnail/image/GlossyBlack-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-03.png'),
-    (19, 'GlossyBlack-interior-01.png', '/uploads/thumbnail/image/GlossyBlack-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-01.png'),
-    (19, 'GlossyBlack-interior-02.png', '/uploads/thumbnail/image/GlossyBlack-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-02.png'),
-    (19, 'GlossyBlack-interior-03.png', '/uploads/thumbnail/image/GlossyBlack-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-03.png'),
+    (19, 'GlossyBlack-01.png', '/uploads/thumbnail/image/GlossyBlack-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/GlossyBlack-01.png'),
+    (19, 'GlossyBlack-02.png', '/uploads/thumbnail/image/GlossyBlack-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/GlossyBlack-02.png'),
+    (19, 'GlossyBlack-03.png', '/uploads/thumbnail/image/GlossyBlack-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/GlossyBlack-03.png'),
+    (19, 'GlossyBlack-interior-01.png', '/uploads/thumbnail/image/GlossyBlack-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-01.png'),
+    (19, 'GlossyBlack-interior-02.png', '/uploads/thumbnail/image/GlossyBlack-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-02.png'),
+    (19, 'GlossyBlack-interior-03.png', '/uploads/thumbnail/image/GlossyBlack-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/GlossyBlack-interior-03.png'),
 
-    (20, 'FrostBlue-01.png', '/uploads/thumbnail/image/FrostBlue-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-01.png'),
-    (20, 'FrostBlue-02.png', '/uploads/thumbnail/image/FrostBlue-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-02.png'),
-    (20, 'FrostBlue-03.png', '/uploads/thumbnail/image/FrostBlue-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-03.png'),
-    (20, 'FrostBlue-interior-01.png', '/uploads/thumbnail/image/FrostBlue-interior-01.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-01.png'),
-    (20, 'FrostBlue-interior-02.png', '/uploads/thumbnail/image/FrostBlue-interior-02.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-02.png'),
-    (20, 'FrostBlue-interior-03.png', '/uploads/thumbnail/image/FrostBlue-interior-03.png', 'http://localhost:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-03.png');
+    (20, 'FrostBlue-01.png', '/uploads/thumbnail/image/FrostBlue-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/FrostBlue-01.png'),
+    (20, 'FrostBlue-02.png', '/uploads/thumbnail/image/FrostBlue-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/FrostBlue-02.png'),
+    (20, 'FrostBlue-03.png', '/uploads/thumbnail/image/FrostBlue-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/FrostBlue-03.png'),
+    (20, 'FrostBlue-interior-01.png', '/uploads/thumbnail/image/FrostBlue-interior-01.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-01.png'),
+    (20, 'FrostBlue-interior-02.png', '/uploads/thumbnail/image/FrostBlue-interior-02.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-02.png'),
+    (20, 'FrostBlue-interior-03.png', '/uploads/thumbnail/image/FrostBlue-interior-03.png', 'http://54.206.57.206:8000/evdealer/uploads/thumbnail/image/FrostBlue-interior-03.png');
 END;
 GO
 
@@ -604,28 +627,7 @@ GO
 --========================== PRICE PROGRAM DOMAIN ==================================
 --========================== PRICE PROGRAM DOMAIN ==================================
 --========================== PRICE PROGRAM DOMAIN ==================================
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.dealer_hierarchy') AND type = 'U')
-BEGIN
-    CREATE TABLE dbo.dealer_hierarchy (
-        id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
-        --dealer_id           BIGINT NULL,
-        level_type          INT NOT NULL,
 
---        CONSTRAINT fk_dealer_hierarchy_id
---            FOREIGN KEY (dealer_id)
---            REFERENCES dbo.users(user_id)
-    );
-END;
-GO
-
-ALTER TABLE dbo.dealer_hierarchy NOCHECK CONSTRAINT ALL;
-IF NOT EXISTS (SELECT 1 FROM dbo.dealer_hierarchy)
-BEGIN
-    INSERT INTO dbo.dealer_hierarchy (level_type)
-    VALUES (1), (2), (3);
-END;
-GO
-ALTER TABLE dbo.dealer_hierarchy CHECK CONSTRAINT ALL;
 
 -- ====== PRICE_PROGRAM TABLE ======
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.price_program') AND type = 'U')
@@ -775,10 +777,10 @@ BEGIN
         last_modified_on
     )
     VALUES
-    (2, 2, 9, 20, 870000000.00, 870005000.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-1.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-1.pdf', N'COMPLETED', N'FINISHED', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
-    (3, 3, 9, 17, 737500000.00, 368750000.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-2.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-2.pdf', N'IN_DELIVERY', N'DEPOSIT_PAID', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
-    (4, 4, 8, 18, 737500000.00, 0.00, N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-3.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-3.pdf', N'APPROVED', N'PENDING', N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
-    (3, 12,  6,  16, 1237500000.00, 1237500000.00,  N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-4.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-4.pdf', N'COMPLETED', N'FINISHED', N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (2, 2, 9, 20, 870000000.00, 870005000.00, N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-1.pdf', N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-1.pdf', N'COMPLETED', N'FINISHED', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (3, 3, 9, 17, 737500000.00, 368750000.00, N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-2.pdf', N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-2.pdf', N'IN_DELIVERY', N'DEPOSIT_PAID', N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Liên', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (4, 4, 8, 18, 737500000.00, 0.00, N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-3.pdf', N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-3.pdf', N'APPROVED', N'PENDING', N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Trần Thị Hạnh', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+    (3, 12,  6,  16, 1237500000.00, 1237500000.00,  N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-4.pdf', N'http://54.206.57.206:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-4.pdf', N'COMPLETED', N'FINISHED', N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
     (1, NULL,  4, 6, 880000000.00,  0.00,  NULL, NULL, N'PENDING', N'PENDING',  N'Nguyễn Văn Quý', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Quý', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
     (2, NULL,  11, 25, 990000000.00, 297000000.00,  NULL, NULL, N'PENDING', N'DEPOSIT_PAID', N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
     (5, NULL,  11,  21, 1220000000.00, 0.00,  NULL, NULL, N'PENDING', N'PENDING',  N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET));

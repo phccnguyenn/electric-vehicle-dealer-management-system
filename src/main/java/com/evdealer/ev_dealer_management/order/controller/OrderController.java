@@ -32,7 +32,7 @@ public class OrderController {
     private final PaymentService paymentService;
 
     @GetMapping("/pending")
-    public ResponseEntity<OrderListDto> getPendingOrders(
+    public ResponseEntity<OrderListDto> getPendingOrders (
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
         return ResponseEntity.ok(orderService.getAllOrderWithPendingStatus(pageNo, pageSize));

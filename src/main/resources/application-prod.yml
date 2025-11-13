@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8000}
+  port: ${SERVER_PORT}
   servlet:
     context-path: /evdealer
 
@@ -27,7 +27,7 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://${MSSQL_ADDRESS:localhost:14335};databaseName=${MSSQL_DB:evdealer_db};encrypt=true;trustServerCertificate=true
+    url: jdbc:sqlserver://${MSSQL_ADDRESS};databaseName=${MSSQL_DB};encrypt=true;trustServerCertificate=true
     username: ${MSSQL_SA_USERNAME:sa}
     password: ${MSSQL_SA_PASSWORD}
   jpa:
@@ -39,9 +39,9 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION:86400000} # 1 ngày
-  refresh-expiration: ${JWT_REFRESH_EXPIRATION:604800000} # 7 ngày
+  expiration: ${JWT_EXPIRATION} # 1 ngày
+  refresh-expiration: ${JWT_REFRESH_EXPIRATION} # 7 ngày
 
 file:
-  directory: ${FILE_UPLOAD_DIR:./uploads/thumbnail/image/}
-  contract: ${FILE_CONTRACT_DIR:./uploads/thumbnail/contract_and_quotation/}
+  directory: ${FILE_UPLOAD_DIR:}
+  contract: ${FILE_CONTRACT_DIR:}
