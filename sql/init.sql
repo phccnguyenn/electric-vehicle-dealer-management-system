@@ -35,7 +35,7 @@ BEGIN
     CREATE TABLE dbo.users (
         user_id             BIGINT IDENTITY(1,1) PRIMARY KEY,
         parent_id           BIGINT NULL,
-        dealer_hierarchy_id BIGINT NOT NULL,
+        dealer_hierarchy_id BIGINT NULL,
         username            VARCHAR(100)  NOT NULL UNIQUE,
         hashed_password     VARCHAR(255)  NOT NULL,
         full_name           NVARCHAR(150) NOT NULL,
