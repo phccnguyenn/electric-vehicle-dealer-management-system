@@ -155,7 +155,8 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/sales-speed", "/api/v1/orders/status").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                                    .requestMatchers( "/api/v1/orders/pending", "/api/v1/orders/approve-order").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers( "/api/v1/orders/pending").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers(HttpMethod.PATCH, "/api/v1/orders/approve-order").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{orderId}/activities").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF") //

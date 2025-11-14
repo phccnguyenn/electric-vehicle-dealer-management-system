@@ -7,10 +7,10 @@ import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramGetDto;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramPostDto;
 import com.evdealer.ev_dealer_management.sale.repository.PriceProgramRepository;
 import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
-import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
-import com.evdealer.ev_dealer_management.user.service.UserService;
+import com.evdealer.ev_dealer_management.user.service.DealerService;
+import com.evdealer.ev_dealer_management.user.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PriceProgramService {
 
-    //private final UserService userService;
+    private final DealerService dealerService;
     private final DealerHierarchyRepository dealerHierarchyRepository;
     private final PriceProgramRepository priceProgramRepository;
 
@@ -33,9 +33,10 @@ public class PriceProgramService {
 
     public List<PriceProgramGetDto> getByDealerHierarchy(Integer dealerLevel) {
 
-//        if (userService.getCurrentUser().getRole().equals(RoleType.DEALER_STAFF)) {
-//            dealerLevel =
-//        }
+        // The reason of error for price program
+        if (dealerService.getCurrentUser().getRole().equals(RoleType.DEALER_STAFF)) {
+            dealerLevel = dealerService.getCurrentUser().getParent().getDealerHierarchy().getLevelType();
+        }
 
         DealerHierarchy hierarchy = dealerHierarchyRepository.findByLevelType(dealerLevel)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_HIERARCHY_NOT_FOUND));
