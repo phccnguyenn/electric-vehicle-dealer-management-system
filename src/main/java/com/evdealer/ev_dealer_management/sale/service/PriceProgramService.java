@@ -7,6 +7,7 @@ import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramGetDto;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramPostDto;
 import com.evdealer.ev_dealer_management.sale.repository.PriceProgramRepository;
 import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
+import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -131,6 +131,26 @@ public class OrderService {
         return OrderDetailDto.fromModel(order);
     }
 
+    public OrderListDto getAllOrderByStatus(OrderStatus orderStatus, int pageNo, int pageSize) {
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Order> orderPage = orderRepository.findAllByStatus(orderStatus, pageable);
+
+        List<OrderDetailDto> orderDetailDtos = orderPage.getContent()
+                .stream()
+                .map(OrderDetailDto::fromModel)
+                .toList();
+
+        return new OrderListDto (
+                orderDetailDtos,
+                orderPage.getNumber(),
+                orderPage.getSize(),
+                (int) orderPage.getTotalElements(),
+                orderPage.getTotalPages(),
+                orderPage.isLast()
+        );
+    }
+
     public OrderListDto getAllOrderWithPendingStatus(int pageNo, int pageSize) {
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);

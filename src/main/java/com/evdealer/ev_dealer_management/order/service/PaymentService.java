@@ -69,6 +69,9 @@ public class PaymentService {
 
     public List<CustomerDebtDto> getCustomerDebts() {
         Long dealerId = dealerService.getCurrentUser().getId();
+
+
+
         return paymentRepository.getCustomerDebts(dealerId);
     }
 }

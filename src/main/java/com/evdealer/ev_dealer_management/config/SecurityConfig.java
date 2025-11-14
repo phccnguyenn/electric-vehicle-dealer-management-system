@@ -154,7 +154,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth ->
                                 auth
-                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders/sales-speed").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/orders/sales-speed", "/api/v1/orders/status").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .requestMatchers( "/api/v1/orders/pending", "/api/v1/orders/approve-order").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{orderId}/activities").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
                                     .requestMatchers(HttpMethod.GET, "/api/v1/orders/{id}").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
@@ -168,7 +168,7 @@ public class SecurityConfig {
                                     .requestMatchers("/api/v1/orders/reports/revenue/staff").hasRole("DEALER_MANAGER")
                                     .requestMatchers("/api/v1/orders/reports/revenue/dealer").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                     .requestMatchers("/api/v1/orders/reports/revenue/city").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasRole("DEALER_MANAGER")
+                                    .requestMatchers("/api/v1/orders/reports/customer-debts").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
 
                                     .anyRequest().authenticated()
                 )
@@ -338,7 +338,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://evm-system.vercel.app"
+                "https://evm-system.vercel.app",
+                "http://evd-app-fe:5173", "http://3.26.198.116:5173", "http://54.206.57.206:5173"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));

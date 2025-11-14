@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.order.repository;
 
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.dto.OrderFileDto;
+import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT o FROM Order o WHERE o.status = 'PENDING'")
     Page<Order> findAllPendingOrders(Pageable pageable);
+
+    Page<Order> findAllByStatus(OrderStatus status, Pageable pageable);
 }

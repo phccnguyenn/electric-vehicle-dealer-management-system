@@ -11,4 +11,5 @@ WORKDIR /app
 COPY --from=evd_builder /app/evd/target/*.jar app.jar
 EXPOSE 8000
 
-ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
+# ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

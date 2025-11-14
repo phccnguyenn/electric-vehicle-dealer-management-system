@@ -38,6 +38,14 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getAllOrderWithPendingStatus(pageNo, pageSize));
     }
 
+    @GetMapping("/status")
+    public ResponseEntity<OrderListDto> getInDeliveryOrders (
+            @RequestParam(name = "orderStatus", required = true) OrderStatus orderStatus,
+            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
+        return ResponseEntity.ok(orderService.getAllOrderByStatus(orderStatus, pageNo, pageSize));
+    }
+
     @PatchMapping("/approve-order")
     public ResponseEntity<OrderDetailDto> OrderApprovalRequestByEVM(
             OrderUpdateForEVMDto orderUpdateForEVMDto) {
