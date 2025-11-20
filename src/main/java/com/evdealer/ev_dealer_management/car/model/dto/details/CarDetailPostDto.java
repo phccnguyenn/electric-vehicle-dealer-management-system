@@ -20,6 +20,14 @@ public record CarDetailPostDto(
 
         String color,
 
+        @NotBlank(message = "VIN cannot be blank")
+        @Size(max = 20, message = "VIN must not exceed 50 characters")
+        String vinNumber,
+
+        @NotBlank(message = "Engine number cannot be blank")
+        @Size(max = 20, message = "Engine number must not exceed 50 characters")
+        String engineNumber,
+
         @Valid
         @NotNull(message = "Dimension information is required")
         DimensionPostDto dimensionPostDto,
@@ -27,11 +35,6 @@ public record CarDetailPostDto(
         @Valid
         @NotNull(message = "Performance information is required")
         PerformancePostDto performancePostDto
-
-
-
-
-
 
 ) {
 }

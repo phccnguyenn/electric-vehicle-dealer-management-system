@@ -32,14 +32,6 @@ services:
     networks:
       - evdealer-network
 
-#  evd-app-fe:
-#    container_name: "evd-app-fe"
-#    image: phccnguyenn/evd-app-fe:1.0.0
-#    ports:
-#      - "5173:80"
-#    networks:
-#      - evdealer-network
-
   evd-app:
     build: .
     container_name: "evd-app"
@@ -60,6 +52,42 @@ services:
       - JWT_REFRESH_EXPIRATION=${JWT_REFRESH_EXPIRATION}
     networks:
       - evdealer-network
+
+
+#  evd-app-fe:
+#    container_name: "evd-app-fe"
+#    image: phccnguyenn/evd-app-fe:1.0.0
+#    ports:
+#      - "5173:80"
+#    networks:
+#      - evdealer-network
+
+#  evd-app-be:
+#    build: .
+#    container_name: "evd-app"
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - ./uploads:/app/uploads
+#    depends_on:
+#      evdealer-mssql:
+#        condition: service_healthy
+#    environment:
+#      - SERVER_PORT=${SERVER_PORT}
+#      - MSSQL_ADDRESS=${MSSQL_ADDRESS}
+#      - MSSQL_HOST=${MSSQL_HOST}
+#      - MSSQL_DB=${MSSQL_DB}
+#      - MSSQL_SA_USERNAME=${MSSQL_SA_USERNAME}
+#      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+#      - JWT_SECRET=${JWT_SECRET}
+#      - JWT_EXPIRATION=${JWT_EXPIRATION}
+#      - JWT_REFRESH_EXPIRATION=${JWT_REFRESH_EXPIRATION}
+#      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
+#      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+#      - FILE_UPLOAD_DIR=${FILE_UPLOAD_DIR}
+#      - FILE_CONTRACT_DIR=${FILE_CONTRACT_DIR}
+#    networks:
+#      - evdealer-network
 
 networks:
   evdealer-network:

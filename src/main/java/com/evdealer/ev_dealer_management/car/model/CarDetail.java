@@ -38,6 +38,12 @@ public class CarDetail extends AbstractAuditEntity {
     @Column(name = "car_name")
     private String carName;
 
+    @Column(name = "vin_number", unique = true, length = 20)
+    private String vinNumber;
+
+    @Column(name = "engine_number", unique = true, length = 20)
+    private String engineNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "car_status")
     private CarStatus carStatus;

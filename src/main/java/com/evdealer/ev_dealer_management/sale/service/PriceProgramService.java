@@ -4,14 +4,17 @@ import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
 import com.evdealer.ev_dealer_management.sale.model.PriceProgram;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramGetDto;
+import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramListDto;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramPostDto;
 import com.evdealer.ev_dealer_management.sale.repository.PriceProgramRepository;
 import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
-import com.evdealer.ev_dealer_management.user.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -24,6 +27,25 @@ public class PriceProgramService {
     private final DealerService dealerService;
     private final DealerHierarchyRepository dealerHierarchyRepository;
     private final PriceProgramRepository priceProgramRepository;
+
+    public PriceProgramListDto getAllPriceProgram(int pageNo, int pageSize) {
+        Pageable priceProgramPageable = PageRequest.of(pageNo, pageSize);
+        Page<PriceProgram> priceProgramPage = priceProgramRepository.findAll(priceProgramPageable);
+
+        List<PriceProgramGetDto> priceProgramGetDtoList = priceProgramPage.getContent()
+                .stream()
+                .map(PriceProgramGetDto::fromModel)
+                .toList();
+
+        return new PriceProgramListDto(
+                priceProgramGetDtoList,
+                priceProgramPage.getNumber(),
+                priceProgramPage.getSize(),
+                (int) priceProgramPage.getTotalElements(),
+                priceProgramPage.getTotalPages(),
+                priceProgramPage.isLast()
+        );
+    }
 
     public PriceProgramGetDto getById(Long id) {
         PriceProgram priceProgram = priceProgramRepository.findById(id)

@@ -3,7 +3,6 @@ package com.evdealer.ev_dealer_management.car.model.dto.details;
 import com.evdealer.ev_dealer_management.car.model.CarDetail;
 import com.evdealer.ev_dealer_management.car.model.dto.image.CarImageGetDetailDto;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 

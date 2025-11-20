@@ -176,11 +176,16 @@ public class OrderService {
         Order order = orderRepository.findById(orderUpdateForEVMDto.orderId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.ORDER_NOT_FOUND, orderUpdateForEVMDto.orderId()));
 
+//        if (order.getPaymentStatus().equals(PaymentStatus.PENDING)) {
+//            throw new RuntimeException("");
+//        }
+
         CarDetail carDetail = carDetailRepository.findById(orderUpdateForEVMDto.carDetailId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, orderUpdateForEVMDto.carDetailId()));
 
         order.setCarDetail(carDetail);
         order.setStatus(orderUpdateForEVMDto.orderStatus());
+        orderActivityService.logActivity(order.getId(), orderUpdateForEVMDto.orderStatus());
 
         Order savedOrder = orderRepository.save(order);
 
