@@ -23,6 +23,7 @@ import com.evdealer.ev_dealer_management.sale.service.PriceProgramService;
 import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
 import com.itextpdf.text.DocumentException;
 import jakarta.transaction.Transactional;
@@ -105,8 +106,14 @@ public class OrderService {
         }
 
         // Constraint By Price Program
-        User staff = dealerService.getCurrentUser();
-        Integer currentLevel = staff.getParent().getDealerHierarchy().getLevelType();
+        User user = dealerService.getCurrentUser();
+        Integer currentLevel = null;
+        if(user.getRole() == RoleType.DEALER_STAFF) {
+            currentLevel = user.getParent().getDealerHierarchy().getLevelType();
+        } else if(user.getRole() == RoleType.DEALER_MANAGER) {
+            currentLevel = user.getDealerHierarchy().getLevelType();
+        }
+
         CarModel carModel = carModelRepository.findById(dto.carModelId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, dto.carModelId()));
 
@@ -117,7 +124,7 @@ public class OrderService {
         Order order = Order.builder()
                 .carDetail(null)
                 .carModel(carModel)
-                .staff(staff)
+                .staff(user)
                 .customer(customer)
                 .totalAmount(dto.totalAmount())
                 .amountPaid(BigDecimal.ZERO)
@@ -213,14 +220,43 @@ public class OrderService {
     public List<OrderFileDto> getOrderFilesByCustomerPhone(String phone) {
         return orderRepository.findFileUrlsByCustomerPhone(phone);
     }
+
+    @Transactional
     public OrderDetailDto updateOrder(Long id, OrderUpdateDto dto) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        if (dto.status() != null && dto.status() != order.getStatus()) {
-            orderActivityService.logActivity(order.getId(), dto.status());
-        }
+        BigDecimal totalPaid = order.getAmountPaid();
+        BigDecimal totalAmount = order.getTotalAmount();
+        BigDecimal depositRequired = totalAmount.multiply(new BigDecimal("0.3"));
 
+        OrderStatus oldStatus = order.getStatus();
+        OrderStatus newStatus = dto.status();
+
+        if(newStatus != null && newStatus != oldStatus) {
+            if (oldStatus == OrderStatus.PENDING &&
+                    newStatus == OrderStatus.APPROVED) {
+
+                if (totalPaid.compareTo(depositRequired) < 0) {
+                    throw new IllegalArgumentException(
+                            "Không thể duyệt đơn khi chưa đặt cọc đủ 30% tổng giá trị đơn."
+                    );
+                }
+            }
+
+            if (oldStatus == OrderStatus.DELIVERED &&
+                    newStatus == OrderStatus.COMPLETED) {
+
+                if (totalPaid.compareTo(totalAmount) < 0) {
+                    throw new IllegalArgumentException(
+                            "Không thể hoàn thành đơn khi chưa thanh toán đủ 100%."
+                    );
+                }
+            }
+
+            order.setStatus(newStatus);
+            orderActivityService.logActivity(order.getId(), newStatus);
+        }
         if (dto.totalAmount() != null) order.setTotalAmount(dto.totalAmount());
         if (dto.quotationUrl() != null) order.setQuotationUrl(dto.quotationUrl());
         if (dto.contractUrl() != null) order.setContractUrl(dto.contractUrl());
