@@ -93,7 +93,7 @@ public class Order extends AbstractAuditEntity {
         if (totalPaid.compareTo(BigDecimal.ZERO) == 0) {
             paymentStatus = PaymentStatus.PENDING;
         }
-        else if (totalPaid.compareTo(threshold) >= 0 && totalPaid.compareTo(totalAmount) < 1) {
+        else if (totalPaid.compareTo(threshold) >= 0 && totalPaid.compareTo(totalAmount) < 0) {
             paymentStatus = PaymentStatus.DEPOSIT_PAID;
         }
         else if (totalPaid.compareTo(totalAmount) >= 0) {
