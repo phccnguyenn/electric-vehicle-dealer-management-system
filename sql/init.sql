@@ -807,7 +807,28 @@ BEGIN
     (3, 12,  6,  16, 1237500000.00, 1237500000.00,  N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/quotation-4.pdf', N'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/contract-4.pdf', N'COMPLETED', N'FINISHED', N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Bình', CAST('2025-11-09T16:04:00+07:00' AS DATETIMEOFFSET)),
     (1, NULL,  4, 6, 880000000.00,  0.00,  NULL, NULL, N'PENDING', N'PENDING',  N'Nguyễn Văn Quý', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Quý', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
     (2, NULL,  11, 25, 990000000.00, 297000000.00,  NULL, NULL, N'PENDING', N'DEPOSIT_PAID', N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
-    (5, NULL,  11,  21, 1220000000.00, 0.00,  NULL, NULL, N'PENDING', N'PENDING',  N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET));
+    (5, NULL,  11,  21, 1220000000.00, 0.00,  NULL, NULL, N'PENDING', N'PENDING',  N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET), N'Phạm Văn Dũng', CAST('2025-11-12T16:04:00+07:00' AS DATETIMEOFFSET)),
+
+    (1, NULL, 5, 30, 880000000.00, 0.00, NULL, NULL, N'PENDING', N'PENDING', N'Nguyễn Văn A', CAST('2025-10-01T10:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn A', CAST('2025-10-01T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (2, NULL, 6, 31, 950000000.00, 950000000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Trần Thị B', CAST('2025-10-02T10:00:00+07:00' AS DATETIMEOFFSET), N'Trần Thị B', CAST('2025-10-02T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (3, NULL, 7, 32, 737500000.00, 368750000.00, NULL, NULL, N'IN_DELIVERY', N'DEPOSIT_PAID', N'Nguyễn Văn C', CAST('2025-10-03T11:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn C', CAST('2025-10-03T11:00:00+07:00' AS DATETIMEOFFSET)),
+    (4, NULL, 8, 33, 1237500000.00, 1237500000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Lê Thị D', CAST('2025-10-04T12:00:00+07:00' AS DATETIMEOFFSET), N'Lê Thị D', CAST('2025-10-04T12:00:00+07:00' AS DATETIMEOFFSET)),
+    (1, NULL, 5, 34, 880000000.00, 440000000.00, NULL, NULL, N'APPROVED', N'INSTALLMENT', N'Nguyễn Văn E', CAST('2025-10-05T10:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn E', CAST('2025-10-05T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (2, NULL, 6, 35, 950000000.00, 0.00, NULL, NULL, N'PENDING', N'PENDING', N'Trần Thị F', CAST('2025-10-06T10:00:00+07:00' AS DATETIMEOFFSET), N'Trần Thị F', CAST('2025-10-06T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (3, NULL, 7, 36, 737500000.00, 368750000.00, NULL, NULL, N'IN_DELIVERY', N'DEPOSIT_PAID', N'Nguyễn Văn G', CAST('2025-10-07T11:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn G', CAST('2025-10-07T11:00:00+07:00' AS DATETIMEOFFSET)),
+    (4, NULL, 8, 37, 1237500000.00, 1237500000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Lê Thị H', CAST('2025-10-08T12:00:00+07:00' AS DATETIMEOFFSET), N'Lê Thị H', CAST('2025-10-08T12:00:00+07:00' AS DATETIMEOFFSET)),
+    (1, NULL, 5, 38, 880000000.00, 0.00, NULL, NULL, N'PENDING', N'PENDING', N'Nguyễn Văn I', CAST('2025-10-09T10:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn I', CAST('2025-10-09T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (2, NULL, 6, 39, 950000000.00, 950000000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Trần Thị J', CAST('2025-10-10T10:00:00+07:00' AS DATETIMEOFFSET), N'Trần Thị J', CAST('2025-10-10T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (3, NULL, 7, 40, 737500000.00, 368750000.00, NULL, NULL, N'IN_DELIVERY', N'DEPOSIT_PAID', N'Nguyễn Văn K', CAST('2025-10-11T11:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn K', CAST('2025-10-11T11:00:00+07:00' AS DATETIMEOFFSET)),
+    (4, NULL, 8, 41, 1237500000.00, 1237500000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Lê Thị L', CAST('2025-10-12T12:00:00+07:00' AS DATETIMEOFFSET), N'Lê Thị L', CAST('2025-10-12T12:00:00+07:00' AS DATETIMEOFFSET)),
+    (1, NULL, 5, 42, 880000000.00, 440000000.00, NULL, NULL, N'APPROVED', N'INSTALLMENT', N'Nguyễn Văn M', CAST('2025-10-13T10:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn M', CAST('2025-10-13T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (2, NULL, 6, 43, 950000000.00, 0.00, NULL, NULL, N'PENDING', N'PENDING', N'Trần Thị N', CAST('2025-10-14T10:00:00+07:00' AS DATETIMEOFFSET), N'Trần Thị N', CAST('2025-10-14T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (3, NULL, 7, 44, 737500000.00, 368750000.00, NULL, NULL, N'IN_DELIVERY', N'DEPOSIT_PAID', N'Nguyễn Văn O', CAST('2025-10-15T11:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn O', CAST('2025-10-15T11:00:00+07:00' AS DATETIMEOFFSET)),
+    (4, NULL, 8, 45, 1237500000.00, 1237500000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Lê Thị P', CAST('2025-10-16T12:00:00+07:00' AS DATETIMEOFFSET), N'Lê Thị P', CAST('2025-10-16T12:00:00+07:00' AS DATETIMEOFFSET)),
+    (1, NULL, 5, 46, 880000000.00, 0.00, NULL, NULL, N'PENDING', N'PENDING', N'Nguyễn Văn Q', CAST('2025-10-17T10:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn Q', CAST('2025-10-17T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (2, NULL, 6, 47, 950000000.00, 950000000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Trần Thị R', CAST('2025-10-18T10:00:00+07:00' AS DATETIMEOFFSET), N'Trần Thị R', CAST('2025-10-18T10:00:00+07:00' AS DATETIMEOFFSET)),
+    (3, NULL, 7, 48, 737500000.00, 368750000.00, NULL, NULL, N'IN_DELIVERY', N'DEPOSIT_PAID', N'Nguyễn Văn S', CAST('2025-10-19T11:00:00+07:00' AS DATETIMEOFFSET), N'Nguyễn Văn S', CAST('2025-10-19T11:00:00+07:00' AS DATETIMEOFFSET)),
+    (4, NULL, 8, 49, 1237500000.00, 1237500000.00, NULL, NULL, N'COMPLETED', N'FINISHED', N'Lê Thị T', CAST('2025-10-20T12:00:00+07:00' AS DATETIMEOFFSET), N'Lê Thị T', CAST('2025-10-20T12:00:00+07:00' AS DATETIMEOFFSET));
 END
 GO
 ALTER TABLE dbo.orders CHECK CONSTRAINT ALL;
@@ -917,7 +938,7 @@ BEGIN
     CREATE TABLE dbo.warehouse_car (
         id                      BIGINT IDENTITY(1,1) PRIMARY KEY,
         warehouse_id            BIGINT NOT NULL,
-        car_detail_id           BIGINT NOT NULL,
+        car_model_id           BIGINT NOT NULL,
         quantity                INT NOT NULL,
         warehouse_car_status    VARCHAR(50) NOT NULL,
         created_by              NVARCHAR(100) NULL,
@@ -929,45 +950,44 @@ BEGIN
             FOREIGN KEY (warehouse_id) REFERENCES dbo.warehouse(id)
             ON DELETE CASCADE,
 
-        CONSTRAINT fk_wc_car_detail_id
-            FOREIGN KEY (car_detail_id) REFERENCES dbo.car_detail(id)
+        CONSTRAINT fk_wc_car_model_id
+            FOREIGN KEY (car_model_id) REFERENCES dbo.car_model(id)
             ON DELETE CASCADE
     );
 END;
 GO
 
-ALTER TABLE dbo.warehouse_car NOCHECK CONSTRAINT ALL;
-
-IF NOT EXISTS (SELECT 1 FROM dbo.warehouse_car)
-BEGIN
-    INSERT INTO dbo.warehouse_car (
-        warehouse_id,
-        car_detail_id,
-        quantity,
-        warehouse_car_status,
-        created_by,
-        created_on,
-        last_modified_by,
-        last_modified_on
-    )
-    VALUES
-        (1, 2, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 3, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 16, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 1, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 4, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 5, 5, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 6, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 8, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 11, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 12, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 14, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 18, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 12, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 14, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 18, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
-END;
-GO
-
-ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
+--
+--ALTER TABLE dbo.warehouse_car NOCHECK CONSTRAINT ALL;
+--IF NOT EXISTS (SELECT 1 FROM dbo.warehouse_car)
+--BEGIN
+--    INSERT INTO dbo.warehouse_car (
+--        warehouse_id,
+--        car_model_id,
+--        quantity,
+--        warehouse_car_status,
+--        created_by,
+--        created_on,
+--        last_modified_by,
+--        last_modified_on
+--    )
+--    VALUES
+--        (1, 2, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+--        (1, 3, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+--        (1, 16, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+--        (1, 1, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 4, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 5, 5, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 6, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 8, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 11, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 12, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 14, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 18, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 12, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 14, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+--        (1, 18, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
+--END;
+--GO
+--ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
 -- 1 4 5 6 8 11 12 14 18 for sale

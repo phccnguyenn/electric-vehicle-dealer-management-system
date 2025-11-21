@@ -48,7 +48,7 @@ public class WarehouseController {
     @PostMapping("/admin/create")
     public ResponseEntity<WarehouseCarDetailsGetDto> createWarehouseCar(
             @Valid @RequestBody WarehouseCarPostDto warehouseCarPostDto) {
-        return ResponseEntity.ok(warehouseService.createWarehouseWithCarDetail(warehouseCarPostDto));
+        return ResponseEntity.ok(warehouseService.createWarehouseWithCarModel(warehouseCarPostDto));
     }
 
     @PatchMapping("/admin/update/{warehouseCarId}")

@@ -23,6 +23,11 @@ public class CarModelController {
         return ResponseEntity.ok(carModelService.getAllCarModel());
     }
 
+    @GetMapping("/{carModelId}")
+    public ResponseEntity<CarModelInfoGetDto> getCarModelById(@PathVariable(name = "carModelId") Long carModelId) {
+        return ResponseEntity.ok(carModelService.getCarModelById(carModelId));
+    }
+
     @GetMapping("/get-trial-model-carDetail")
     public ResponseEntity<List<CarModelInfoGetDto>> getTrialCarModel() {
         return ResponseEntity.ok(carModelService.getTrialCarModel());

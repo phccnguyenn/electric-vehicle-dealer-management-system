@@ -38,6 +38,13 @@ public class CarModelService {
                 .toList();
     }
 
+    public CarModelInfoGetDto getCarModelById(Long carModelId) {
+        CarModel carModel = carModelRepository.findById(carModelId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, carModelId));
+
+        return CarModelInfoGetDto.fromModel(carModel);
+    }
+
     public List<CarModelInfoGetDto> getTrialCarModel() {
         return carModelRepository
                 .findDistinctByCarDetails_CarStatus(CarStatus.TEST_DRIVE_ONLY)

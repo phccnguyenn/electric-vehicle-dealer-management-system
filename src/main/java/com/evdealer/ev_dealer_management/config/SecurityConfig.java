@@ -93,6 +93,8 @@ public class SecurityConfig {
                                 .hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                             .requestMatchers(HttpMethod.GET, "/api/v1/carDetail-model/get-trial-model-carDetail")
                                 .hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                            .requestMatchers(HttpMethod.GET, "/api/v1/carDetail-model/**")
+                                .hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .requestMatchers("/api/v1/carDetail-model/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
 
                             // Car Details APIs

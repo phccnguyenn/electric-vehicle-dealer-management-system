@@ -2,14 +2,20 @@ package com.evdealer.ev_dealer_management.config;
 
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
+import com.evdealer.ev_dealer_management.car.model.CarModel;
+import com.evdealer.ev_dealer_management.car.service.CarModelService;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
 import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
+import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarPostDto;
+import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
+import com.evdealer.ev_dealer_management.warehouse.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
+    private final WarehouseService warehouseService;
+    private final CarModelService carModelService;
     private final CarModelRepository carModelRepository;
     private final AuthService authService;
 
@@ -182,7 +190,7 @@ public class DataInitializer implements CommandLineRunner {
             log.warn("Accounts already exist — skipping user seeding");
         }
 
-
+        warehouseService.seedCarModelInWarehouse();
 //        fakeCategoryCarData();
 //        fakeBatteryData();
 //        fakeMotorData();
@@ -312,5 +320,7 @@ public class DataInitializer implements CommandLineRunner {
 //
 //        motors.forEach(m -> motorRepository.save(m));
 //    }
+
+
 
 }
