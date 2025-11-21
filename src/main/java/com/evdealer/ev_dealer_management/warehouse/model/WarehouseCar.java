@@ -1,6 +1,6 @@
 package com.evdealer.ev_dealer_management.warehouse.model;
 
-import com.evdealer.ev_dealer_management.car.model.CarDetail;
+import com.evdealer.ev_dealer_management.car.model.CarModel;
 import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
 import jakarta.persistence.*;
@@ -24,8 +24,8 @@ public class WarehouseCar extends AbstractAuditEntity {
     private Warehouse warehouse;
 
     @ManyToOne
-    @JoinColumn(name = "car_detail_id")
-    private CarDetail carDetail;
+    @JoinColumn(name = "car_model_id")
+    private CarModel carModel;
 
     private Integer quantity;
 

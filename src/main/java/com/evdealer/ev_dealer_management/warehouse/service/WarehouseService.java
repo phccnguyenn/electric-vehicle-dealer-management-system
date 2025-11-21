@@ -1,7 +1,7 @@
 package com.evdealer.ev_dealer_management.warehouse.service;
 
-import com.evdealer.ev_dealer_management.car.model.CarDetail;
-import com.evdealer.ev_dealer_management.car.service.CarDetailService;
+import com.evdealer.ev_dealer_management.car.model.CarModel;
+import com.evdealer.ev_dealer_management.car.service.CarModelService;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
 import com.evdealer.ev_dealer_management.warehouse.model.Warehouse;
@@ -12,13 +12,13 @@ import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarPostDto
 import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarUpdateDto;
 import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
 import com.evdealer.ev_dealer_management.warehouse.repository.WarehouseCarRepository;
-import com.evdealer.ev_dealer_management.user.service.ManufacturerService;
 import com.evdealer.ev_dealer_management.warehouse.repository.WarehouseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,8 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WarehouseService {
 
-    private final ManufacturerService manufacturerService;
-    private final CarDetailService carDetailService;
+    private final CarModelService carModelService;
     private final WarehouseCarRepository warehouseCarRepository;
     private final WarehouseRepository warehouseRepository;
 
@@ -114,7 +113,7 @@ public class WarehouseService {
 
     public void updateWarehouseCar(Long warehouseCarId, WarehouseCarUpdateDto warehouseCarUpdateDto) {
 
-        CarDetail carDetail = carDetailService.getCarById(warehouseCarUpdateDto.carDetailId());
+        CarModel carModel = carModelService.getCarModelById(warehouseCarUpdateDto.carModelId(), CarModel.class);
 
         WarehouseCar warehouseCar = warehouseCarRepository.findById(warehouseCarId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.WAREHOUSE_CAR_NOT_FOUND));
@@ -127,18 +126,18 @@ public class WarehouseService {
                 && warehouseCarUpdateDto.warehouseCarStatus() != null)
             warehouseCar.setWarehouseCarStatus(warehouseCarUpdateDto.warehouseCarStatus());
 
-        if (carDetail != null && !warehouseCar.getCarDetail().equals(carDetail))
-            warehouseCar.setCarDetail(carDetail);
+        if (carModel != null && !warehouseCar.getCarModel().equals(carModel))
+            warehouseCar.setCarModel(carModel);
 
         warehouseCarRepository.save(warehouseCar);
     }
 
-    public WarehouseCarDetailsGetDto createWarehouseWithCarDetail(WarehouseCarPostDto warehouseCarPostDto) {
+    public WarehouseCarDetailsGetDto createWarehouseWithCarModel(WarehouseCarPostDto warehouseCarPostDto) {
 
         Warehouse warehouse = warehouseRepository.findById(warehouseCarPostDto.warehouseId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.WAREHOUSE_NOT_FOUND));
 
-        CarDetail currentCarDetail = carDetailService.getCarById(warehouseCarPostDto.carId());
+        CarModel carModel = carModelService.getCarModelById(warehouseCarPostDto.carModelId(), CarModel.class);
 
         WarehouseCarStatus warehouseCarStatus = (warehouseCarPostDto.warehouseCarStatus() == null)
                 ? WarehouseCarStatus.IN_STOCK
@@ -147,7 +146,7 @@ public class WarehouseService {
 
         WarehouseCar warehouseCar = WarehouseCar.builder()
                 .warehouse(warehouse)
-                .carDetail(currentCarDetail)
+                .carModel(carModel)
                 .quantity(warehouseCarPostDto.quantity())
                 .warehouseCarStatus(warehouseCarStatus)
                 .build();
@@ -157,6 +156,26 @@ public class WarehouseService {
         warehouseRepository.save(warehouse);
 
         return WarehouseCarDetailsGetDto.fromModel(warehouseCarRepository.save(savedWarehouseCar));
+    }
+
+    @Transactional
+    public void seedCarModelInWarehouse() {
+
+        if (warehouseCarRepository.count() > 0)
+            return;
+
+        for (long carModelId = 1; carModelId <= 5; carModelId++) {
+            CarModel carModel = carModelService.getCarModelById(carModelId, CarModel.class);
+
+            WarehouseCarPostDto dto = new WarehouseCarPostDto(
+                    1L, // warehouseId
+                    carModelId,
+                    carModel.getCarDetails().size(),
+                    carModel.getCarDetails().isEmpty() ? WarehouseCarStatus.OUT_OF_STOCK : WarehouseCarStatus.IN_STOCK
+            );
+
+            createWarehouseWithCarModel(dto);
+        }
     }
 
 }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 public record WarehouseCarUpdateDto(
 
         @NotNull(message = "The carDetail id must not be null")
-        Long carDetailId,
+        Long carModelId,
 
         @PositiveOrZero(message = "The quantity must be greater than 0.")
         Integer quantity,
