@@ -3,15 +3,19 @@ package com.evdealer.ev_dealer_management.order.service;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.Payment;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
+import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentType;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
 import com.evdealer.ev_dealer_management.order.repository.PaymentRepository;
 import com.evdealer.ev_dealer_management.user.model.User;
+import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +32,24 @@ public class PaymentService {
     public OrderDetailDto addPayment(Long orderId, PaymentDto dto) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
+        // Tổng tiền của chiếc xe
+        BigDecimal totalAmount = order.getTotalAmount();
+        BigDecimal paidAmount = order.getAmountPaid();       // tổng số tiền đã thanh toán
+        BigDecimal newTotalPaid = paidAmount.add(dto.amount());
 
+        if (dto.type() == PaymentType.IN_FULL && newTotalPaid.compareTo(totalAmount) < 0) {
+            throw new IllegalArgumentException(
+                    "Thanh toán IN_FULL yêu cầu phải trả đủ toàn bộ số tiền còn lại của đơn hàng."
+            );
+        }
+
+        if (dto.amount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Số tiền thanh toán phải lớn hơn 0.");
+        }
+
+        if (newTotalPaid.compareTo(totalAmount) > 0) {
+            throw new IllegalArgumentException("Số tiền thanh toán vượt quá tổng giá trị đơn hàng.");
+        }
         Payment payment = Payment.builder()
                 .order(order)
                 .amount(dto.amount())
@@ -68,9 +89,18 @@ public class PaymentService {
     }
 
     public List<CustomerDebtDto> getCustomerDebts() {
-        Long dealerId = dealerService.getCurrentUser().getId();
+        User currentUser = dealerService.getCurrentUser();
+        Long dealerId;
 
+        if (currentUser.getRole() == RoleType.DEALER_MANAGER) {
+            dealerId = currentUser.getId();
+        } else {
+            dealerId = currentUser.getParent() != null ? currentUser.getParent().getId() : null;
+        }
 
+        if (dealerId == null) {
+            return Collections.emptyList();
+        }
 
         return paymentRepository.getCustomerDebts(dealerId);
     }

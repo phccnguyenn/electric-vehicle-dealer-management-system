@@ -88,11 +88,15 @@ public class Order extends AbstractAuditEntity {
 
         this.amountPaid = totalPaid;
 
-        if(totalPaid.compareTo(BigDecimal.ZERO) == 0) {
+        BigDecimal threshold = totalAmount.multiply(new BigDecimal("0.3"));
+
+        if (totalPaid.compareTo(BigDecimal.ZERO) == 0) {
             paymentStatus = PaymentStatus.PENDING;
-        } else if(totalPaid.compareTo(totalAmount.multiply(new BigDecimal("0.3"))) <= 0) {
+        }
+        else if (totalPaid.compareTo(threshold) >= 0 && totalPaid.compareTo(totalAmount) < 1) {
             paymentStatus = PaymentStatus.DEPOSIT_PAID;
-        } else {
+        }
+        else if (totalPaid.compareTo(totalAmount) >= 0) {
             paymentStatus = PaymentStatus.FINISHED;
         }
     }
