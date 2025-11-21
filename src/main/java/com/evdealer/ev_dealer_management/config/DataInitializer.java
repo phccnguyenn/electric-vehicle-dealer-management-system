@@ -28,7 +28,7 @@ public class DataInitializer implements CommandLineRunner {
         List<RegisterRequest> requests = new ArrayList<>();
         requests.add(RegisterRequest.builder()
                 .username("evd.admin")
-                .password("Evd@2025!")
+                .password("00000")
                 .fullName("EVD Administrator")
                 .email("admin@evdcompany.com")
                 .phone("0987654321")

@@ -3,7 +3,6 @@ package com.evdealer.ev_dealer_management.user.service;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.Customer;
-import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;

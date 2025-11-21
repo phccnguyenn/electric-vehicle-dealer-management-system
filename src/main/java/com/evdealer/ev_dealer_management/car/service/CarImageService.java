@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CarImageService {
 
-    private final static String URL_BASE = "http://54.206.57.206:8000/evdealer";
+    private final static String URL_BASE = "http://localhost:8000/evdealer";
     private final FileSystemRepository fileSystemRepository;
     private final CarImageRepository carImageRepository;
 

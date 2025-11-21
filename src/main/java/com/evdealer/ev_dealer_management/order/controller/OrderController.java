@@ -39,7 +39,7 @@ public class OrderController {
     }
 
     @GetMapping("/status")
-    public ResponseEntity<OrderListDto> getInDeliveryOrders (
+    public ResponseEntity<OrderListDto> getOrdersByStatus (
             @RequestParam(name = "orderStatus", required = true) OrderStatus orderStatus,
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {

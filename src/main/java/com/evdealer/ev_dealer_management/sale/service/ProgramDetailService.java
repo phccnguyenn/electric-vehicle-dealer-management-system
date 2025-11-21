@@ -1,8 +1,6 @@
 package com.evdealer.ev_dealer_management.sale.service;
 
-import com.evdealer.ev_dealer_management.car.model.CarDetail;
 import com.evdealer.ev_dealer_management.car.model.CarModel;
-import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
 import com.evdealer.ev_dealer_management.car.service.CarModelService;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;

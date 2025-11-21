@@ -2,7 +2,7 @@ package com.evdealer.ev_dealer_management.car.model.dto.dimension;
 
 import jakarta.validation.constraints.*;
 
-public record DimensionPostDto(
+public record DimensionPostDto (
 
         @NotNull(message = "Seat number cannot be null")
         @Min(value = 1, message = "Seat number must be at least 1")

@@ -14,6 +14,8 @@ public record CarDetailGetDto (
         String carModelName,
         String carName,
         String color,
+        String vinNumber,
+        String engineNumber,
         DimensionDetailGetDto dimension,
         PerformanceDetailGetDto performanceDetailGetDto,
         List<CarImageGetDetailDto> carImages
@@ -24,6 +26,8 @@ public record CarDetailGetDto (
                 CarModelInfoGetDto.fromModel(carDetail.getCarModel()).carModelName(),
                 carDetail.getCarName(),
                 carDetail.getColor(),
+                carDetail.getVinNumber(),
+                carDetail.getEngineNumber(),
                 DimensionDetailGetDto.fromModel(carDetail.getDimension()),
                 PerformanceDetailGetDto.fromModel(carDetail.getPerformance()),
                 carDetail.getCarImages().stream()

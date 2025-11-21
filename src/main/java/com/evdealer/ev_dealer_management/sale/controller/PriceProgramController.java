@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.sale.controller;
 
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramGetDto;
+import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramListDto;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramPostDto;
 import com.evdealer.ev_dealer_management.sale.service.PriceProgramService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,6 +19,14 @@ import java.util.List;
 public class PriceProgramController {
 
     private final PriceProgramService priceProgramService;
+
+    @GetMapping("/all")
+    public ResponseEntity<PriceProgramListDto> getAllPriceProgram(
+            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return ResponseEntity.ok(priceProgramService.getAllPriceProgram(pageNo, pageSize));
+    }
 
     @GetMapping("/detail/{id}")
     public ResponseEntity<PriceProgramGetDto> getById(@PathVariable Long id) {

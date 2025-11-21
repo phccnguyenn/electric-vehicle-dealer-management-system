@@ -17,14 +17,12 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.stream.Stream;
 
 @Service
 public class FileGenerator {
 
-    private final static String URL_BASE = "http://54.206.57.206:8000/evdealer";
+    private final static String URL_BASE = "http://localhost:8000/evdealer";
     private final static String FONT_PATH = URL_BASE + "/uploads/arial-font/arial.ttf";
     private final OrderRepository orderRepository;
 

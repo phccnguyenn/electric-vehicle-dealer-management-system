@@ -85,6 +85,8 @@ public class CarDetailService {
         carDetail.setCarName(carDetailPostDto.carName());
         carDetail.setCarStatus(carDetailPostDto.carStatus());
         carDetail.setColor(carDetailPostDto.color());
+        carDetail.setVinNumber(carDetailPostDto.vinNumber());
+        carDetail.setEngineNumber(carDetailPostDto.engineNumber());
 
         // Set carDetail performance (1:1)
         Performance performance = performanceService.createPerformance(carDetailPostDto.performancePostDto());
