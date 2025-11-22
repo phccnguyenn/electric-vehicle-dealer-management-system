@@ -25,6 +25,7 @@ import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
+import com.evdealer.ev_dealer_management.user.service.UserService;
 import com.itextpdf.text.DocumentException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -178,28 +179,48 @@ public class OrderService {
         );
     }
 
-    public OrderDetailDto orderApprovalRequestByEVM(OrderUpdateForEVMDto orderUpdateForEVMDto) {
+    public OrderDetailDto orderApprovalRequestByEVM(OrderUpdateForEVMDto dto) {
+        Order order = orderRepository.findById(dto.orderId())
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.ORDER_NOT_FOUND, dto.orderId()));
 
-        Order order = orderRepository.findById(orderUpdateForEVMDto.orderId())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.ORDER_NOT_FOUND, orderUpdateForEVMDto.orderId()));
+        CarDetail carDetail = carDetailRepository.findById(dto.carDetailId())
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, dto.carDetailId()));
 
-//        if (order.getPaymentStatus().equals(PaymentStatus.PENDING)) {
-//            throw new RuntimeException("");
-//        }
+        BigDecimal totalPaid = order.getAmountPaid();
+        BigDecimal totalAmount = order.getTotalAmount();
+        BigDecimal depositRequired = totalAmount.multiply(new BigDecimal("0.3"));
 
-        CarDetail carDetail = carDetailRepository.findById(orderUpdateForEVMDto.carDetailId())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, orderUpdateForEVMDto.carDetailId()));
+        OrderStatus oldStatus = order.getStatus();
+        OrderStatus newStatus = dto.orderStatus();
+
+        if (newStatus != null && newStatus != oldStatus) {
+            if (oldStatus == OrderStatus.PENDING && newStatus == OrderStatus.APPROVED) {
+                if (totalPaid.compareTo(depositRequired) < 0) {
+                    throw new IllegalArgumentException(
+                            "Không thể duyệt đơn khi chưa đặt cọc đủ 30% tổng giá trị đơn."
+                    );
+                }
+            }
+
+            if (oldStatus == OrderStatus.DELIVERED && newStatus == OrderStatus.COMPLETED) {
+                if (totalPaid.compareTo(totalAmount) < 0) {
+                    throw new IllegalArgumentException(
+                            "Không thể hoàn thành đơn khi chưa thanh toán đủ 100%."
+                    );
+                }
+            }
+
+            order.setStatus(newStatus);
+            orderActivityService.logActivity(order.getId(), newStatus);
+        }
 
         order.setCarDetail(carDetail);
-        order.setStatus(orderUpdateForEVMDto.orderStatus());
-        orderActivityService.logActivity(order.getId(), orderUpdateForEVMDto.orderStatus());
 
         Order savedOrder = orderRepository.save(order);
 
         generateQuotationAndContractFile(savedOrder);
 
         return OrderDetailDto.fromModel(savedOrder);
-
     }
 
     private void generateQuotationAndContractFile(Order order) {
@@ -288,4 +309,14 @@ public class OrderService {
                         .orElse(o.getStatus() != OrderStatus.CANCELLED))
                 .collect(Collectors.toList());
     }
+
+    public List<OrderDetailDto> getOrdersByDealer() {
+        Long dealerId = dealerService.getCurrentUser().getId();
+
+        return orderRepository.findAllOrdersByDealerAndStaff(dealerId)
+                .stream()
+                .map(OrderDetailDto::fromModel)
+                .toList();
+    }
+
 }
