@@ -7,6 +7,9 @@ import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
+import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarUpdateDto;
+import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
+import com.evdealer.ev_dealer_management.warehouse.service.WarehouseService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +25,7 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class CarDetailService {
 
+    private final WarehouseService warehouseService;
     private final DimensionService dimensionService;
     private final PerformanceService performanceService;
     private final CarImageService carImageService;
@@ -62,6 +66,14 @@ public class CarDetailService {
         else {
             carDetail = carDetails.get(new Random().nextInt(carDetails.size()));
         }
+
+        // Due to random for creating order, decrease one unit in warehouse
+        WarehouseCarUpdateDto warehouseCarUpdateDto = new WarehouseCarUpdateDto(
+                carDetail.getCarModel().getId(),
+                carDetail.getCarModel().getCarDetails().isEmpty() ? 0 : carDetail.getCarModel().getCarDetails().size() - 1,
+                carDetail.getCarModel().getCarDetails().isEmpty() ? WarehouseCarStatus.OUT_OF_STOCK : WarehouseCarStatus.IN_STOCK
+        );
+        warehouseService.updateWarehouseCar(carDetail.getCarModel().getId(), warehouseCarUpdateDto);
 
         return CarDetailGetDto.fromModel(carDetail);
     }

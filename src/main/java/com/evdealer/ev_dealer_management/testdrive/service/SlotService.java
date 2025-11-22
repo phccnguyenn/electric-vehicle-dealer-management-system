@@ -48,6 +48,13 @@ public class SlotService {
                 .toList();
     }
 
+    public List<SlotDetailsGetDto> getAllOngoingSlots() {
+        return slotRepository.findAllOngoingSlots()
+                .stream()
+                .map(SlotDetailsGetDto::fromModel)
+                .toList();
+    }
+
     public <T> T getSlotById(Long slotId, Class<T> type) {
         Slot slot = slotRepository.findById(slotId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.SLOT_NOT_FOUND, slotId));

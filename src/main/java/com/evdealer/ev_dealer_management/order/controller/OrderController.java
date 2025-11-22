@@ -1,6 +1,5 @@
 package com.evdealer.ev_dealer_management.order.controller;
 
-import com.evdealer.ev_dealer_management.car.model.dto.details.CarListGetDto;
 import com.evdealer.ev_dealer_management.order.model.OrderActivity;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
 import com.evdealer.ev_dealer_management.order.model.dto.evm.OrderListDto;

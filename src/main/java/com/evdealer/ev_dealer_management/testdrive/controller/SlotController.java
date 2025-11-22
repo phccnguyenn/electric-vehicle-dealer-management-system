@@ -21,15 +21,21 @@ public class SlotController {
 
     private final SlotService slotService;
 
+    @GetMapping("/all")
+    public ResponseEntity<List<SlotDetailsGetDto>> getAllSlotsByCurrentDealer() {
+        List<SlotDetailsGetDto> slots = slotService.getAllSlotsByCurrentDealer();
+        return ResponseEntity.ok(slots);
+    }
+
     @GetMapping("/detail/{slotId}")
     public ResponseEntity<SlotDetailsGetDto> getSlotDetailById(@PathVariable("slotId") Long slotId) {
         SlotDetailsGetDto slot = slotService.getSlotById(slotId, SlotDetailsGetDto.class);
         return ResponseEntity.ok(slot);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<SlotDetailsGetDto>> getAllSlotsByCurrentDealer() {
-        List<SlotDetailsGetDto> slots = slotService.getAllSlotsByCurrentDealer();
+    @GetMapping("/available")
+    public ResponseEntity<List<SlotDetailsGetDto>> getOngoingSlots() {
+        List<SlotDetailsGetDto> slots = slotService.getAllOngoingSlots();
         return ResponseEntity.ok(slots);
     }
 
