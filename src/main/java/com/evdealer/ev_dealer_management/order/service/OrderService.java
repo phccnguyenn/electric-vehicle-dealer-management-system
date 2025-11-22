@@ -311,8 +311,14 @@ public class OrderService {
     }
 
     public List<OrderDetailDto> getOrdersByDealer() {
-        Long dealerId = dealerService.getCurrentUser().getId();
+        User user = dealerService.getCurrentUser();
+        Long dealerId = -1L;
 
+        if(user.getRole() == RoleType.DEALER_MANAGER) {
+            dealerId = user.getId();
+        } else {
+            dealerId = user.getParent().getId();
+        }
         return orderRepository.findAllOrdersByDealerAndStaff(dealerId)
                 .stream()
                 .map(OrderDetailDto::fromModel)
