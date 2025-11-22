@@ -34,12 +34,14 @@ public class PaymentService {
                 .orElseThrow(() -> new RuntimeException("Order not found"));
         // Tổng tiền của chiếc xe
         BigDecimal totalAmount = order.getTotalAmount();
-        BigDecimal paidAmount = order.getAmountPaid();       // tổng số tiền đã thanh toán
-        BigDecimal newTotalPaid = paidAmount.add(dto.amount());
+        BigDecimal paidAmount = order.getAmountPaid();
+        // tổng số tiền đã thanh toán
+        BigDecimal extraAmount = dto.amount();
+        BigDecimal newTotalPaid = paidAmount.add(extraAmount);
 
-        if (dto.type() == PaymentType.IN_FULL && newTotalPaid.compareTo(totalAmount) < 0) {
+        if (dto.type() == PaymentType.IN_FULL && extraAmount.compareTo(totalAmount) < 0) {
             throw new IllegalArgumentException(
-                    "Thanh toán IN_FULL yêu cầu phải trả đủ toàn bộ số tiền còn lại của đơn hàng."
+                    "Thanh toán IN_FULL yêu cầu phải trả đủ toàn bộ số tiền của đơn hàng trong LẦN ĐẦU TIÊN."
             );
         }
 
