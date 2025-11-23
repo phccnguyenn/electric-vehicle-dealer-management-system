@@ -35,15 +35,8 @@ public class User extends AbstractAuditEntity
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private User parent;
-
-    @ManyToOne
-    @JoinColumn(name = "dealer_hierarchy_id")
-    private DealerHierarchy dealerHierarchy;
-
-    @Column(name = "city")
-    private String city;
+    @JoinColumn(name = "dealer_info_id")
+    private DealerInfo dealerInfo;
 
     @Column(name = "username", unique = true, nullable = false)
     private String username;
@@ -54,32 +47,25 @@ public class User extends AbstractAuditEntity
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "phone", unique = true, nullable = false)
     private String phone;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
-
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-//    @Column(name = "level")
-//    private Integer level;
-
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
-    private List<User> children = new ArrayList<>();
-
-    @OneToMany(mappedBy = "dealer", fetch = FetchType.EAGER)
-    private List<Customer> customers = new ArrayList<>();
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
 
     @JsonIgnore
     @ToString.Exclude
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Token> tokens;
-
 
     /**
      * UserDetails Override

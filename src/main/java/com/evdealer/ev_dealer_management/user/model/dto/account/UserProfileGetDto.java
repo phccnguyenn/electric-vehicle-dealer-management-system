@@ -21,7 +21,7 @@ public record UserProfileGetDto(
                 user.getEmail(),
                 user.getPhone(),
                 user.getRole() != null ? user.getRole().name() : null,
-                user.getCity(),
+                user.getAddress(),
                 user.isActive(),
                 user.getDealerHierarchy() != null ? user.getDealerHierarchy().getLevelType() : null
         );

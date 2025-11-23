@@ -1,12 +1,15 @@
 package com.evdealer.ev_dealer_management.user.controller;
 
+import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerInfoGetDto;
+import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerRegistryDto;
+import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerUserPostDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserDetailGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
-import com.evdealer.ev_dealer_management.user.model.dto.account.UserPostDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.service.ManufacturerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,9 +39,19 @@ public class ManufacturerController {
         return ResponseEntity.ok(manufacturerService.getAllUsersByRole(pageNo, pageSize, roleType));
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<UserDetailGetDto> createUser(@RequestBody UserPostDto userPostDto) {
-        UserDetailGetDto createdUser = manufacturerService.createUserByAdmin(userPostDto);
+    @PostMapping("/registry-dealer")
+    public ResponseEntity<DealerInfoGetDto> registryDealerInfo(@RequestBody DealerRegistryDto dealerInfoPostDto) {
+        return ResponseEntity.ok(
+                manufacturerService.registryDealerInfo(
+                        dealerInfoPostDto.dealerInfo(),
+                        dealerInfoPostDto.dealerAccount()
+                )
+        );
+    }
+
+    @PostMapping("/create-dealer-account")
+    public ResponseEntity<UserDetailGetDto> createDealerAccount(@RequestBody @Valid DealerUserPostDto dealerUserPostDto) {
+        UserDetailGetDto createdUser = manufacturerService.createDealerAccount(dealerUserPostDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
@@ -55,7 +68,7 @@ public class ManufacturerController {
             @PathVariable(name = "userId") Long userId,
             @RequestBody UserUpdateDto userUpdateDto
     ) {
-        manufacturerService.updatePartialUser(userId, userUpdateDto);
+        manufacturerService.updateUserInfo(userId, userUpdateDto);
         return ResponseEntity.noContent().build();
     }
 
@@ -79,6 +92,5 @@ public class ManufacturerController {
         manufacturerService.UserBanManagement(userId, false);
         return ResponseEntity.noContent().build();
     }
-
 
 }

@@ -11,8 +11,7 @@ public record UserDetailGetDto(
         String phone,
         boolean isActive,
         RoleType role,
-        String city,
-        Integer level
+        String city
 ) {
     public static UserDetailGetDto fromModel(User user) {
         return new UserDetailGetDto(
@@ -23,8 +22,7 @@ public record UserDetailGetDto(
                 user.getPhone(),
                 user.isActive(),
                 user.getRole(),
-                user.getCity(),
-                user.getDealerHierarchy() != null ? user.getDealerHierarchy().getLevelType() : null
+                user.getAddress()
         );
     }
 }

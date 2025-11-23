@@ -191,6 +191,10 @@ public class DealerService extends UserService {
             customer.setFullName(customerInfoUpdateDto.fullName());
         }
 
+        if (customerInfoUpdateDto.address() != null && !customerInfoUpdateDto.address().isBlank()) {
+            customer.setAddress(customerInfoUpdateDto.address());
+        }
+
         customerRepository.save(customer);
     }
 
