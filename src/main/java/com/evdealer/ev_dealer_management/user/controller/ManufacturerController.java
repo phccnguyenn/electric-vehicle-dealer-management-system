@@ -1,5 +1,6 @@
 package com.evdealer.ev_dealer_management.user.controller;
 
+import com.evdealer.ev_dealer_management.user.model.dto.account.UserPostDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerInfoGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerRegistryDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerUserPostDto;
@@ -52,6 +53,12 @@ public class ManufacturerController {
     @PostMapping("/create-dealer-account")
     public ResponseEntity<UserDetailGetDto> createDealerAccount(@RequestBody @Valid DealerUserPostDto dealerUserPostDto) {
         UserDetailGetDto createdUser = manufacturerService.createDealerAccount(dealerUserPostDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
+
+    @PostMapping("/create-evd-account")
+    public ResponseEntity<UserDetailGetDto> createEvdAccount(@RequestBody @Valid UserPostDto userPostDto) {
+        UserDetailGetDto createdUser = manufacturerService.createEvdAccount(userPostDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 

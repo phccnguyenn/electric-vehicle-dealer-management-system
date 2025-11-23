@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.user.service;
 
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
+import com.evdealer.ev_dealer_management.common.exception.NoPermissionException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.DealerInfo;
@@ -92,6 +93,32 @@ public class ManufacturerService extends UserService {
 //
 //        return UserDetailGetDto.fromModel(child);
 //    }
+
+    public UserDetailGetDto createEvdAccount(UserPostDto userPostDto) {
+
+        User currentUser = getCurrentUser();
+
+        if (currentUser.getRole() == RoleType.DEALER_STAFF
+                && userPostDto.role() == RoleType.EVM_ADMIN) {
+            throw new NoPermissionException("Dealer staff cannot create EVM admin accounts");
+        }
+
+        String hashedPassword = passwordEncoder.encode(userPostDto.password());
+
+        User user = User.builder()
+                .dealerInfo(null)
+                .username(userPostDto.username())
+                .hashedPassword(hashedPassword)
+                .fullName(userPostDto.fullName())
+                .address(userPostDto.city())
+                .email(userPostDto.email())
+                .phone(userPostDto.phone())
+                .role(userPostDto.role())
+                .isActive(userPostDto.isActive())
+                .build();
+
+        return UserDetailGetDto.fromModel(userRepository.save(user));
+    }
 
     @Transactional
     public DealerInfoGetDto registryDealerInfo(DealerInfoPostDto dealerInfoPostDto, DealerUserPostDto newDealerDto) {
