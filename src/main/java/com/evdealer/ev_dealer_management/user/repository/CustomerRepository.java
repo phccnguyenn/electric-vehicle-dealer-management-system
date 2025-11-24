@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.user.repository;
 
 import com.evdealer.ev_dealer_management.user.model.Customer;
+import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import com.evdealer.ev_dealer_management.user.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +18,8 @@ public interface CustomerRepository
 
     @Query("SELECT customer FROM Customer customer "
             + "WHERE customer.dealer = :dealer "
-            + "ORDER BY customer.fullName ASC")
-    Page<Customer> findByDealer(@Param("dealer") User dealer, Pageable pageable);
+            + "ORDER BY customer.id ASC")
+    Page<Customer> findByDealerInfo(@Param("dealer") DealerInfo dealer, Pageable pageable);
 
     Optional<Customer> findByPhone(String phone);
     Optional<Customer> findByPhoneAndDealer(String phone, User dealer);

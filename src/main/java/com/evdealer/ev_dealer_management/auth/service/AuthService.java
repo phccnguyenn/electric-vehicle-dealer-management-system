@@ -7,6 +7,7 @@ import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.auth.model.Token;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
 import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
+import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
@@ -14,6 +15,7 @@ import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
+import com.evdealer.ev_dealer_management.user.repository.DealerInfoRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
@@ -33,17 +35,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-
+    private final DealerInfoRepository dealerInfoRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
@@ -127,41 +129,31 @@ public class AuthService {
 //                .build();
 //    }
 
-    public void updateParentId(User user, RegisterRequest request) {
+//    public void updateParentId(User user, RegisterRequest request) {
+//
+//        if (request.role().equals(RoleType.DEALER_STAFF)){
+//            User parent = userRepository.findByPhone(request.parentPhone())
+//                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_WITH_PHONE_NUMBER_NOT_EXIST, request.parentPhone()));
+//
+//            user.setParent(parent);
+//            userRepository.save(user);
+//            return;
+//        }
+//
+//        User admin = userRepository.findByUsername("evd.admin").orElse(null);
+//        log.info(admin.getFullName());
+//
+//        if (user.getParent() == null && !user.getRole().equals(RoleType.EVM_ADMIN))
+//            user.setParent(admin);
+//
+//        userRepository.save(user);
+//    }
 
-        if (request.role().equals(RoleType.DEALER_STAFF)){
-            User parent = userRepository.findByPhone(request.parentPhone())
-                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_WITH_PHONE_NUMBER_NOT_EXIST, request.parentPhone()));
-
-            user.setParent(parent);
-            userRepository.save(user);
-            return;
-        }
-
-        User admin = userRepository.findByUsername("evd.admin").orElse(null);
-        log.info(admin.getFullName());
-
-        if (user.getParent() == null && !user.getRole().equals(RoleType.EVM_ADMIN))
-            user.setParent(admin);
-
-        userRepository.save(user);
-    }
-
-    public RegisterResponse register(RegisterRequest request) {
-
-        Integer level = null;
-        if (request.role() == RoleType.DEALER_MANAGER) {
-            level = request.level();
-        }
+    @Transactional
+    public RegisterResponse registryAccount(RegisterRequest request) {
 
         if (checkExistUsername(request.username()))
             throw new DuplicatedException(Constants.ErrorCode.USERNAME_ALREADY_EXIST, request.username());
-
-        DealerHierarchy dealerHierarchy = null;
-        if (request.role() == RoleType.DEALER_MANAGER) {
-            dealerHierarchy = dealerHierarchyRepository.findById(Long.valueOf(level.longValue()))
-                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_HIERARCHY_NOT_FOUND));
-        }
 
         User user = new User();
         user.setUsername(request.username());
@@ -170,15 +162,18 @@ public class AuthService {
         user.setFullName(request.fullName());
         user.setEmail(request.email());
         user.setPhone(request.phone());
-        user.setCity(request.city());
-        user.setDealerHierarchy(dealerHierarchy);
-        boolean isActive = request.isActive() != null;
-        user.setActive(isActive);
+        user.setAddress(request.city());
+        user.setDealerInfo(request.dealerInfo());
+        user.setActive(request.isActive() != null && request.isActive());
         user.setRole(request.role());
         User savedUser = userRepository.save(user);
 
-        if (savedUser.getParent() == null)
-            updateParentId(savedUser, request);
+        if (request.dealerInfo() != null) {
+            DealerInfo dealer = dealerInfoRepository.findById(request.dealerInfo().getId())
+                    .orElseThrow(() -> new NotFoundException("Dealer not found"));
+            dealer.getUsers().add(savedUser);
+            dealerInfoRepository.save(dealer);
+        }
 
         // Custom
 //        String jwtToken = jwtService.generateToken(savedUser);

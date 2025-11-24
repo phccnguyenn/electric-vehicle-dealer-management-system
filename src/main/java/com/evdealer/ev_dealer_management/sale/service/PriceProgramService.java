@@ -57,7 +57,7 @@ public class PriceProgramService {
 
         // The reason of error for price program
         if (dealerService.getCurrentUser().getRole().equals(RoleType.DEALER_STAFF)) {
-            dealerLevel = dealerService.getCurrentUser().getParent().getDealerHierarchy().getLevelType();
+            dealerLevel = dealerService.getCurrentUser().getDealerInfo().getDealerHierarchy().getLevelType();
         }
 
         DealerHierarchy hierarchy = dealerHierarchyRepository.findByLevelType(dealerLevel)

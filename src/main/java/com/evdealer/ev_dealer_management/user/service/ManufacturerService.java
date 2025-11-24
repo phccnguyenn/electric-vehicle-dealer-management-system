@@ -44,6 +44,13 @@ public class ManufacturerService extends UserService {
         this.registryFileGenerator = registryFileGenerator;
     }
 
+    public List<DealerInfoGetDto> getAllDealerInfo() {
+        List<DealerInfo> dealerInfos = dealerInfoRepository.findAll();
+        return dealerInfos.stream()
+                .map(DealerInfoGetDto::fromModel)
+                .toList();
+    }
+
     public UserInfoListDto getAllUsers(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<User> userPage = userRepository.findAll(pageable);
@@ -133,6 +140,7 @@ public class ManufacturerService extends UserService {
         dealerInfo.setDealerName(dealerInfoPostDto.dealerName());
         dealerInfo.setDealerHierarchy(dealerHierarchy);
         dealerInfo.setLocation(dealerInfoPostDto.location());
+        dealerInfo.setDealerPhone(dealerInfoPostDto.dealerPhone());
 
         dealerInfo = dealerInfoRepository.save(dealerInfo);
 
@@ -154,6 +162,13 @@ public class ManufacturerService extends UserService {
 
     public UserDetailGetDto createDealerAccount(DealerUserPostDto dealerUserPostDto) {
         DealerInfo dealerInfo = getDealerInfoById(dealerUserPostDto.dealerInfoId());
+
+        if (dealerInfo != null
+                && (dealerUserPostDto.role().equals(RoleType.EVM_ADMIN)
+                || dealerUserPostDto.role().equals(RoleType.EVM_STAFF))) {
+            throw new NoPermissionException("DO NOT HAVE PERMISSION FOR ASSIGNING THIS ROLE");
+        }
+
         User user = createInternalDealerAccount(dealerUserPostDto, dealerInfo);
         return UserDetailGetDto.fromModel(userRepository.save(user));
     }

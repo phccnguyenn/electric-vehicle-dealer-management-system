@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
@@ -38,6 +40,11 @@ public class ManufacturerController {
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
         return ResponseEntity.ok(manufacturerService.getAllUsersByRole(pageNo, pageSize, roleType));
+    }
+
+    @GetMapping("/dealer-info")
+    public ResponseEntity<List<DealerInfoGetDto>> getAllDealerInfo() {
+        return ResponseEntity.ok(manufacturerService.getAllDealerInfo());
     }
 
     @PostMapping("/registry-dealer")

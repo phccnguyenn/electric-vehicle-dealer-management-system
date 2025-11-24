@@ -10,8 +10,7 @@ public record UserProfileGetDto(
         String phone,
         String role,
         String city,
-        boolean isActive,
-        Integer level
+        boolean isActive
 ) {
     public static UserProfileGetDto fromModel(User user) {
         return new UserProfileGetDto(
@@ -22,8 +21,7 @@ public record UserProfileGetDto(
                 user.getPhone(),
                 user.getRole() != null ? user.getRole().name() : null,
                 user.getAddress(),
-                user.isActive(),
-                user.getDealerHierarchy() != null ? user.getDealerHierarchy().getLevelType() : null
+                user.isActive()
         );
     }
 }

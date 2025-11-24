@@ -3,6 +3,7 @@ package com.evdealer.ev_dealer_management.user.service;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.user.model.Customer;
+import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
@@ -10,18 +11,20 @@ import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailG
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerInfoUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
+import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerInfoGetDto;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
 import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
+import com.evdealer.ev_dealer_management.user.repository.DealerInfoRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,63 +32,85 @@ import java.util.Optional;
 @Service
 public class DealerService extends UserService {
 
+    private final DealerInfoRepository dealerInfoRepository;
     private final CustomerRepository customerRepository;
 
     public DealerService(PasswordEncoder passwordEncoder,
                          UserRepository userRepository,
                          CustomerRepository customerRepository,
-                         DealerHierarchyRepository dealerHierarchyRepository) {
+                         DealerHierarchyRepository dealerHierarchyRepository,
+                         DealerInfoRepository dealerInfoRepository) {
         super(passwordEncoder, userRepository, dealerHierarchyRepository);
         this.customerRepository = customerRepository;
+        this.dealerInfoRepository = dealerInfoRepository;
     }
 
-    public UserInfoListDto getAllStaffByCurrentManager(int pageNo, int pageSize) {
+    public DealerInfoGetDto getCurrentDealerInfo() {
+        return DealerInfoGetDto.fromModel(getCurrentUser().getDealerInfo());
+    }
 
-        User currentManager = getCurrentUser();
+    public UserInfoListDto getAllEmployeeInSpecDealer(Long dealerId, int pageNo, int pageSize) {
+
+        // Filter role of current user
+        User currentUser = getCurrentUser();
+        List<RoleType> roles = new ArrayList<>();
+        if (currentUser.getRole().equals(RoleType.DEALER_MANAGER)
+                || currentUser.getRole().equals(RoleType.EVM_ADMIN)
+                || currentUser.getRole().equals(RoleType.EVM_STAFF)) {
+            roles.add(RoleType.DEALER_MANAGER);
+            roles.add(RoleType.DEALER_STAFF);
+        } else if (currentUser.getRole().equals(RoleType.DEALER_STAFF)) {
+            roles.add(RoleType.DEALER_STAFF);
+        }
+
+
+        DealerInfo currentDealer = dealerInfoRepository.findById(dealerId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_INFO_NOT_FOUND, dealerId));
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<User> staffPage = userRepository.findAllByParentId(currentManager.getId(), pageable);
+        Page<User> employeesPage = dealerInfoRepository.findAllEmployeesByDealerInfoAndRole(currentDealer, roles, pageable);
 
-        List<UserProfileGetDto> staffProfileGetDtos = staffPage.getContent()
+        List<UserProfileGetDto> staffProfileGetDtos = employeesPage.getContent()
                 .stream()
                 .map(UserProfileGetDto::fromModel)
                 .toList();
 
         return new UserInfoListDto(
                 staffProfileGetDtos,
-                staffPage.getNumber(),
-                staffPage.getSize(),
-                (int) staffPage.getTotalElements(),
-                staffPage.getTotalPages(),
-                staffPage.isLast()
+                employeesPage.getNumber(),
+                employeesPage.getSize(),
+                (int) employeesPage.getTotalElements(),
+                employeesPage.getTotalPages(),
+                employeesPage.isLast()
         );
+
     }
 
     //
-    @Transactional
-    public User getDealerStaffByDealerManager(Long managerId, Long dealerStaffId) {
-        User dealerManager = userRepository.findByIdWithChildren(managerId)
-                .orElseThrow(() -> new RuntimeException("Dealer Manager not found"));
-
-        return dealerManager.getChildren().stream()
-                .filter(child -> Objects.equals(child.getId(), dealerStaffId)
-                        && child.getRole().equals(RoleType.DEALER_STAFF))
-                .findFirst()
-                .orElse(null);
-    }
+//    @Transactional
+//    public User getDealerStaffByDealerManager(Long managerId, Long dealerStaffId) {
+//        User dealerManager = userRepository.findByIdWithChildren(managerId)
+//                .orElseThrow(() -> new RuntimeException("Dealer Manager not found"));
+//
+//        return dealerManager.getChildren().stream()
+//                .filter(child -> Objects.equals(child.getId(), dealerStaffId)
+//                        && child.getRole().equals(RoleType.DEALER_STAFF))
+//                .findFirst()
+//                .orElse(null);
+//    }
 
     public CustomerListDto getAllCustomersByCurrentDealer(int pageNo, int pageSize) {
 
-        User currentDealer = getCurrentUser();
+        DealerInfo currentDealer = getCurrentUser().getDealerInfo();
 
-        if (currentDealer.getRole().equals(RoleType.DEALER_STAFF)) {
-            final Long parentId = currentDealer.getParent().getId();
-            currentDealer = userRepository.findById(parentId)
-                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USER_NOT_FOUND, parentId));
-        }
+//        if (currentDealer.getRole().equals(RoleType.DEALER_STAFF)) {
+//            final Long parentId = currentDealer.getParent().getId();
+//            currentDealer = userRepository.findById(parentId)
+//                    .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USER_NOT_FOUND, parentId));
+//        }
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Customer> customerPage = customerRepository.findByDealer(currentDealer, pageable);
+        Page<Customer> customerPage = customerRepository.findByDealerInfo(currentDealer, pageable);
 
         List<CustomerDetailGetDto> customerDetailGetDtos = customerPage.getContent()
                 .stream()
@@ -131,10 +156,7 @@ public class DealerService extends UserService {
             }
         }
 
-        User currentDealer = getCurrentUser();
-        if (currentDealer.getRole().equals(RoleType.DEALER_STAFF)) {
-            currentDealer = currentDealer.getParent();
-        }
+        DealerInfo currentDealer = getCurrentUser().getDealerInfo();
 
         // validateCustomerEmail(customerPostDto.email());
         validateCustomerPhone(customerPostDto.phone());
@@ -148,7 +170,7 @@ public class DealerService extends UserService {
         Customer savedCustomer = customerRepository.save(newCustomer);
 
         currentDealer.getCustomers().add(savedCustomer);
-        userRepository.save(currentDealer);
+        dealerInfoRepository.save(currentDealer);
 
         if (type.equals(Customer.class)) {
             return type.cast(savedCustomer); // return entity

@@ -57,9 +57,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                     auth ->
                         auth.requestMatchers("/api/v1/auth/login").permitAll()
-                            .requestMatchers("/api/v1/auth/profile").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
-                            .requestMatchers(HttpMethod.POST, "/api/v1/user/create").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-                            .requestMatchers("/api/v1/user/change-password").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                            .requestMatchers("/api/v1/auth/profile", "/api/v1/user/change-password").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                            .requestMatchers(HttpMethod.POST,
+                                    "/api/v1/user/registry-dealer",
+                                    "/api/v1/user/create-dealer-account",
+                                    "/api/v1/user/create-evd-account").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .requestMatchers(HttpMethod.GET, "/api/v1/dealer/staff").hasRole("DEALER_MANAGER")
                             .requestMatchers("/api/v1/dealer/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
@@ -212,16 +214,8 @@ public class SecurityConfig {
                 .authenticationProvider(authProvider)
                 .authorizeHttpRequests(
                         auth ->
-                                auth
-//                                        .requestMatchers(HttpMethod.GET, "/api/v1/slot/all").permitAll()
-//                                        .requestMatchers("/api/v1/slot/create", "/api/v1/slot/update", "/api/v1/slot/delete/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
-//
-//                                        .requestMatchers(HttpMethod.POST, "/api/v1/booking/create").permitAll()
-//                                        .requestMatchers("/api/v1/booking/slot/**", "/api/v1/booking/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
-//                                        .anyRequest().authenticated()
-
-                                        .requestMatchers("/api/v1/slot/**", "/api/v1/booking/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
-                                        .anyRequest().authenticated()
+                            auth.requestMatchers("/api/v1/slot/**", "/api/v1/booking/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
+                                .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
@@ -283,67 +277,11 @@ public class SecurityConfig {
                 .build();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//
-//        return http
-//                .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
-//                    @Override
-//                    public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-//                        CorsConfiguration configuration = new CorsConfiguration();
-//                        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
-//                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-//                        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-//                        configuration.setExposedHeaders(List.of("x-auth-token"));
-//
-//                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//                        source.registerCorsConfiguration("/**", configuration);
-//
-//                        httpSecurityCorsConfigurer.configurationSource(source);
-//                    }
-//                })
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                .authenticationProvider(authProvider)
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                        .requestMatchers(
-//                                "/v3/api-docs/**", "/swagger-ui/**",
-//                                "/swagger-ui.html", "/webjars/**").permitAll()
-////                        .requestMatchers("/api/v1/auth/register",
-////                                "/api/v1/auth/all/profile").hasRole("EVM_ADMIN")
-//                        .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
-//                        .requestMatchers("/api/v1/dealer/**").hasRole("DEALER_MANAGER")
-//
-//                        // Product
-//                        .requestMatchers(
-//                                "/api/v1/battery/create",
-//                                "/api/v1/battery/*/remove").hasRole("EVM_ADMIN")
-//                        .requestMatchers(
-//                                "/api/v1/motor/create",
-//                                "/api/v1/motor/*/update",
-//                                "/api/v1/motor/*/remove").hasRole("EVM_ADMIN")
-//                        .requestMatchers(
-//                                "/api/v1/carDetail/create",
-//                                "/api/v1/carDetail/*/update",
-//                                "/api/v1/carDetail/*/upload/images").hasRole("EVM_ADMIN")
-//                        .requestMatchers(
-//                                HttpMethod.POST, "/api/v1/category/create").hasRole("EVM_ADMIN")
-//                        .requestMatchers("/api/v1/category/*/rename").hasRole("EVM_ADMIN")
-//                        .anyRequest().permitAll()
-//                )
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .formLogin(Customizer.withDefaults())
-//                .httpBasic(Customizer.withDefaults())
-//                .build();
-//
-//    }
-
     private UrlBasedCorsConfigurationSource corsConfig() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
-                "https://evm-system.vercel.app",
-                "http://evd-app-fe:5173", "http://3.26.198.116:5173", "http://54.206.57.206:5173"
+                "http://3.107.12.96:5173"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));

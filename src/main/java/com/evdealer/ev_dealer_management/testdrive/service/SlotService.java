@@ -1,7 +1,5 @@
 package com.evdealer.ev_dealer_management.testdrive.service;
 
-import com.evdealer.ev_dealer_management.car.model.CarModel;
-import com.evdealer.ev_dealer_management.car.service.CarModelService;
 import com.evdealer.ev_dealer_management.common.exception.NoPermissionException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
@@ -13,6 +11,7 @@ import com.evdealer.ev_dealer_management.testdrive.model.dto.SlotUpdateDto;
 import com.evdealer.ev_dealer_management.testdrive.repository.SlotRepository;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +19,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Objects;
 
 
 @Service
 @RequiredArgsConstructor
 public class SlotService {
 
+    private final UserRepository userRepository;
     private final DealerService dealerService;
     private final CarModelInSlotService carModelInSlotService;
     private final SlotRepository slotRepository;
@@ -34,15 +33,8 @@ public class SlotService {
     public List<SlotDetailsGetDto> getAllSlotsByCurrentDealer() {
 
         User dealer = dealerService.getCurrentUser();
-        String dealerManagerName = null;
 
-        if (dealer.getRole().equals(RoleType.DEALER_MANAGER)) {
-            dealerManagerName = dealer.getFullName();
-        } else if (dealer.getRole().equals(RoleType.DEALER_STAFF)) {
-            dealerManagerName = dealer.getParent().getFullName();
-        }
-
-        return slotRepository.findAllByCreatedBy(dealerManagerName)
+        return slotRepository.findAllByDealerInfo(dealer.getDealerInfo())
                 .stream()
                 .map(SlotDetailsGetDto::fromModel)
                 .toList();
@@ -78,11 +70,13 @@ public class SlotService {
         }
 
         // Get Dealer Staff is in charge with this slot
-        User dealerStaff = dealerService.getDealerStaffByDealerManager(dealerManager.getId(), slotPostDto.dealerStaffId());
+        User dealerStaff = userRepository.findById(slotPostDto.dealerStaffId())
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.USER_NOT_FOUND, slotPostDto.dealerStaffId()));
 
         validateSlotTimeRange(slotPostDto.startTime(), slotPostDto.endTime());
 
         Slot slot = Slot.builder()
+                .dealerInfo(dealerManager.getDealerInfo())
                 .dealerStaff(dealerStaff)
                 .numCustomers(slotPostDto.numCustomers())
                 .startTime(slotPostDto.startTime())

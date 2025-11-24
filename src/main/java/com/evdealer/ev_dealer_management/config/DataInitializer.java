@@ -2,20 +2,16 @@ package com.evdealer.ev_dealer_management.config;
 
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
-import com.evdealer.ev_dealer_management.car.model.CarModel;
-import com.evdealer.ev_dealer_management.car.service.CarModelService;
+import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import com.evdealer.ev_dealer_management.auth.service.AuthService;
-import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
-import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarPostDto;
-import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
+import com.evdealer.ev_dealer_management.user.repository.DealerInfoRepository;
 import com.evdealer.ev_dealer_management.warehouse.service.WarehouseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
+    private final DealerInfoRepository dealerInfoRepository;
     private final WarehouseService warehouseService;
-    private final CarModelService carModelService;
-    private final CarModelRepository carModelRepository;
     private final AuthService authService;
 
     @Override
@@ -36,45 +31,43 @@ public class DataInitializer implements CommandLineRunner {
         List<RegisterRequest> requests = new ArrayList<>();
         requests.add(RegisterRequest.builder()
                 .username("evd.admin")
+                .dealerInfo(null)
                 .password("00000")
-                .fullName("EVD Administrator")
+                .fullName("Lê Lý Thị Mộng")
                 .email("admin@evdcompany.com")
                 .phone("0987654321")
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.EVM_ADMIN)
-                .level(null)
-                .parentPhone(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
                 .username("evd.staff001")
                 .password("00000")
-                .fullName("EVD Staff")
+                .fullName("Lê Lý Thị Lan")
                 .email("staff001@evdcompany.com")
                 .phone("0986000976")
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.EVM_STAFF)
-                .level(null)
-                .parentPhone(null)
+                .dealerInfo(null)
                 .build());
 
+        DealerInfo sgDealerInfo =  dealerInfoRepository.findById(1L).orElse(null);
         requests.add(RegisterRequest.builder()
+                .dealerInfo(sgDealerInfo)
                 .username("sg.dealer.manager001")
                 .password("00000")
-                .fullName("Đại lý Sài Gòn")
-                .email("sg_dealer_manager001@evdcompany.com")
-                .phone("0986194321")
+                .fullName("Đặng Tiến Hoàng")
+                .email("manager.saigon@evdealer.com")
+                .phone("0909123456")
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
                 .role(RoleType.DEALER_MANAGER)
-                .parentPhone(null)
-                .level(1)
                 .build());
 
-        // 4
         requests.add(RegisterRequest.builder()
+                .dealerInfo(sgDealerInfo)
                 .username("sg.dealer.staff001")
                 .password("00000")
                 .fullName("Nguyễn Văn Quý")
@@ -82,52 +75,49 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0916777021")
                 .city("Thành phố Hồ Chí Minh")
                 .isActive(true)
-                .level(null)
                 .role(RoleType.DEALER_STAFF)
-                .parentPhone("0986194321")
                 .build());
 
+        DealerInfo hnDealerInfo =  dealerInfoRepository.findById(2L).orElse(null);
         requests.add(RegisterRequest.builder()
+                .dealerInfo(hnDealerInfo)
                 .username("hn.dealer.manager001")
                 .password("00000")
-                .fullName("Đại lý Hà Nội")
-                .email("hn_dealer_manager001@evdcompany.com")
+                .fullName("Lê Hồng Thị")
+                .email("manager.hanoi@evdealer.com")
                 .phone("0986094321")
                 .city("Thủ đô Hà Nội")
                 .isActive(true)
-                .level(2)
                 .role(RoleType.DEALER_MANAGER)
-                .parentPhone(null)
                 .build());
 
-        // 6
         requests.add(RegisterRequest.builder()
                 .username("hn.dealer.staff001")
+                .dealerInfo(hnDealerInfo)
                 .password("00000")
                 .fullName("Nguyễn Văn Bình")
                 .email("hn.dealer_staff001@evdcompany.com")
                 .phone("0916951021")
                 .city("Thủ đô Hà Nội")
                 .isActive(true)
-                .level(null)
                 .role(RoleType.DEALER_STAFF)
-                .parentPhone("0986094321")
                 .build());
 
+        DealerInfo qnDealerInfo =  dealerInfoRepository.findById(3L).orElse(null);
         requests.add(RegisterRequest.builder()
+                .dealerInfo(qnDealerInfo)
                 .username("qn.dealer.manager001")
                 .password("00000")
-                .fullName("Đại lý Quy Nhơn")
+                .fullName("Lê Ngọc Lan")
                 .email("qn_dealer_manager001@evdcompany.com")
-                .phone("0912345678")
-                .city("Quy Nhơn")
+                .phone("0986094322")
+                .city("TP. Quy Nhơn, Bình Định")
                 .isActive(true)
-                .level(3)
                 .role(RoleType.DEALER_MANAGER)
-                .parentPhone(null)
                 .build());
 
         requests.add(RegisterRequest.builder()
+                .dealerInfo(qnDealerInfo)
                 .username("qn.dealer.staff001")
                 .password("00000")
                 .fullName("Trần Thị Hạnh")
@@ -135,54 +125,13 @@ public class DataInitializer implements CommandLineRunner {
                 .phone("0918765432")
                 .city("Quy Nhơn")
                 .isActive(true)
-                .level(null)
                 .role(RoleType.DEALER_STAFF)
-                .parentPhone("0912345678")
-                .build());
-
-        requests.add(RegisterRequest.builder()
-                .username("qn.dealer.staff002")
-                .password("00000")
-                .fullName("Trần Thị Liên")
-                .email("qn_dealer_staff002@evdcompany.com")
-                .phone("0900065432")
-                .city("Quy Nhơn")
-                .isActive(true)
-                .level(null)
-                .role(RoleType.DEALER_STAFF)
-                .parentPhone("0912345678")
-                .build());
-
-        requests.add(RegisterRequest.builder()
-                .username("hp.dealer.manager001")
-                .password("00000")
-                .fullName("Đại lý Hải Phòng")
-                .email("hp_dealer_manager001@evdcompany.com")
-                .phone("0913456789")
-                .city("Hải Phòng")
-                .isActive(true)
-                .level(3)
-                .role(RoleType.DEALER_MANAGER)
-                .parentPhone(null)
-                .build());
-
-        requests.add(RegisterRequest.builder()
-                .username("hp.dealer.staff001")
-                .password("00000")
-                .fullName("Phạm Văn Dũng")
-                .email("hp_dealer_staff001@evdcompany.com")
-                .phone("0919876543")
-                .city("Hải Phòng")
-                .level(null)
-                .isActive(true)
-                .role(RoleType.DEALER_STAFF)
-                .parentPhone("0913456789")
                 .build());
 
         try {
             requests.forEach(
                 account -> {
-                    RegisterResponse response = authService.register(account);
+                    RegisterResponse response = authService.registryAccount(account);
                     log.info("[LOG] - {} account with username {}", account.role(), account.username());
                 }
             );
@@ -190,137 +139,7 @@ public class DataInitializer implements CommandLineRunner {
             log.warn("Accounts already exist — skipping user seeding");
         }
 
-        warehouseService.seedCarModelInWarehouse();
-//        fakeCategoryCarData();
-//        fakeBatteryData();
-//        fakeMotorData();
+//        warehouseService.seedCarModelInWarehouse();
     }
-
-//    private void fakeCategoryCarData() {
-//        List<Category> categories = Arrays.asList(
-//                new Category(null, "ECO", null),
-//                new Category(null, "PLUS", null),
-//                new Category(null, "PREMIUM", null)
-//        );
-//
-//        categories.forEach(category -> {
-//            // Kiểm tra trùng categoryType
-//            if (categoryRepository.findByCategoryName(category.getCategoryName()).isEmpty()) {
-//                categoryRepository.save(category);
-//                log.info("[LOG] - Category {} created", category.getCategoryName());
-//            } else {
-//                log.warn("[WARN] - Category {} already exists", category.getCategoryName());
-//            }
-//        });
-//    }
-
-//    private void fakeBatteryData() {
-//        List<Battery> batteries = List.of(
-//                Battery.builder()
-//                        .chemistryType(ChemistryType.NCA)
-//                        .age(1)
-//                        .chargeTime(1)
-//                        .usageDuration(Duration.ofHours(15))
-//                        .weightKg(450f)
-//                        .voltageV(400f)
-//                        .capacityKwh(75f)
-//                        .cycleLife(1200)
-//                        .build(),
-//                Battery.builder()
-//                        .chemistryType(ChemistryType.NCM)
-//                        .age(2)
-//                        .chargeTime(Duration.ofHours(1))
-//                        .usageDuration(Duration.ofHours(30))
-//                        .weightKg(460f)
-//                        .voltageV(410f)
-//                        .capacityKwh(80f)
-//                        .cycleLife(1300)
-//                        .build(),
-//                Battery.builder()
-//                        .chemistryType(ChemistryType.LFP)
-//                        .age(1)
-//                        .chargeTime(Duration.ofHours(2))
-//                        .usageDuration(Duration.ofHours(52))
-//                        .weightKg(440f)
-//                        .voltageV(395f)
-//                        .capacityKwh(70f)
-//                        .cycleLife(1500)
-//                        .build(),
-//                Battery.builder()
-//                        .chemistryType(ChemistryType.SolidState)
-//                        .age(3)
-//                        .chargeTime(Duration.ofHours(1))
-//                        .weightKg(430f)
-//                        .voltageV(420f)
-//                        .capacityKwh(85f)
-//                        .cycleLife(1800)
-//                        .build(),
-//                Battery.builder()
-//                        .chemistryType(ChemistryType.NCA)
-//                        .age(2)
-//                        .chargeTime(Duration.ofHours(1))
-//                        .weightKg(455f)
-//                        .voltageV(405f)
-//                        .capacityKwh(78f)
-//                        .cycleLife(1250)
-//                        .build()
-//        );
-//
-//        batteries.forEach(b -> batteryRepository.save(b));
-//    }
-//
-//    private void fakeMotorData() {
-//        List<Motor> motors = List.of(
-//                Motor.builder()
-//                        .motorType(MotorType.AC_INDUCTION)
-//                        .serialNumber("MTR-001")
-//                        .powerKw(150f)
-//                        .torqueNm(300f)
-//                        .maxRpm(15000)
-//                        .coolingType(CoolingType.AIR)
-//                        .voltageRangeV(400f)
-//                        .build(),
-//                Motor.builder()
-//                        .motorType(MotorType.PERMANENT_MAGNET)
-//                        .serialNumber("MTR-002")
-//                        .powerKw(200f)
-//                        .torqueNm(350f)
-//                        .maxRpm(16000)
-//                        .coolingType(CoolingType.LIQUID)
-//                        .voltageRangeV(420f)
-//                        .build(),
-//                Motor.builder()
-//                        .motorType(MotorType.SYNCHRONOUS)
-//                        .serialNumber("MTR-003")
-//                        .powerKw(180f)
-//                        .torqueNm(320f)
-//                        .maxRpm(15500)
-//                        .coolingType(CoolingType.OIL)
-//                        .voltageRangeV(410f)
-//                        .build(),
-//                Motor.builder()
-//                        .motorType(MotorType.AC_INDUCTION)
-//                        .serialNumber("MTR-004")
-//                        .powerKw(160f)
-//                        .torqueNm(310f)
-//                        .maxRpm(15000)
-//                        .coolingType(CoolingType.PASSIVE)
-//                        .voltageRangeV(400f)
-//                        .build(),
-//                Motor.builder()
-//                        .motorType(MotorType.DC_BRUSHLESS)
-//                        .serialNumber("MTR-005")
-//                        .powerKw(220f)
-//                        .torqueNm(370f)
-//                        .maxRpm(16500)
-//                        .coolingType(CoolingType.LIQUID)
-//                        .voltageRangeV(430f)
-//                        .build()
-//        );
-//
-//        motors.forEach(m -> motorRepository.save(m));
-//    }
-
-
 
 }

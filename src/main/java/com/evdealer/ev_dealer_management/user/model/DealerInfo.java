@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(schema = "dbo", name = "dealer_info")
+@Table(schema = "dbo", name = "dealer")
 @Builder
 @Getter
 @Setter
@@ -24,17 +24,20 @@ public class DealerInfo extends AbstractAuditEntity {
     private String dealerName;
 
     @ManyToOne
-    @JoinColumn(name = "dealer_level")
+    @JoinColumn(name = "dealer_level_id")
     private DealerHierarchy dealerHierarchy;
+
+    @Column(name = "dealer_phone")
+    private String dealerPhone;
 
     private String location;
 
     @Column(name = "contract_file_url")
     private String contractFileUrl;
 
-    @OneToMany
+    @OneToMany(mappedBy = "dealer")
     private List<Customer> customers = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "dealerInfo")
     private List<User> users = new ArrayList<>();
 }

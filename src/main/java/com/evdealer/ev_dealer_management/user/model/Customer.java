@@ -20,7 +20,7 @@ public class Customer
 
     @ManyToOne
     @JoinColumn(name = "dealer_id")
-    private User dealer;
+    private DealerInfo dealer;
 
     @Column(name = "full_name")
     private String fullName;

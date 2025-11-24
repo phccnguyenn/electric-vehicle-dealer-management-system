@@ -2,6 +2,7 @@ package com.evdealer.ev_dealer_management.common.utils;
 
 public final class Constants {
     public static final class ErrorCode {
+        public final static String DEALER_INFO_NOT_FOUND = "DEALER_INFO_NOT_FOUND";
         public final static String PRINCIPAL_IS_NOT_USER = "PRINCIPAL_IS_NOT_USER";
         public final static String USER_NOT_FOUND = "USER_NOT_FOUND";
         public final static String USERNAME_NOT_FOUND = "USERNAME_NOT_FOUND";

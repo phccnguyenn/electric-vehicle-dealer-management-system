@@ -5,8 +5,6 @@ import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -24,11 +22,7 @@ import java.util.Optional;
 public interface UserRepository
         extends JpaRepository<User, Long> {
 
-    Page<User> findAllByParentId(Long parentId, Pageable pageable);
     Page<User> findAllByRole(RoleType role, Pageable pageable);
-
-    @Query("SELECT u FROM User u LEFT JOIN FETCH u.children WHERE u.id = :id")
-    Optional<User> findByIdWithChildren(@Param("id") Long id);
 
     Optional<User> findByUsername(String username);
     Optional<User> findByPhone(String phone);

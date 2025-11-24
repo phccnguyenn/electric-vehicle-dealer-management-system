@@ -1,10 +1,12 @@
 package com.evdealer.ev_dealer_management.user.controller;
 
+import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerInfoUpdateDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
+import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerInfoGetDto;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +22,18 @@ public class DealerController {
 
     private final DealerService dealerService;
 
+    @GetMapping("/current-dealer-info")
+    public ResponseEntity<DealerInfoGetDto> getCurrentDealerInfo() {
+        return ResponseEntity.ok(dealerService.getCurrentDealerInfo());
+    }
+
     @GetMapping("/staff")
     public ResponseEntity<UserInfoListDto> getStaffUnderDealer(
+            @RequestParam(name = "dealerId") Long dealerId,
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
     ) {
-        return ResponseEntity.ok(dealerService.getAllStaffByCurrentManager(pageNo, pageSize));
+        return ResponseEntity.ok(dealerService.getAllEmployeeInSpecDealer(dealerId, pageNo, pageSize));
     }
 
     @GetMapping("/customers")
