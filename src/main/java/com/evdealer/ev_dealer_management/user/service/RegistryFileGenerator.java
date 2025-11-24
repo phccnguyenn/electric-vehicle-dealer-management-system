@@ -138,7 +138,7 @@ public class RegistryFileGenerator {
 
             // Điều 6: Giá cả
             addSection(document, "Điều 6: Giá cả",
-                    "1. Các sản phẩm cung cấp cho Bên B được tính theo giá bán sỉ, do Bên A công bố thống nhất trong khu vực.\n\n2. Giá cung cấp có thể thay đổi theo thời gian và Bên A sẽ thông báo trước cho Bên B ít nhất là … ngày.\n\nTỷ lệ hoa hồng: …………………………………………….");
+                    "1. Các sản phẩm cung cấp cho Bên B được tính theo giá bán sỉ, do Bên A công bố thống nhất trong khu vực.\n\n2. Giá cung cấp có thể thay đổi theo thời gian và Bên A sẽ thông báo trước cho Bên B ít nhất là … ngày.\n\nTỷ lệ hoa hồng áp dụng cho Bên B: " + String.format("%.2f%%", dealerInfo.getDealerHierarchy().getCommissionRate()));
 
             // Điều 7: Bảo hành
             addSection(document, "Điều 7: Bảo hành",

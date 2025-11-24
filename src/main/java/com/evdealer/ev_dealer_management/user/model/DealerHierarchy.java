@@ -30,4 +30,7 @@ public class DealerHierarchy {
     @Column(name = "level_type")
     private Integer levelType;
 
+    @Column(name = "commission_rate")
+    private Double commissionRate;
+
 }

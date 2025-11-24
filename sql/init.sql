@@ -12,6 +12,7 @@ BEGIN
         id                  BIGINT IDENTITY(1,1) PRIMARY KEY,
         --dealer_id           BIGINT NULL,
         level_type          INT NOT NULL,
+        commission_rate   DECIMAL(5,2) NOT NULL
 
 --        CONSTRAINT fk_dealer_hierarchy_id
 --            FOREIGN KEY (dealer_id)
@@ -23,8 +24,11 @@ GO
 ALTER TABLE dbo.dealer_hierarchy NOCHECK CONSTRAINT ALL;
 IF NOT EXISTS (SELECT 1 FROM dbo.dealer_hierarchy)
 BEGIN
-    INSERT INTO dbo.dealer_hierarchy (level_type)
-    VALUES (1), (2), (3);
+    INSERT INTO dbo.dealer_hierarchy (level_type, commission_rate)
+    VALUES
+        (1, 5.00),    -- Đại lý cấp 1 = 5%
+        (2, 3.00),    -- Đại lý cấp 2 = 3%
+        (3, 1.50);    -- Đại lý cấp 3 = 1.5%
 END;
 GO
 ALTER TABLE dbo.dealer_hierarchy CHECK CONSTRAINT ALL;
@@ -98,8 +102,8 @@ INSERT INTO dbo.dealer
     (dealer_level_id, dealer_name, dealer_phone, location, contract_file_url, created_by, created_on, last_modified_by, last_modified_on)
 VALUES
     (1, N'Đại lý Sài Gòn', '0999111888', N'123 Nguyễn Huệ, Q1, TP. HCM', 'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/registry-contract-1.pdf', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00'),
-    (1, N'Đại lý Hà Nội', '0888999111', N'45 Lý Thái Tổ, Hoàn Kiếm, Hà Nội', 'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/registry-contract-2.pdf', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00'),
-    (2, N'Đại lý Quy Nhơn', '0990988888', N'78 Hùng Vương, TP. Quy Nhơn, Bình Định', 'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/registry-contract-3.pdf', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00');
+    (1, N'Đại lý Hà Nội', '0888999111', N'Số 25 Hai Bà Trưng, Quận Hoàn Kiếm, Hà Nội', 'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/registry-contract-2.pdf', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00'),
+    (2, N'Đại lý Quy Nhơn', '0990988888', N'Số 10 Trần Hưng Đạo, TP. Quy Nhơn, Bình Định', 'http://localhost:8000/evdealer/uploads/thumbnail/contract_and_quotation/registry-contract-3.pdf', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00', N'Lê Lý Thị Mộng', '2025-11-24 15:12:30.271071 +07:00');
 
 
 
