@@ -44,7 +44,13 @@ public class RegistryFileGenerator {
             PdfWriter.getInstance(document, fos);
             document.open();
 
-            BaseFont baseFont = BaseFont.createFont(FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont baseFont;
+            try {
+                baseFont = BaseFont.createFont(FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            } catch (Exception e) {
+                baseFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.NOT_EMBEDDED);
+            }
+
             Font titleFont = new Font(baseFont, 16, Font.BOLD);
             Font normalFont = new Font(baseFont, 12);
             Font boldFont = new Font(baseFont, 12, Font.BOLD);
@@ -56,95 +62,119 @@ public class RegistryFileGenerator {
             );
             header.setAlignment(Element.ALIGN_CENTER);
             document.add(header);
+
             document.add(Chunk.NEWLINE);
 
-            Paragraph contractTitle = new Paragraph("HỢP ĐỒNG HƯỞNG HOA HỒNG", titleFont);
+            Paragraph contractTitle = new Paragraph("HỢP ĐỒNG ĐẠI LÝ THƯƠNG MẠI", titleFont);
             contractTitle.setAlignment(Element.ALIGN_CENTER);
             document.add(contractTitle);
+
             document.add(Chunk.NEWLINE);
 
             OffsetDateTime now = OffsetDateTime.now();
             document.add(new Paragraph(
-                    "Hôm nay, ngày " + now.getDayOfMonth() +
-                            " tháng " + now.getMonthValue() +
-                            " năm " + now.getYear() +
-                            ", tại Thành phố Hồ Chí Minh",
+                    "Số: ………/…/ HĐĐL",
                     normalFont
             ));
             document.add(Chunk.NEWLINE);
 
-            document.add(new Paragraph("Chúng tôi gồm:", normalFont));
-            document.add(Chunk.NEWLINE);
+            document.add(new Paragraph("- Căn cứ vào Bộ luật dân sự được Quốc Hội Nước Cộng Hoà Xã Hội Chủ Nghĩa Việt Nam thông qua ngày 24/11/2015;", normalFont));
+            document.add(new Paragraph("- Căn cứ Luật Thương mại được Quốc Hội Nước Cộng Hoà Xã Hội Chủ Nghĩa Việt Nam thông qua ngày 14/06/2005.", normalFont));
+            document.add(new Paragraph("- Căn cứ vào khả năng và nhu cầu của hai bên.", normalFont));
+            document.add(new Paragraph("- Dựa trên tinh thần trung thực và thiện chí hợp tác của các bên.", normalFont));
 
-            // Bên A - Môi giới
-            document.add(new Paragraph("BÊN MÔI GIỚI (Bên A): EVD", boldFont));
-            document.add(new Paragraph("Giấy phép ĐKKD: ....................", normalFont));
-            document.add(new Paragraph("Địa chỉ: " + manufacturer.getAddress(), normalFont));
-            document.add(new Paragraph("Tài khoản: " + manufacturer.getUsername() +
-                    "   Điện thoại/Fax: " + manufacturer.getPhone(), normalFont));
-            document.add(new Paragraph("Đại diện: " + manufacturer.getFullName(), normalFont));
-            document.add(Chunk.NEWLINE);
-
-            // Bên B - Được môi giới
-            document.add(new Paragraph("BÊN ĐƯỢC MÔI GIỚI (Bên B): " +
-                    dealerInfo.getDealerName(), boldFont));
-            document.add(new Paragraph("Giấy phép ĐKKD: ....................", normalFont));
-            document.add(new Paragraph("Địa chỉ: " + dealerInfo.getLocation(), normalFont));
-            document.add(new Paragraph("Tài khoản: " + dealer.getUsername() +
-                    "   Điện thoại/Fax: " + dealerInfo.getDealerPhone(), normalFont));
-            document.add(new Paragraph("Đại diện: " + dealer.getFullName(), normalFont));
             document.add(Chunk.NEWLINE);
 
             document.add(new Paragraph(
-                    "Sau khi bàn bạc, thảo luận hai bên đi đến thống nhất ký hợp đồng môi giới hưởng hoa hồng với nội dung sau:",
-                    normalFont));
+                    "Hôm nay, ngày " + now.getDayOfMonth() + " tháng " + now.getMonthValue() + " năm " + now.getYear() + "  Tại " + (dealerInfo.getLocation() == null ? "................" : dealerInfo.getLocation()),
+                    normalFont
+            ));
             document.add(Chunk.NEWLINE);
 
-            // ---------------------------
-            // Điều khoản hợp đồng môi giới xe
-            // ---------------------------
+            document.add(new Paragraph("Chúng tôi gồm có:", normalFont));
+            document.add(Chunk.NEWLINE);
 
-            addSection(document, "Điều 1: Nội dung công việc giao dịch",
-                    "1. Bên A thực hiện môi giới khách hàng có nhu cầu mua xe ô tô để giới thiệu cho Bên B.\n" +
-                            "2. Bên A kết nối khách hàng để Bên B đàm phán trực tiếp các điều khoản mua bán.\n" +
-                            "3. Trong thời hạn 06 tháng kể từ ngày ký hợp đồng này, nếu Bên B bán xe hoặc thu được lợi nhuận từ khách hàng do Bên A giới thiệu thì giao dịch được xem là thành công.");
+            // Bên A - Bên giao đại lý
+            document.add(new Paragraph("BÊN GIAO ĐẠI LÝ (gọi tắt là Bên A): " + (manufacturer.getFullName() == null ? "………………" : manufacturer.getFullName()), boldFont));
+            document.add(new Paragraph("Giấy phép Đăng ký Kinh doanh: " + "…………………………..………………….", normalFont));
+            document.add(new Paragraph("Trụ sở: " + (manufacturer.getAddress() == null ? "…………………………………………" : manufacturer.getAddress()), normalFont));
+            document.add(new Paragraph("Tài khoản số: ………………………………", normalFont));
+            document.add(new Paragraph("Điện thoại: " + (manufacturer.getPhone() == null ? "……………" : manufacturer.getPhone()) + "    Fax: " + "………………………..", normalFont));
+            document.add(new Paragraph("Đại diện: Ông (Bà): " + (manufacturer.getFullName() == null ? "…………………………………….." : manufacturer.getFullName()), normalFont));
+            document.add(Chunk.NEWLINE);
 
-            addSection(document, "Điều 2: Mức thù lao và phương thức thanh toán",
-                    "1. Bên B thanh toán cho Bên A phí môi giới là 1% trên tổng giá trị hợp đồng mua bán xe.\n" +
-                            "2. Thanh toán bằng tiền Việt Nam, chuyển khoản hoặc tiền mặt.\n" +
-                            "3. Bên B thanh toán cho Bên A ngay khi nhận được khoản thanh toán đầu tiên từ khách hàng.");
+            // Bên B - Bên đại lý
+            document.add(new Paragraph("BÊN ĐẠI LÝ (gọi tắt là Bên B): " + (dealerInfo.getDealerName() == null ? "……………." : dealerInfo.getDealerName()), boldFont));
+            document.add(new Paragraph("Giấy phép Đăng ký Kinh doanh: " + "……………………….……………….", normalFont));
+            document.add(new Paragraph("Trụ sở: " + (dealerInfo.getLocation() == null ? "…………………………………………" : dealerInfo.getLocation()), normalFont));
+            document.add(new Paragraph("Tài khoản số: ………………………………", normalFont));
+            document.add(new Paragraph("Điện thoại: " + (dealerInfo.getDealerPhone() == null ? "……………" : dealerInfo.getDealerPhone()) + "    Fax: " + "………………………….", normalFont));
+            document.add(new Paragraph("Đại diện: Ông (Bà): " + (dealer.getFullName() == null ? "……………………………." : dealer.getFullName()), normalFont));
 
-            addSection(document, "Điều 3: Quyền và nghĩa vụ của các bên",
-                    "1. Bên A:\n" +
-                            "- Thực hiện đúng nội dung môi giới.\n" +
-                            "- Cung cấp thông tin khách hàng chính xác.\n" +
-                            "- Hỗ trợ quá trình giao dịch giữa hai bên.\n" +
-                            "- Được hưởng phí môi giới theo thỏa thuận.\n\n" +
-                            "2. Bên B:\n" +
-                            "- Thực hiện đúng thỏa thuận hợp đồng.\n" +
-                            "- Thông báo tiến độ làm việc với khách hàng cho Bên A.\n" +
-                            "- Không làm việc riêng với khách hàng do Bên A giới thiệu.\n" +
-                            "- Thanh toán phí môi giới đầy đủ theo quy định.");
+            document.add(Chunk.NEWLINE);
 
-            addSection(document, "Điều 4: Giải quyết tranh chấp",
-                    "1. Hai bên chủ động trao đổi để giải quyết các vấn đề phát sinh.\n" +
-                            "2. Nếu không giải quyết được, tranh chấp sẽ được đưa ra Tòa án có thẩm quyền. Bên có lỗi chịu chi phí tố tụng.");
+            document.add(new Paragraph("Sau khi thỏa thuận, hai bên nhất trí và cùng nhau ký kết hợp đồng đại lý thương mại với các điều khoản sau đây:", normalFont));
+            document.add(Chunk.NEWLINE);
 
-            addSection(document, "Điều 5: Hiệu lực hợp đồng",
-                    "1. Hợp đồng có hiệu lực từ ngày ký.\n" +
-                            "2. Hợp đồng gồm 02 bản có giá trị pháp lý như nhau, mỗi bên giữ 01 bản.");
+            // Điều 1: Nội dung
+            addSection(document, "Điều 1: Nội dung của hợp đồng",
+                    "Bên B nhận làm đại lý cho Bên A các sản phẩm: xe điện, mang nhãn hiệu: EVD. Bên B tự trang bị cơ sở vật chất, địa điểm kinh doanh, kho bãi và hoàn toàn chịu trách nhiệm tất cả hàng hóa đã giao trong việc tồn trữ, trưng bày, vận chuyển. Bên B bảo đảm thực hiện đúng các biện pháp tồn trữ, giữ được phẩm chất hàng hóa như Bên A đã cung cấp, đến khi giao cho người tiêu thụ. Bên A không chấp nhận hoàn trả hàng hóa do bất kỳ lý do gì (ngoại trừ trường hợp có sai sót về sản phẩm).");
 
-            // Signatures
+            // Điều 2: Quyền và nghĩa vụ bên A
+            addSection(document, "Điều 2: Quyền và nghĩa vụ của bên giao đại lý (Bên A)",
+                    "1. Quyền của bên A:\n\n- Ấn định giá giao đại lý;\n\n- Yêu cầu bên B thực hiện biện pháp bảo đảm theo quy định pháp luật;\n\n- Yêu cầu bên B thanh toán tiền theo hợp đồng đại lý;\n\n- Kiểm tra, giám sát việc thực hiện hợp đồng của bên đại lý.\n\n2. Nghĩa vụ của bên A:\n\n- Giao hàng cho bên B đúng thời gian và địa điểm đã thỏa thuận trong hợp đồng này;\n\n- Hướng dẫn, cung cấp thông tin, tạo điều kiện cho bên B thực hiện hợp đồng đại lý;\n\n- Chịu trách nhiệm về chất lượng của sản phẩm;\n\n- Hoàn trả cho bên B tài sản đảm bảo (nếu có) khi kết thúc hợp đồng đại lý;\n\n- Liên đới chịu trách nhiệm về hành vi vi phạm của bên B nếu nguyên nhân vi phạm có lỗi của bên A.");
+
+            // Điều 3: Quyền và nghĩa vụ bên B
+            addSection(document, "Điều 3: Quyền và nghĩa vụ của bên đại lý (Bên B)",
+                    "1. Quyền của bên B:\n\n- Có quyền ấn định giá bán mặt hàng trên thị trường;\n\n- Yêu cầu bên A giao hàng theo hợp đồng đại lý; nhận tài sản dùng để bảo đảm khi kết thúc hợp đồng;\n\n- Yêu cầu bên A hướng dẫn, cung cấp thông tin và các điều kiện khác có liên quan để thực hiện hợp đồng;\n\n- Được là chủ sở hữu của hàng hóa.\n\n2. Nghĩa vụ của bên B:\n\n- Thực hiện đúng các thỏa thuận về giao tiền, nhận hàng với bên A;\n\n- Thực hiện các biện pháp bảo đảm thực hiện nghĩa vụ dân sự theo quy định của pháp luật;\n\n- Liên đới chịu trách nhiệm về chất lượng hàng hóa trong trường hợp do lỗi của mình gây ra.");
+
+            // Điều 4: Phương thức giao nhận hàng
+            addSection(document, "Điều 4: Phương thức giao nhận hàng",
+                    "1. Bên A giao hàng đến cửa kho của Bên B hoặc tại địa điểm thuận tiện do Bên B chỉ định. Bên B đặt hàng với số lượng, loại sản phẩm cụ thể bằng thư, fax, điện tín.\n\n2. Chi phí xếp dỡ từ xe vào kho của Bên B do Bên B chi trả (kể cả chi phí lưu xe do xếp dỡ chậm).\n\n3. Số lượng hàng hóa thực tế Bên A cung cấp cho bên B có thể chênh lệch với đơn đặt hàng nếu Bên A xét thấy đơn đặt hàng đó không hợp lý. Khi đó hai bên phải có sự thỏa thuận về khối lượng, thời gian cung cấp.\n\n4. Thời gian giao hàng: ………………………");
+
+            // Điều 5: Phương thức thanh toán
+            addSection(document, "Điều 5: Phương thức thanh toán",
+                    "1. Bên B thanh toán cho Bên A tương ứng với giá trị số lượng hàng giao ghi trong mỗi hóa đơn trong vòng … ngày kể từ ngày cuối của tháng Bên B đặt hàng.\n\n2. Giới hạn mức nợ: Bên B được nợ tối đa là …………………..\n\n3. Thời điểm thanh toán được tính là ngày Bên A nhận được tiền.\n\n4. Số tiền chậm trả ngoài thời gian đã quy định, phải chịu lãi theo mức lãi suất cho vay của ngân hàng trong cùng thời điểm. Nếu việc chậm trả kéo dài hơn 3 tháng thì bên B phải chịu thêm lãi suất quá hạn của ngân hàng.\n\n5. Trong trường hợp cần thiết, Bên A có thể yêu cầu Bên B thế chấp tài sản để bảo đảm cho việc thanh toán.");
+
+            // Điều 6: Giá cả
+            addSection(document, "Điều 6: Giá cả",
+                    "1. Các sản phẩm cung cấp cho Bên B được tính theo giá bán sỉ, do Bên A công bố thống nhất trong khu vực.\n\n2. Giá cung cấp có thể thay đổi theo thời gian và Bên A sẽ thông báo trước cho Bên B ít nhất là … ngày.\n\nTỷ lệ hoa hồng: …………………………………………….");
+
+            // Điều 7: Bảo hành
+            addSection(document, "Điều 7: Bảo hành",
+                    "1. Bên A bảo hành riêng biệt cho từng sản phẩm cung cấp cho bên B trong trường hợp bên B tiến hành việc tồn trữ, vận chuyển, hướng dẫn sử dụng và giám sát, nghiệm thu đúng với nội dung đã huấn luyện và phổ biến của bên A.\n\nThời gian bảo hành là …. tháng tính từ thời điểm bên A giao hàng cho bên B.\n\n2. Bên A chịu trách nhiệm bảo hành đối với bên thứ 3 (khách hàng) đối với các lỗi liên quan đến yếu tố kỹ thuật của máy. Nếu lỗi có lỗi của bên B thì bên A và B sẽ liên đới cùng chịu trách nhiệm.\n\nThời gian bảo hành đối với bên thứ 3 là…. tháng kể từ thời điểm chuyển giao sản phẩm");
+
+            // Điều 8: Hỗ trợ
+            addSection(document, "Điều 8: Hỗ trợ",
+                    "1. Bên A cung cấp cho Bên B các tư liệu thông tin khuếch trương thương mại.\n\n2. Bên A hướng dẫn cho nhân viên của Bên B những kỹ thuật cơ bản để có thể thực hiện việc bảo quản đúng cách.\n\n3. Mọi hoạt động quảng cáo do Bên B tự thực hiện, nếu có sử dụng đến logo hay nhãn hiệu hàng hóa của Bên A phải được sự đồng ý của Bên A.");
+
+            // Điều 9: Độc quyền
+            addSection(document, "Điều 9: Độc quyền",
+                    "– Hợp đồng này …… mang tính độc quyền trên khu vực.");
+
+            // Điều 10: Thời hạn
+            addSection(document, "Điều 10: Thời hạn hiệu lực, kéo dài và chấm dứt hợp đồng",
+                    "Hợp đồng này có giá trị kể từ ngày ký đến hết ngày………………. Nếu cả hai bên mong muốn tiếp tục hợp đồng, các thủ tục gia hạn phải được thỏa thuận trước khi hết hạn hợp đồng trong thời gian tối thiểu là … ngày.\n\nTrong thời gian hiệu lực, một bên có thể đơn phương chấm dứt hợp đồng nhưng phải báo trước cho Bên kia biết trước tối thiểu là … ngày.\n\nBên A có quyền đình chỉ ngay hợp đồng khi Bên B vi phạm một trong các vấn đề sau đây: ...");
+
+            // Điều 11: Bồi thường
+            addSection(document, "Điều 11: Bồi thường thiệt hại",
+                    "1. Phạt vi phạm hợp đồng: Nếu một trong các bên vi phạm nghĩa vụ quy định tại điều 2 và 3 hợp đồng này thì phải chịu mức phạt vi phạm là …. giá trị phần nghĩa vụ vi phạm.\n\n2. Bồi thường thiệt hại: ...");
+
+            // Điều 12: Tranh chấp
+            addSection(document, "Điều 12: Xử lý tranh chấp phát sinh",
+                    "Trong khi thực hiện nếu có vấn đề phát sinh hai bên cùng nhau bàn bạc thỏa thuận giải quyết. Những chi tiết không ghi cụ thể trong hợp đồng này, nếu có xảy ra, sẽ thực hiện theo quy định chung của Luật Thương mại và pháp luật hiện hành.\n\nNếu hai bên không tự giải quyết được, việc tranh chấp sẽ được phân xử tại ……….\n\nQuyết định của ……. là cuối cùng mà các bên phải thi hành. Phí ……. sẽ do bên có lỗi chịu trách nhiệm thanh toán.\n\nHợp đồng này được lập thành………bản, mỗi bên giữ……..bản có giá trị như nhau.");
+
+            // Signature table
             PdfPTable signatureTable = new PdfPTable(2);
             signatureTable.setWidthPercentage(100);
 
             PdfPCell cellA = new PdfPCell();
             cellA.setBorder(Rectangle.NO_BORDER);
-            cellA.addElement(new Phrase("ĐẠI DIỆN BÊN A\n(Ký tên, đóng dấu)", normalFont));
+            cellA.addElement(new Phrase("BÊN A\nChữ ký:\n(Đại diện)", normalFont));
 
             PdfPCell cellB = new PdfPCell();
             cellB.setBorder(Rectangle.NO_BORDER);
-            cellB.addElement(new Phrase("ĐẠI DIỆN BÊN B\n(Ký tên, đóng dấu)", normalFont));
+            cellB.addElement(new Phrase("BÊN B\nChữ ký:\n(Đại diện)", normalFont));
 
             signatureTable.addCell(cellA);
             signatureTable.addCell(cellB);
@@ -152,6 +182,7 @@ public class RegistryFileGenerator {
 
             document.close();
         }
+
 
         // Save URL in DB
         dealerInfo.setContractFileUrl(URL_BASE + fullPath.substring(1).replace("\\", "/"));
