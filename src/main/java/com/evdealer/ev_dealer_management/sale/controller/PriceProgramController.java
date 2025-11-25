@@ -34,11 +34,16 @@ public class PriceProgramController {
         return ResponseEntity.ok(priceProgram);
     }
 
-    @GetMapping("/hierarchy")
-    public ResponseEntity<List<PriceProgramGetDto>> getByDealerHierarchy(@RequestParam Integer level) {
-        List<PriceProgramGetDto> programs = priceProgramService.getByDealerHierarchy(level);
-        return ResponseEntity.ok(programs);
+    @GetMapping("/current-and-upcoming")
+    public ResponseEntity<List<PriceProgramGetDto>> getAllCurrentAndUpComingPriceProgram() {
+        return ResponseEntity.ok(priceProgramService.getCurrentAndUpcomingPriceProgram());
     }
+
+//    @GetMapping("/hierarchy")
+//    public ResponseEntity<List<PriceProgramGetDto>> getByDealerHierarchy(@RequestParam Integer level) {
+//        List<PriceProgramGetDto> programs = priceProgramService.getByDealerHierarchy(level);
+//        return ResponseEntity.ok(programs);
+//    }
 
     @PostMapping
     public ResponseEntity<PriceProgramGetDto> create(@Valid @RequestBody PriceProgramPostDto dto) {

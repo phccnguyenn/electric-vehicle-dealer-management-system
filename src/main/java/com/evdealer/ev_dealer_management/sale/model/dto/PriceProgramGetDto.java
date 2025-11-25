@@ -7,10 +7,14 @@ import java.util.List;
 
 public record PriceProgramGetDto(
         Long priceProgramId,
-        Integer dealerHierarchy,
-        OffsetDateTime startDate,
-        OffsetDateTime endDate,
-        List<ProgramDetailGetDto> programDetails
+        String priceProgramName,
+        OffsetDateTime effectiveDate,
+        boolean isActive,
+        List<ProgramDetailGetDto> programDetails,
+        String createdBy,
+        OffsetDateTime createdOn,
+        String lastModifiedBy,
+        OffsetDateTime lastModifiedOn
 ) {
     public static PriceProgramGetDto fromModel(PriceProgram model) {
 
@@ -26,10 +30,14 @@ public record PriceProgramGetDto(
 
         return new PriceProgramGetDto(
                 model.getId(),
-                model.getDealerHierarchy().getLevelType(),
-                model.getStartDay() != null ? model.getStartDay() : null,
-                model.getEndDay() != null ? model.getEndDay() : null,
-                details
+                model.getProgramName(),
+                model.getEffectiveDate() != null ? model.getEffectiveDate() : null,
+                model.isActive(),
+                details,
+                model.getCreatedBy(),
+                model.getCreatedOn(),
+                model.getLastModifiedBy(),
+                model.getLastModifiedOn()
         );
     }
 }

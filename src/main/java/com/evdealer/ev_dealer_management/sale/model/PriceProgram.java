@@ -1,7 +1,6 @@
 package com.evdealer.ev_dealer_management.sale.model;
 
 import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
-import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,17 +21,20 @@ public class PriceProgram extends AbstractAuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "dealer_hierarchy_id")
-    private DealerHierarchy dealerHierarchy;
+//    @ManyToOne
+//    @JoinColumn(name = "dealer_hierarchy_id")
+//    private DealerHierarchy dealerHierarchy;
 
-    @Column(name = "start_day", nullable = false)
-    private OffsetDateTime startDay;
+    @Column(name = "program_name")
+    private String programName;
 
-    @Column(name = "end_day", nullable = false)
-    private OffsetDateTime endDay;
+    @Column(name = "effective_date", nullable = false)
+    private OffsetDateTime effectiveDate;
 
-    @OneToMany(mappedBy = "priceProgram")
+    @Column(name = "is_active")
+    private boolean isActive;
+
+    @OneToMany(mappedBy = "priceProgram", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<ProgramDetail> programDetails = new ArrayList<>();
 
 }

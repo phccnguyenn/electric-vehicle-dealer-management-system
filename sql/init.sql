@@ -281,11 +281,6 @@ BEGIN
         car_model_type
     )
     VALUES
-    (N'TESLA_MODEL_3'),
-    (N'TESLA_MODEL_Y'),
-    (N'TESLA_MODEL_S'),
-    (N'TESLA_MODEL_X'),
-    (N'TESLA_MODEL_Z'),
     (N'EV_MODEL_A'),
     (N'EV_MODEL_B'),
     (N'EV_MODEL_C'),
@@ -697,19 +692,13 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.price
 BEGIN
     CREATE TABLE dbo.price_program (
         id                      BIGINT IDENTITY(1,1) PRIMARY KEY,
-        dealer_hierarchy_id     BIGINT NULL,
-        start_day               DATETIMEOFFSET NOT NULL,
-        end_day                 DATETIMEOFFSET NOT NULL,
+        program_name            NVARCHAR(100) NOT NULL,
+        effective_date          DATETIMEOFFSET NOT NULL,
+        is_active               BIT NOT NULL,
         created_by              NVARCHAR(100) NULL,
         last_modified_on        DATETIMEOFFSET NULL,
         created_on              DATETIMEOFFSET DEFAULT GETDATE(),
-        last_modified_by        NVARCHAR(100) NULL,
-
-        CONSTRAINT fk_price_program_dealer_hierarchy
-                    FOREIGN KEY (dealer_hierarchy_id)
-                    REFERENCES dbo.dealer_hierarchy(id)
-                    ON DELETE SET NULL
-                    ON UPDATE CASCADE
+        last_modified_by        NVARCHAR(100) NULL
     );
 END;
 GO
@@ -717,14 +706,25 @@ GO
 -- Insert sample Price Programs
 IF NOT EXISTS (SELECT 1 FROM dbo.price_program)
 BEGIN
-    INSERT INTO dbo.price_program (dealer_hierarchy_id, start_day, end_day, created_by, created_on, last_modified_by, last_modified_on)
-    VALUES
-    (1, '2025-11-05', '2025-11-30', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (2, '2025-12-01', '2026-12-30', 'EVD Staff', GETDATE(), 'EVD Administrator', GETDATE()),
-    (3, '2025-10-15', '2025-11-30', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (3, '2025-12-01', '2025-12-30', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (2, '2025-01-01', '2025-01-15', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE());
-    END;
+    INSERT INTO dbo.price_program (program_name, effective_date, is_active, created_by, created_on, last_modified_by, last_modified_on)
+        VALUES
+        -- Quá khứ 2024
+        (N'Chương trình giá bán Quý 1 năm 2024', '2024-01-01 00:00:00 +07:00', 0, N'Lê Lý Thị Mộng', '2024-01-01 08:00:00 +07:00', N'Lê Lý Thị Thu', '2024-03-31 23:59:59 +07:00'),
+        (N'Chương trình giá bán Quý 2 năm 2024', '2024-04-01 00:00:00 +07:00', 0, N'Lê Lý Thị Mộng', '2024-04-01 08:00:00 +07:00', N'Lê Lý Thị Thu', '2024-06-30 23:59:59 +07:00'),
+        (N'Chương trình giá bán Quý 3 năm 2024', '2024-07-01 00:00:00 +07:00', 0, N'Lê Lý Thị Mộng', '2024-07-01 08:00:00 +07:00', N'Lê Lý Thị Thu', '2024-09-30 23:59:59 +07:00'),
+        (N'Chương trình giá bán Quý 4 năm 2024', '2024-10-01 00:00:00 +07:00', 0, N'Lê Lý Thị Mộng', '2024-10-01 08:00:00 +07:00', N'Lê Lý Thị Mộng', '2024-12-31 23:59:59 +07:00'),
+
+        -- Quá khứ 2025
+        (N'Chương trình giá bán Quý 1 năm 2025', '2025-01-01 00:00:00 +07:00', 0, N'Lê Lý Thị Mộng', '2025-01-01 08:00:00 +07:00', N'Lê Lý Thị Thu', '2025-03-31 23:59:59 +07:00'),
+        (N'Chương trình giá bán Quý 2 năm 2025', '2025-04-01 00:00:00 +07:00', 0, N'Lê Lý Thị Thu', '2025-04-01 08:00:00 +07:00', N'Lê Lý Thị Thu', '2025-06-30 23:59:59 +07:00'),
+
+        -- Hiện tại 2025
+        (N'Chương trình giá bán Quý 3 năm 2025', '2025-07-01 00:00:00 +07:00', 1, N'Lê Lý Thị Mộng', SYSDATETIMEOFFSET(), N'Lê Lý Thị Mộng', SYSDATETIMEOFFSET()),
+        (N'Chương trình giá bán Quý 4 năm 2025', '2025-10-01 00:00:00 +07:00', 1, N'Lê Lý Thị Mộng', SYSDATETIMEOFFSET(), N'Lê Lý Thị Mộng', SYSDATETIMEOFFSET()),
+
+        -- Tương lai 2026
+        (N'Chương trình giá bán Quý 1 năm 2026', '2026-01-01 00:00:00 +07:00', 1, N'Lê Lý Thị Mộng', SYSDATETIMEOFFSET(), N'Lê Lý Thị Mộng', SYSDATETIMEOFFSET());
+END;
 GO
 
 -- ====== PROGRAM DETAIL TABLE ======
@@ -734,9 +734,8 @@ BEGIN
         id BIGINT               IDENTITY(1,1) PRIMARY KEY,
         car_model_id            BIGINT NOT NULL,
         price_program_id        BIGINT NOT NULL,
-        min_sale_price               DECIMAL(15,2) NULL,
-        suggested_sale_price         DECIMAL(15,2) NULL,
-        max_sale_price               DECIMAL(15,2) NULL,
+        is_special_color        BIT NOT NULL,
+        listed_price            DECIMAL(15,2) NULL,
 
         CONSTRAINT fk_price_program_id
             FOREIGN KEY (price_program_id)
@@ -756,36 +755,48 @@ GO
 -- Insert Program Details for each program
 IF NOT EXISTS (SELECT 1 FROM dbo.program_detail)
 BEGIN
-    INSERT INTO dbo.program_detail (car_model_id, price_program_id, min_sale_price, suggested_sale_price, max_sale_price)
-    VALUES
-    -- For Program 1
-    (4, 1, 3200000000, 3400000000, 3600000000),
-    (3, 1, 1200000000, 1237500000, 1300000000),
+    DECLARE @programId BIGINT;
+    DECLARE @carId BIGINT;
+    DECLARE @basePrice BIGINT;
 
-    -- For Program 2
-    (1, 2, 2875000000, 3225000000, 3500000000),
-    (5, 2, 1050000000, 1125000000, 1200000000),
+    DECLARE program_cursor CURSOR FOR
+    SELECT id FROM dbo.price_program;
 
-    -- For Program 3
-    (1, 3, 3200000000, 3400000000, 3600000000),
-    (2, 3, 2775000000, 2850000000, 2900000000),
-    (3, 3, 2600000000, 2737500000, 3100000000),
-    (4, 3, 3350000000, 3550000000, 3750000000),
-    (5, 3, 3400000000, 3600000000, 3800000000),
+    OPEN program_cursor;
+    FETCH NEXT FROM program_cursor INTO @programId;
 
-    -- For Program 4
-    (1, 4, 1500000000, 1750000000, 2000000000),
-    (2, 4, 1520000000, 1770000000, 2020000000),
-    (3, 4, 1480000000, 1730000000, 1980000000),
-    (4, 4, 2510000000, 2760000000, 3010000000),
-    (5, 4, 1490000000, 1740000000, 1990000000),
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Dùng SELECT + WHILE để loop qua car_model
+        DECLARE car_cursor CURSOR FOR
+        SELECT id FROM dbo.car_model;
 
-    -- For Program 5
-    (1, 5, 1500000000, 1750000000, 2000000000),
-    (2, 5, 1520000000, 1770000000, 2020000000),
-    (3, 5, 1480000000, 1730000000, 1980000000),
-    (4, 5, 2510000000, 2760000000, 3010000000),
-    (5, 5, 1990000000, 2340000000, 2590000000);
+        OPEN car_cursor;
+        FETCH NEXT FROM car_cursor INTO @carId;
+
+        WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @basePrice = CAST((2000 + FLOOR(RAND(CHECKSUM(NEWID())) * 3000)) * 1000000 AS BIGINT);
+
+            -- Màu thường
+            INSERT INTO dbo.program_detail (car_model_id, price_program_id, is_special_color, listed_price)
+            VALUES (@carId, @programId, 0, @basePrice);
+
+            -- Màu đặc biệt
+            INSERT INTO dbo.program_detail (car_model_id, price_program_id, is_special_color, listed_price)
+            VALUES (@carId, @programId, 1, @basePrice + 100000000);
+
+            FETCH NEXT FROM car_cursor INTO @carId;
+        END
+
+        CLOSE car_cursor;
+        DEALLOCATE car_cursor;
+
+        FETCH NEXT FROM program_cursor INTO @programId;
+    END
+
+    CLOSE program_cursor;
+    DEALLOCATE program_cursor;
 END;
 GO
 

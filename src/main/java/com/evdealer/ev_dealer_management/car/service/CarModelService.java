@@ -38,6 +38,13 @@ public class CarModelService {
                 .toList();
     }
 
+    public List<Long> getAllCarModelIds() {
+        return carModelRepository.findAll()
+                .stream()
+                .map(CarModel::getId)
+                .toList();
+    }
+
     public CarModelInfoGetDto getCarModelById(Long carModelId) {
         CarModel carModel = carModelRepository.findById(carModelId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, carModelId));

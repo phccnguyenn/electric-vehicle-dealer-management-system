@@ -1,6 +1,5 @@
 package com.evdealer.ev_dealer_management.sale.model;
 
-import com.evdealer.ev_dealer_management.car.model.CarDetail;
 import com.evdealer.ev_dealer_management.car.model.CarModel;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,13 +27,10 @@ public class ProgramDetail {
     @JoinColumn(name = "price_program_id")
     private PriceProgram priceProgram;
 
-    @Column(name = "min_sale_price", precision = 15, scale = 2)
-    private BigDecimal minPrice;
+    @Column(name = "is_special_color", nullable = false)
+    private boolean isSpecialColor;
 
-    @Column(name = "suggested_sale_price", precision = 15, scale = 2)
-    private BigDecimal suggestedPrice;
-
-    @Column(name = "max_sale_price", precision = 15, scale = 2)
-    private BigDecimal maxPrice;
+    @Column(name = "listed_price", precision = 15, scale = 2)
+    private BigDecimal listedPrice;
 
 }

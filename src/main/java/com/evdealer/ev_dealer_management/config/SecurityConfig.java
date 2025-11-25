@@ -234,7 +234,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth ->
                                 auth
-                                        .requestMatchers("/api/v1/price-program/detail/{id}", "api/v1/price-program/hierarchy/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
+                                        .requestMatchers("/api/v1/price-program/current-and-upcoming",
+                                                "/api/v1/price-program/detail/{id}",
+                                                "api/v1/price-program/hierarchy/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF", "DEALER_MANAGER", "DEALER_STAFF")
                                         .requestMatchers(HttpMethod.GET, "/api/v1/price-program/all").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                         .requestMatchers(HttpMethod.POST, "/api/v1/price-program").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                                         .requestMatchers(HttpMethod.PATCH, "/api/v1/price-program/{id}").hasAnyRole("EVM_ADMIN", "EVM_STAFF")

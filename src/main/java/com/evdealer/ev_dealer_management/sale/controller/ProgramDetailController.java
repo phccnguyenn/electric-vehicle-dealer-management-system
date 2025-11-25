@@ -20,9 +20,10 @@ public class ProgramDetailController {
     @PostMapping("/add-detail/{priceProgramId}")
     public ResponseEntity<ProgramDetailGetDto> addDetailForSpecProgram(
             @PathVariable(name = "priceProgramId") Long priceProgramId,
+            @RequestParam(name = "isAutoFilling") boolean isAutoFilling,
             @RequestBody @Valid ProgramDetailPostDto programDetailPostDto
-            ) {
-        return ResponseEntity.ok(programDetailService.addDetailForSpecPriceProgram(priceProgramId, programDetailPostDto));
+    ) {
+        return ResponseEntity.ok(programDetailService.addDetailForSpecPriceProgram(priceProgramId, isAutoFilling, programDetailPostDto));
     }
 
     @PatchMapping("/details/{detailId}")

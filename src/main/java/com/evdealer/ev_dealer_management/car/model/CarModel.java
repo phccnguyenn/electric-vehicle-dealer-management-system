@@ -23,7 +23,7 @@ public class CarModel {
     // @Enumerated(EnumType.STRING)
     private String carModelName;
 
-    @OneToMany(mappedBy = "carModel")
+    @OneToMany(mappedBy = "carModel", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CarDetail> carDetails = new ArrayList<>();
 
 }

@@ -51,7 +51,7 @@ public class CarDetail extends AbstractAuditEntity {
     @Column(name = "color")
     private String color;
 
-    @OneToMany(mappedBy = "carDetail")
+    @OneToMany(mappedBy = "carDetail", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CarImage> carImages = new ArrayList<>();
 
 }
