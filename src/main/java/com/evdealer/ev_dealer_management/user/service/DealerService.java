@@ -50,7 +50,7 @@ public class DealerService extends UserService {
         return DealerInfoGetDto.fromModel(getCurrentUser().getDealerInfo());
     }
 
-    public UserInfoListDto getAllEmployeeInSpecDealer(Long dealerId, int pageNo, int pageSize) {
+    public UserInfoListDto getAllEmployeeInSpecDealer(int pageNo, int pageSize) {
 
         // Filter role of current user
         User currentUser = getCurrentUser();
@@ -66,7 +66,7 @@ public class DealerService extends UserService {
 
 
         DealerInfo currentDealer = dealerInfoRepository.findById(currentUser.getDealerInfo().getId())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_INFO_NOT_FOUND, dealerId));
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_INFO_NOT_FOUND, currentUser.getDealerInfo().getId()));
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<User> employeesPage = dealerInfoRepository.findAllEmployeesByDealerInfoAndRole(currentDealer, roles, pageable);
