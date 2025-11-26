@@ -27,11 +27,11 @@ public class CarDetail extends AbstractAuditEntity {
     @JoinColumn(name = "car_model_id")
     private CarModel carModel;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "dimension_id")
     private Dimension dimension;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "performance_id")
     private Performance performance;
 

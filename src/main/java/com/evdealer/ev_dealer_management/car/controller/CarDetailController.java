@@ -76,4 +76,10 @@ public class CarDetailController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{carId}/remove")
+    public ResponseEntity<Void> deleteSpecCar(@PathVariable(value = "carId") Long carId) {
+        carDetailService.deleteCarDetail(carId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

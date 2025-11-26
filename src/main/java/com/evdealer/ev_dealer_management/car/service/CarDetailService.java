@@ -173,6 +173,13 @@ public class CarDetailService {
         carDetailRepository.save(carDetail); // save CarDetail
     }
 
+    public void deleteCarDetail(Long carId) {
+        CarDetail carDetail = carDetailRepository.findById(carId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, carId));
+
+        carDetailRepository.delete(carDetail);
+    }
+
     private CarListGetDto toCarListGetDto(Page<CarDetail> carPage) {
 
         List<CarInfoGetDto> carInfoGetDtos = carPage.getContent()
