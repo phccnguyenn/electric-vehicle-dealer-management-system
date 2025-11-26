@@ -735,7 +735,10 @@ BEGIN
         car_model_id            BIGINT NOT NULL,
         price_program_id        BIGINT NOT NULL,
         is_special_color        BIT NOT NULL,
-        listed_price            DECIMAL(15,2) NULL,
+        min_price               DECIMAL(15,2) NULL,
+        suggested_price         DECIMAL(15,2) NULL,
+        max_price               DECIMAL(15,2) NULL,
+
 
         CONSTRAINT fk_price_program_id
             FOREIGN KEY (price_program_id)
@@ -760,16 +763,15 @@ BEGIN
     DECLARE @basePrice BIGINT;
 
     DECLARE program_cursor CURSOR FOR
-    SELECT id FROM dbo.price_program;
+        SELECT id FROM dbo.price_program;
 
     OPEN program_cursor;
     FETCH NEXT FROM program_cursor INTO @programId;
 
     WHILE @@FETCH_STATUS = 0
     BEGIN
-        -- Dùng SELECT + WHILE để loop qua car_model
         DECLARE car_cursor CURSOR FOR
-        SELECT id FROM dbo.car_model;
+            SELECT id FROM dbo.car_model;
 
         OPEN car_cursor;
         FETCH NEXT FROM car_cursor INTO @carId;
@@ -778,13 +780,17 @@ BEGIN
         BEGIN
             SET @basePrice = CAST((2000 + FLOOR(RAND(CHECKSUM(NEWID())) * 3000)) * 1000000 AS BIGINT);
 
-            -- Màu thường
-            INSERT INTO dbo.program_detail (car_model_id, price_program_id, is_special_color, listed_price)
-            VALUES (@carId, @programId, 0, @basePrice);
+            -- Normal color
+            INSERT INTO dbo.program_detail
+                (car_model_id, price_program_id, is_special_color, min_price, suggested_price, max_price)
+            VALUES
+                (@carId, @programId, 0, @basePrice, @basePrice, @basePrice + 50000000);
 
-            -- Màu đặc biệt
-            INSERT INTO dbo.program_detail (car_model_id, price_program_id, is_special_color, listed_price)
-            VALUES (@carId, @programId, 1, @basePrice + 100000000);
+            -- Special color +100M
+            INSERT INTO dbo.program_detail
+                (car_model_id, price_program_id, is_special_color, min_price, suggested_price, max_price)
+            VALUES
+                (@carId, @programId, 1, @basePrice + 100000000, @basePrice + 100000000, @basePrice + 150000000);
 
             FETCH NEXT FROM car_cursor INTO @carId;
         END
