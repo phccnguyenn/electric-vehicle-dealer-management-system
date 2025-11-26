@@ -55,10 +55,8 @@ public class DealerService extends UserService {
         // Filter role of current user
         User currentUser = getCurrentUser();
         List<RoleType> roles = new ArrayList<>();
-        if (currentUser.getRole().equals(RoleType.DEALER_MANAGER)
-                || currentUser.getRole().equals(RoleType.EVM_ADMIN)
-                || currentUser.getRole().equals(RoleType.EVM_STAFF)) {
-            roles.add(RoleType.DEALER_MANAGER);
+        if (currentUser.getRole().equals(RoleType.DEALER_MANAGER)) {
+            //roles.add(RoleType.DEALER_MANAGER);
             roles.add(RoleType.DEALER_STAFF);
         } else if (currentUser.getRole().equals(RoleType.DEALER_STAFF)) {
             roles.add(RoleType.DEALER_STAFF);
