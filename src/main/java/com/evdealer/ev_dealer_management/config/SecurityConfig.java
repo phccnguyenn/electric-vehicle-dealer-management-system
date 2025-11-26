@@ -105,7 +105,8 @@ public class SecurityConfig {
                             .requestMatchers(
                                 "/api/v1/carDetail/create",
                                 "/api/v1/carDetail/*/update",
-                                "/api/v1/carDetail/*/upload/images").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                                "/api/v1/carDetail/*/upload/images",
+                                "/api/v1/carDetail/*/remove").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults())

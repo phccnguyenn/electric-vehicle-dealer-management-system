@@ -199,26 +199,26 @@ IF NOT EXISTS (SELECT 1 FROM dbo.dimension)
 BEGIN
     INSERT INTO dbo.dimension (seat_number, weight_lbs, ground_clearance_in, width_folded_in, width_extended_in, height_in, length_mm, length_in, wheels_size_cm)
     VALUES
-    -- Sedan LX
     (5, 3200, 5.5, 70, 72, 56, 4700, 185, 60),
-    -- SUV GX
     (7, 4500, 8.0, 75, 78, 66, 5000, 197, 65),
-    -- Hatchback ZX
     (5, 2800, 5.0, 68, 70, 55, 4300, 169, 58),
-    -- Electric EV1
     (5, 3600, 5.5, 72, 74, 57, 4600, 181, 62),
-    -- Hybrid HVX
     (5, 3400, 5.5, 71, 73, 56, 4550, 179, 61),
-    -- Truck TX
     (2, 6000, 9.0, 80, 82, 70, 5500, 217, 75),
-    -- Van VX
     (8, 5000, 6.5, 76, 78, 68, 5200, 205, 68),
-    -- Convertible CVX
     (4, 3000, 5.0, 70, 72, 54, 4400, 173, 60),
-    -- Sports Car SX
     (2, 3200, 4.5, 72, 74, 48, 4500, 177, 61),
-    -- Luxury LX
-    (5, 5000, 5.5, 74, 76, 60, 5000, 197, 65);
+    (5, 5000, 5.5, 74, 76, 60, 5000, 197, 65),
+    (5, 3300, 5.2, 69, 71, 55, 4650, 183, 59),
+    (6, 4800, 7.5, 77, 79, 65, 5050, 199, 66),
+    (5, 2900, 5.0, 68, 70, 54, 4350, 171, 57),
+    (5, 3700, 5.7, 73, 75, 58, 4620, 182, 63),
+    (5, 3450, 5.5, 71, 73, 57, 4570, 180, 61),
+    (2, 6100, 9.2, 81, 83, 71, 5520, 218, 76),
+    (8, 5050, 6.6, 77, 79, 69, 5220, 206, 69),
+    (4, 3050, 5.1, 70, 72, 55, 4420, 174, 61),
+    (2, 3250, 4.6, 73, 75, 49, 4520, 178, 62),
+    (5, 5100, 5.6, 75, 77, 61, 5020, 198, 66);
 END;
 GO
 
@@ -242,26 +242,26 @@ IF NOT EXISTS (SELECT 1 FROM dbo.performance)
 BEGIN
     INSERT INTO dbo.performance (battery_type, motor_type, range_miles, acceleration_sec, top_speed_mph, towing_lbs)
     VALUES
-    -- Sedan LX
     ('STANDARD', 'DC_BRUSHED', 300, 7.5, 130, 1000),
-    -- SUV GX
     ('STANDARD', 'DC_BRUSHLESS', 280, 8.5, 120, 2500),
-    -- Hatchback ZX
     ('STANDARD', 'DC_BRUSHED', 250, 9.0, 115, 800),
-    -- Electric EV1
     ('FAST_CHARGE', 'DC_BRUSHED', 320, 6.5, 140, 1200),
-    -- Hybrid HVX
     ('STANDARD', 'AC_INDUCTION', 300, 7.8, 125, 1500),
-    -- Truck TX
     ('LONG_RANGE', 'AC_INDUCTION', 220, 10.0, 110, 5000),
-    -- Van VX
     ('LONG_RANGE', 'SYNCHRONOUS', 260, 9.5, 110, 2000),
-    -- Convertible CVX
     ('STANDARD', 'DC_BRUSHLESS', 280, 5.8, 150, 900),
-    -- Sports Car SX
     ('FAST_CHARGE', 'PERMANENT_MAGNET', 270, 4.5, 180, 500),
-    -- Luxury LX
-    ('STANDARD', 'PERMANENT_MAGNET', 300, 6.8, 160, 1200);
+    ('STANDARD', 'PERMANENT_MAGNET', 300, 6.8, 160, 1200),
+    ('STANDARD', 'DC_BRUSHED', 310, 7.6, 132, 1100),
+    ('FAST_CHARGE', 'DC_BRUSHLESS', 290, 6.9, 135, 1300),
+    ('STANDARD', 'AC_INDUCTION', 270, 8.0, 125, 1400),
+    ('LONG_RANGE', 'SYNCHRONOUS', 230, 9.8, 115, 4800),
+    ('FAST_CHARGE', 'PERMANENT_MAGNET', 280, 5.0, 170, 600),
+    ('STANDARD', 'DC_BRUSHED', 295, 7.9, 128, 1000),
+    ('STANDARD', 'AC_INDUCTION', 305, 7.2, 130, 1500),
+    ('FAST_CHARGE', 'DC_BRUSHLESS', 315, 6.3, 145, 1200),
+    ('STANDARD', 'PERMANENT_MAGNET', 300, 6.7, 155, 1100),
+    ('LONG_RANGE', 'SYNCHRONOUS', 225, 9.5, 112, 4500);
 END;
 GO
 
@@ -349,23 +349,23 @@ BEGIN
     (2, 2, 2, 'SUV GX', 'SOLD_OUT', N'Vàng Đen', 'WDBUF56X98B123456', '4G15S3B78452', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
     (3, 3, 3, 'Hatchback ZX', 'SOLD_OUT', N'Cam Đen', 'KMHTC6AD0EU193827', 'D4CB9123478', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
     (4, 4, 4, 'Electric EV1', 'FOR_SALE', N'Hồng Đen', 'JN1AZ4EH7EM634219', '1NZ2187364', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (1, 5, 5, 'Hybrid HVX', 'FOR_SALE', N'Xanh', 'WAUZZZ8K6DA123987', 'G4KC7834521', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (2, 1, 1, 'Truck TX', 'FOR_SALE', N'Xanh Nâu', '3FAHP0HA7AR201345', '4B11T392874', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (3, 2, 2, 'Van VX', 'TEST_DRIVE_ONLY', N'Đỏ', '5NPE24AF4FH123654', '2GRF6123984', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (4, 3, 3, 'Convertible CVX', 'FOR_SALE', N'Trắng', 'JTMZFREV0ED074563', '1ZRFA785421', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (5, 4, 4, 'Sports Car SX', 'TEST_DRIVE_ONLY', N'Vàng', 'SALVP2BG1EH234890', 'G4FA9238745', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (5, 5, 5, 'Luxury LX', 'TEST_DRIVE_ONLY', N'Vàng Nhạt', 'KL1TD56607B234567', '1KRDE456783', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (2, 3, 1, 'EcoCity S', 'FOR_SALE', N'Nâu', '2HGFB2F50DH512349', '204DTA983452', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (4, 2, 3, 'Speedster GT', 'FOR_SALE', N'Xanh Lá', '5XYKT3A1XEG412356', 'G6DG1238947', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (5, 5, 5, 'Hybrid HVX', 'FOR_SALE', N'Xanh', 'WAUZZZ8K6DA123987', 'G4KC7834521', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (6, 6, 1, 'Truck TX', 'FOR_SALE', N'Xanh Nâu', '3FAHP0HA7AR201345', '4B11T392874', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (7, 7, 2, 'Van VX', 'TEST_DRIVE_ONLY', N'Đỏ', '5NPE24AF4FH123654', '2GRF6123984', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (8, 8, 3, 'Convertible CVX', 'FOR_SALE', N'Trắng', 'JTMZFREV0ED074563', '1ZRFA785421', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (9, 9, 4, 'Sports Car SX', 'TEST_DRIVE_ONLY', N'Vàng', 'SALVP2BG1EH234890', 'G4FA9238745', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (10, 10, 5, 'Luxury LX', 'TEST_DRIVE_ONLY', N'Vàng Nhạt', 'KL1TD56607B234567', '1KRDE456783', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (11, 11, 1, 'EcoCity S', 'FOR_SALE', N'Nâu', '2HGFB2F50DH512349', '204DTA983452', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (12, 12, 3, 'Speedster GT', 'FOR_SALE', N'Xanh Lá', '5XYKT3A1XEG412356', 'G6DG1238947', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
 
-    (1, 1, 2, 'Comfort XL', 'TEST_DRIVE_ONLY', N'Xám Bạc', '1FTFW1ET7EFC34567', 'ECOB2345891', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (3, 4, 2, 'Urban X', 'FOR_SALE', N'Xanh Dương Đậm', 'JHMGE8H52BS014238', 'L15A7123985', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (2, 2, 5, 'Traveler Z', 'TEST_DRIVE_ONLY', N'Đen Bóng', 'VF1RFB00854923450', 'K9K7328945', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (6, 9, 1, 'EcoLite A1', 'SOLD_OUT', N'Trắng', 'JTEBU5JR6B5129876', '1GRFE894563', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (7, 6, 2, 'SpeedMax R', 'TEST_DRIVE_ONLY', N'Cam Vàng', 'KNAGM4A72F5123467', 'G4NA9238451', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (9, 7, 3, 'Comfort Plus', 'FOR_SALE', N'Bạc Sáng', '1GCHK23D47F195432', 'LML2357812', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (10, 10, 4, 'Urban X2', 'TEST_DRIVE_ONLY', N'Đen Bóng', 'YV4952DL1F1237689', 'B5254751298', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
-    (8, 9, 5, 'Traveler Z', 'TEST_DRIVE_ONLY', N'Xanh Dương Nhạt', '5YFBURHE5FP123470', '2ZRFX394827', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE());
+    (13, 13, 2, 'Comfort XL', 'TEST_DRIVE_ONLY', N'Xám Bạc', '1FTFW1ET7EFC34567', 'ECOB2345891', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (14, 14, 2, 'Urban X', 'FOR_SALE', N'Xanh Dương Đậm', 'JHMGE8H52BS014238', 'L15A7123985', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (15, 15, 5, 'Traveler Z', 'TEST_DRIVE_ONLY', N'Đen Bóng', 'VF1RFB00854923450', 'K9K7328945', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (16, 16, 1, 'EcoLite A1', 'SOLD_OUT', N'Trắng', 'JTEBU5JR6B5129876', '1GRFE894563', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (17, 17, 2, 'SpeedMax R', 'TEST_DRIVE_ONLY', N'Cam Vàng', 'KNAGM4A72F5123467', 'G4NA9238451', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (18, 18, 3, 'Comfort Plus', 'FOR_SALE', N'Bạc Sáng', '1GCHK23D47F195432', 'LML2357812', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (19, 19, 4, 'Urban X2', 'TEST_DRIVE_ONLY', N'Đen Bóng', 'YV4952DL1F1237689', 'B5254751298', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE()),
+    (20, 20, 5, 'Traveler Z', 'TEST_DRIVE_ONLY', N'Xanh Dương Nhạt', '5YFBURHE5FP123470', '2ZRFX394827', 'EVD Administrator', GETDATE(), 'EVD Administrator', GETDATE());
 END;
 GO
 
