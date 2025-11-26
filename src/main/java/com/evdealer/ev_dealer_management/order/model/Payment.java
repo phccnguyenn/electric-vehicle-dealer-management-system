@@ -26,11 +26,11 @@ public class Payment extends AbstractAuditEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @Column(nullable = false, precision = 19, scale = 2)
     @NotNull
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
-    @Column(nullable = false)
+    @Column(name = "paid_at", nullable = false)
     private LocalDateTime paidAt;
 
     @Enumerated(EnumType.STRING)

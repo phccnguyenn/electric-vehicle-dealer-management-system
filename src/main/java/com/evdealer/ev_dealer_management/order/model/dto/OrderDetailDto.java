@@ -2,7 +2,6 @@ package com.evdealer.ev_dealer_management.order.model.dto;
 
 import com.evdealer.ev_dealer_management.car.model.dto.details.CarInfoGetDto;
 import com.evdealer.ev_dealer_management.car.model.dto.model.CarModelGetByOrderDto;
-import com.evdealer.ev_dealer_management.car.model.dto.model.CarModelGetDetailDto;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;

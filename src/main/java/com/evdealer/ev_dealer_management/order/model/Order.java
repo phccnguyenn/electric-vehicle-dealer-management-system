@@ -7,6 +7,7 @@ import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
 import com.evdealer.ev_dealer_management.user.model.Customer;
+import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import com.evdealer.ev_dealer_management.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,8 +29,6 @@ public class Order extends AbstractAuditEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // private String orderCode;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_model_id")
     private CarModel carModel;
@@ -37,6 +36,10 @@ public class Order extends AbstractAuditEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private CarDetail carDetail;
+
+    @ManyToOne
+    @JoinColumn(name = "dealer_id")
+    private DealerInfo dealerInfo;
 
     // No order generation permission for Manager
     @ManyToOne
@@ -47,19 +50,6 @@ public class Order extends AbstractAuditEntity {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @Column(name = "total_amount")
-    private BigDecimal totalAmount;
-
-    @Column(name = "amount_paid")
-    private BigDecimal amountPaid;
-
-    // PDF/DOC links
-    @Column(name = "quotation_url")
-    private String quotationUrl;
-
-    @Column(name = "contract_url")
-    private String contractUrl;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private OrderStatus status;
@@ -67,6 +57,19 @@ public class Order extends AbstractAuditEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
+
+    @Column(name = "amount_paid")
+    private BigDecimal amountPaid;
+
+    @Column(name = "total_amount")
+    private BigDecimal totalAmount;
+
+    // PDF/DOC links
+    @Column(name = "contract_url")
+    private String contractUrl;
+
+    @Column(name = "quotation_url")
+    private String quotationUrl;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Payment> payments = new ArrayList<>();

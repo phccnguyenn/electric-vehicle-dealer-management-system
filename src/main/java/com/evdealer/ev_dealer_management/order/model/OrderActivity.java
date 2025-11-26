@@ -27,6 +27,7 @@ public class OrderActivity {
     @Column(name = "order_status")
     private OrderStatus orderStatus;
 
+    @Column(name = "changed_at")
     private LocalDateTime changedAt;
 
 }

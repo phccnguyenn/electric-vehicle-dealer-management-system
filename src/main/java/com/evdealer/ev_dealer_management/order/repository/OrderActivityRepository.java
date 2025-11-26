@@ -1,19 +1,19 @@
-//package com.evdealer.ev_dealer_management.order.repository;
-//
-//import com.evdealer.ev_dealer_management.order.model.OrderActivity;
-//import com.evdealer.ev_dealer_management.order.model.dto.SalesSpeedResponseDto;
-//import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.data.jpa.repository.Query;
-//import org.springframework.data.repository.query.Param;
-//import org.springframework.stereotype.Repository;
-//
-//import java.time.LocalDateTime;
-//import java.util.List;
-//
-//@Repository
-//public interface OrderActivityRepository extends JpaRepository<OrderActivity, Long> {
-//    List<OrderActivity> findByOrderIdOrderByChangedAtAsc(Long orderId);
-//
+package com.evdealer.ev_dealer_management.order.repository;
+
+import com.evdealer.ev_dealer_management.order.model.OrderActivity;
+import com.evdealer.ev_dealer_management.order.model.dto.SalesSpeedResponseDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface OrderActivityRepository extends JpaRepository<OrderActivity, Long> {
+    List<OrderActivity> findByOrderIdOrderByChangedAtAsc(Long orderId);
+
 //    @Query(value = """
 //    SELECT
 //        s.parent_id AS dealerId,
@@ -24,10 +24,10 @@
 //    WHERE oa.status IN ('DELIVERED', 'COMPLETED')
 //      AND oa.changed_at BETWEEN :startTime AND :endTime
 //    GROUP BY s.parent_id
-//""", nativeQuery = true)
+//    """, nativeQuery = true)
 //    List<SalesSpeedResponseDto> getSalesSpeedByDealer(
 //            @Param("startTime") LocalDateTime startTime,
 //            @Param("endTime") LocalDateTime endTime
 //    );
-//
-//}
+
+}
