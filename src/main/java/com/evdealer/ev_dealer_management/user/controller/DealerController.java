@@ -29,11 +29,11 @@ public class DealerController {
 
     @GetMapping("/staff")
     public ResponseEntity<UserInfoListDto> getStaffUnderDealer(
-            @RequestParam(name = "dealerId") Long dealerId,
+            // @RequestParam(name = "dealerId", required = false) Long dealerId,
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
     ) {
-        return ResponseEntity.ok(dealerService.getAllEmployeeInSpecDealer(dealerId, pageNo, pageSize));
+        return ResponseEntity.ok(dealerService.getAllEmployeeInSpecDealer(pageNo, pageSize));
     }
 
     @GetMapping("/customers")

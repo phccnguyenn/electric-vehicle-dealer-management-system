@@ -18,6 +18,7 @@ import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyReposito
 import com.evdealer.ev_dealer_management.user.repository.DealerInfoRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -64,7 +65,7 @@ public class DealerService extends UserService {
         }
 
 
-        DealerInfo currentDealer = dealerInfoRepository.findById(dealerId)
+        DealerInfo currentDealer = dealerInfoRepository.findById(currentUser.getDealerInfo().getId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_INFO_NOT_FOUND, dealerId));
 
         Pageable pageable = PageRequest.of(pageNo, pageSize);
