@@ -9,7 +9,9 @@ public record ProgramDetailGetDto(
         Long priceProgramId,
         String carModelName,
         boolean isSpecialColor,
-        BigDecimal listedPrice
+        BigDecimal minPrice,
+        BigDecimal suggestedPrice,
+        BigDecimal maxPrice
 ) {
     public static ProgramDetailGetDto fromModel(ProgramDetail model) {
         return new ProgramDetailGetDto (
@@ -17,7 +19,9 @@ public record ProgramDetailGetDto(
                 model.getPriceProgram().getId(),
                 model.getCarModel().getCarModelName(),
                 model.isSpecialColor(),
-                model.getListedPrice()
+                model.getMinPrice(),
+                model.getSuggestedPrice(),
+                model.getMaxPrice()
         );
     }
 }

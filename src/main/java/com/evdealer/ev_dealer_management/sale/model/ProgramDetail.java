@@ -30,7 +30,13 @@ public class ProgramDetail {
     @Column(name = "is_special_color", nullable = false)
     private boolean isSpecialColor;
 
-    @Column(name = "listed_price", precision = 15, scale = 2)
-    private BigDecimal listedPrice;
+    @Column(name = "min_price", precision = 15, scale = 2)
+    private BigDecimal minPrice;
+
+    @Column(name = "suggested_price", precision = 15, scale = 2)
+    private BigDecimal suggestedPrice;
+
+    @Column(name = "max_price", precision = 15, scale = 2)
+    private BigDecimal maxPrice;
 
 }

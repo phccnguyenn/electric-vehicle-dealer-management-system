@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,6 +31,8 @@ public class ProgramDetailService {
                                                              boolean isAutoFilling,
                                                              ProgramDetailPostDto programDetailPostDto) {
 
+        validatePriceRange(programDetailPostDto.minPrice(), programDetailPostDto.suggestedPrice(), programDetailPostDto.maxPrice());
+
         PriceProgram priceProgram = priceProgramRepository.findById(priceProgramId)
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.PRICE_PROGRAM_NOT_FOUND, priceProgramId));
 
@@ -37,7 +40,9 @@ public class ProgramDetailService {
         ProgramDetail programDetail = ProgramDetail.builder()
                 .carModel(carModel)
                 .isSpecialColor(programDetailPostDto.isSpecialColor())
-                .listedPrice(programDetailPostDto.listedPrice())
+                .minPrice(programDetailPostDto.minPrice())
+                .suggestedPrice(programDetailPostDto.suggestedPrice())
+                .maxPrice(programDetailPostDto.maxPrice())
                 .priceProgram(priceProgram)
                 .build();
         ProgramDetail savedProgramDetail = programDetailRepository.save(programDetail);
@@ -78,7 +83,9 @@ public class ProgramDetailService {
                     ProgramDetail clone = new ProgramDetail();
                     clone.setPriceProgram(newProgram);
                     clone.setCarModel(d.getCarModel());
-                    clone.setListedPrice(d.getListedPrice());
+                    clone.setMinPrice(d.getMinPrice());
+                    clone.setSuggestedPrice(d.getSuggestedPrice());
+                    clone.setMaxPrice(d.getMaxPrice());
                     clone.setSpecialColor(d.isSpecialColor());
                     return clone;
                 })
@@ -104,9 +111,22 @@ public class ProgramDetailService {
             existingDetail.setCarModel(carModel);
         }
 
-        if (updateDto.listedPrice() != null &&
-                !updateDto.listedPrice().equals(existingDetail.getListedPrice())) {
-            existingDetail.setListedPrice(updateDto.listedPrice());
+        validatePriceRange(
+                updateDto.minPrice(),
+                updateDto.suggestedPrice(),
+                updateDto.maxPrice()
+        );
+
+        if (existingDetail.getMinPrice().compareTo(updateDto.minPrice()) != 0) {
+            existingDetail.setMinPrice(updateDto.minPrice());
+        }
+
+        if (existingDetail.getSuggestedPrice().compareTo(updateDto.suggestedPrice()) != 0) {
+            existingDetail.setSuggestedPrice(updateDto.suggestedPrice());
+        }
+
+        if (existingDetail.getMaxPrice().compareTo(updateDto.maxPrice()) != 0) {
+            existingDetail.setMaxPrice(updateDto.maxPrice());
         }
 
         // special color does not include BLACK && WHILE
@@ -130,24 +150,24 @@ public class ProgramDetailService {
         programDetailRepository.delete(programDetail);
     }
 
-//    private void validatePriceRange(BigDecimal minPrice, BigDecimal suggestedPrice, BigDecimal maxPrice) {
-//
-//        // Ensure all prices are positive
-//        if (minPrice.compareTo(BigDecimal.ZERO) < 0
-//                || suggestedPrice.compareTo(BigDecimal.ZERO) < 0
-//                || maxPrice.compareTo(BigDecimal.ZERO) < 0) {
-//            throw new IllegalArgumentException("Prices must be positive values.");
-//        }
-//
-//        // Min must be less than max
-//        if (minPrice.compareTo(maxPrice) >= 0) {
-//            throw new IllegalArgumentException("Min price must be less than max price.");
-//        }
-//
-//        // Suggested must be strictly between min and max
-//        if (suggestedPrice.compareTo(minPrice) <= 0 || suggestedPrice.compareTo(maxPrice) >= 0) {
-//            throw new IllegalArgumentException("Suggested price must be strictly between min and max price.");
-//        }
-//    }
+    private void validatePriceRange(BigDecimal minPrice, BigDecimal suggestedPrice, BigDecimal maxPrice) {
+
+        // Ensure all prices are positive
+        if (minPrice.compareTo(BigDecimal.ZERO) < 0
+                || suggestedPrice.compareTo(BigDecimal.ZERO) < 0
+                || maxPrice.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Prices must be positive values.");
+        }
+
+        // Min must be less than max
+        if (minPrice.compareTo(maxPrice) >= 0) {
+            throw new IllegalArgumentException("Min price must be less than max price.");
+        }
+
+        // Suggested must be strictly between min and max
+        if (suggestedPrice.compareTo(minPrice) <= 0 || suggestedPrice.compareTo(maxPrice) >= 0) {
+            throw new IllegalArgumentException("Suggested price must be strictly between min and max price.");
+        }
+    }
 
 }
