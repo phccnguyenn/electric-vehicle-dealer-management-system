@@ -37,6 +37,17 @@ public class ProgramDetailService {
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.PRICE_PROGRAM_NOT_FOUND, priceProgramId));
 
         CarModel carModel = carModelService.getCarModelById(programDetailPostDto.carModelId(), CarModel.class);
+
+        boolean exists = priceProgram.getProgramDetails().stream()
+                .anyMatch(detail ->
+                        detail.getCarModel().getId().equals(programDetailPostDto.carModelId()) &&
+                                detail.isSpecialColor() == programDetailPostDto.isSpecialColor()
+                );
+
+        if (exists) {
+            throw new RuntimeException("Program detail already exists for this model and color");
+        }
+        
         ProgramDetail programDetail = ProgramDetail.builder()
                 .carModel(carModel)
                 .isSpecialColor(programDetailPostDto.isSpecialColor())
