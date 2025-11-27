@@ -1047,21 +1047,11 @@ BEGIN
         last_modified_on
     )
     VALUES
-        (1, 2, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 3, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 16, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
-        (1, 1, 0, 'OUT_OF_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 4, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 5, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 6, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 8, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 11, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 12, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 14, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 18, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 12, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 14, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
-        (1, 18, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
+        (1, 1, 2, 'IN_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 2, 5, 'IN_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 3, 4, 'IN_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 4, 1, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 5, 1, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
 END;
 GO
 ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
