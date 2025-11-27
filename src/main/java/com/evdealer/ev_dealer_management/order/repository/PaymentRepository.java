@@ -34,12 +34,12 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
         SELECT
             o.customer.id AS customerId,
             o.customer.fullName AS customerName,
-            (o.totalAmount - COALESCE(SUM(p.amount), 0)) AS debt
+            SUM(o.totalAmount) - COALESCE(SUM(p.amount), 0) AS debt
         FROM Order o
         LEFT JOIN o.payments p
         WHERE o.customer.dealer.id = :dealerId
         GROUP BY o.customer.id, o.customer.fullName
-        HAVING (o.totalAmount - COALESCE(SUM(p.amount), 0)) > 0
+        HAVING (SUM(o.totalAmount) - COALESCE(SUM(p.amount), 0)) > 0
     """)
     List<CustomerDebtDto> getCustomerDebts(@Param("dealerId") Long dealerId);
 
