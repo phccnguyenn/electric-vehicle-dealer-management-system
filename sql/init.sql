@@ -136,37 +136,36 @@ BEGIN
 INSERT INTO dbo.customer (dealer_id, full_name, email, phone, address, created_by, created_on, last_modified_by, last_modified_on)
 VALUES
 -- TP.HCM
-(3, N'Nguyễn Thị Mai', 'mai.nguyen@example.com', '0901234567', N'12 Lê Lợi, Quận 1, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Trần Văn Hưng', 'hung.tran@example.com', '0902345678', N'34 Nguyễn Huệ, Quận 1, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Lê Thị Hồng', 'hong.le@example.com', '0903456789', N'56 Hai Bà Trưng, Quận 3, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Phạm Văn Nam', 'nam.pham@example.com', '0904567890', N'78 Võ Thị Sáu, Quận 3, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Đặng Thị Phương', 'phuong.dang@example.com', '0905678901', N'90 Cách Mạng Tháng 8, Quận 10, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Hoàng Văn Tuấn', 'tuan.hoang@example.com', '0906789012', N'123 Lý Thường Kiệt, Quận 10, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Ngô Thị Lan', 'lan.ngo@example.com', '0907890123', N'456 Trường Chinh, Tân Bình, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Võ Văn Cường', 'cuong.vo@example.com', '0908901234', N'789 Hoàng Văn Thụ, Tân Bình, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Bùi Thị Hạnh', 'hanh.bui@example.com', '0910012345', N'321 Phan Xích Long, Phú Nhuận, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
-(3, N'Trịnh Văn Long', 'long.trinh@example.com', '0911123456', N'654 Nguyễn Văn Trỗi, Phú Nhuận, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Nguyễn Thị Mai', 'mai.nguyen@example.com', '0901234567', N'12 Lê Lợi, Quận 1, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Trần Văn Hưng', 'hung.tran@example.com', '0902345678', N'34 Nguyễn Huệ, Quận 1, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Lê Thị Hồng', 'hong.le@example.com', '0903456789', N'56 Hai Bà Trưng, Quận 3, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Phạm Văn Nam', 'nam.pham@example.com', '0904567890', N'78 Võ Thị Sáu, Quận 3, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Đặng Thị Phương', 'phuong.dang@example.com', '0905678901', N'90 Cách Mạng Tháng 8, Quận 10, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Hoàng Văn Tuấn', 'tuan.hoang@example.com', '0906789012', N'123 Lý Thường Kiệt, Quận 10, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Ngô Thị Lan', 'lan.ngo@example.com', '0907890123', N'456 Trường Chinh, Tân Bình, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Võ Văn Cường', 'cuong.vo@example.com', '0908901234', N'789 Hoàng Văn Thụ, Tân Bình, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Bùi Thị Hạnh', 'hanh.bui@example.com', '0910012345', N'321 Phan Xích Long, Phú Nhuận, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
+(1, N'Trịnh Văn Long', 'long.trinh@example.com', '0911123456', N'654 Nguyễn Văn Trỗi, Phú Nhuận, TP.HCM', N'Đại lý Sài Gòn', SYSDATETIMEOFFSET(), N'Đại lý Sài Gòn', SYSDATETIMEOFFSET()),
 
 -- HN
-(4, N'Nguyễn Văn Tiến', 'tien.nguyen@example.com', '0912345678', N'123 Lê Duẩn, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
-(4, N'Trần Thị Lan', 'lan.tran@example.com', '0987654321', N'456 Nguyễn Trãi, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
-(4, N'Lê Minh Tuấn', 'tuan.le@example.com', '0911223344', N'789 Phạm Hùng, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
-(4, N'Phạm Thị Hương', 'huong.pham@example.com', '0999887766', N'321 Trần Hưng Đạo, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
-(4, N'Đỗ Văn Quang', 'quang.do@example.com', '0955667788', N'654 Hoàng Hoa Thám, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(2, N'Nguyễn Văn Tiến', 'tien.nguyen@example.com', '0912345678', N'123 Lê Duẩn, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(2, N'Trần Thị Lan', 'lan.tran@example.com', '0987654321', N'456 Nguyễn Trãi, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(2, N'Lê Minh Tuấn', 'tuan.le@example.com', '0911223344', N'789 Phạm Hùng, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(2, N'Phạm Thị Hương', 'huong.pham@example.com', '0999887766', N'321 Trần Hưng Đạo, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
+(2, N'Đỗ Văn Quang', 'quang.do@example.com', '0955667788', N'654 Hoàng Hoa Thám, Hà Nội', N'Đại lý Hà Nội', SYSDATETIMEOFFSET(), N'Đại lý Hà Nội', SYSDATETIMEOFFSET()),
 
 -- Quy Nhơn
-(7, N'Nguyễn Thị Thu', 'thu.nguyen@example.com', '0935123456', N'12 Nguyễn Tất Thành, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Trần Văn Hải', 'hai.tran@example.com', '0936234567', N'34 Trần Hưng Đạo, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Lê Thị Mỹ', 'my.le@example.com', '0937345678', N'56 Lý Thường Kiệt, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Phạm Văn Dũng', 'dung.pham@example.com', '0938456789', N'78 Nguyễn Huệ, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
-(7, N'Đặng Thị Kim', 'kim.dang@example.com', '0939567890', N'90 Hai Bà Trưng, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(3, N'Nguyễn Thị Thu', 'thu.nguyen@example.com', '0935123456', N'12 Nguyễn Tất Thành, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(3, N'Trần Văn Hải', 'hai.tran@example.com', '0936234567', N'34 Trần Hưng Đạo, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(3, N'Lê Thị Mỹ', 'my.le@example.com', '0937345678', N'56 Lý Thường Kiệt, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(3, N'Phạm Văn Dũng', 'dung.pham@example.com', '0938456789', N'78 Nguyễn Huệ, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
+(3, N'Đặng Thị Kim', 'kim.dang@example.com', '0939567890', N'90 Hai Bà Trưng, Quy Nhơn, Bình Định', N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET(), N'Đại lý Quy Nhơn', SYSDATETIMEOFFSET()),
 
--- Hải Phòng
-(10, N'Nguyễn Văn Hòa', 'hoa.nguyen@example.com', '0941234567', N'12 Điện Biên Phủ, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
-(10, N'Trần Thị Liên', 'lien.tran@example.com', '0942345678', N'34 Trần Phú, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
-(10, N'Lê Văn Thắng', 'thang.le@example.com', '0943456789', N'56 Lạch Tray, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
-(10, N'Phạm Thị Mai', 'mai.pham@example.com', '0944567890', N'78 Tô Hiệu, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
-(10, N'Đỗ Văn Kiên', 'kien.do@example.com', '0945678901', N'90 Cầu Đất, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET());
+(1, N'Nguyễn Văn Hòa', 'hoa.nguyen@example.com', '0941234567', N'12 Điện Biên Phủ, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(2, N'Trần Thị Liên', 'lien.tran@example.com', '0942345678', N'34 Trần Phú, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(3, N'Lê Văn Thắng', 'thang.le@example.com', '0943456789', N'56 Lạch Tray, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(3, N'Phạm Thị Mai', 'mai.pham@example.com', '0944567890', N'78 Tô Hiệu, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET()),
+(1, N'Đỗ Văn Kiên', 'kien.do@example.com', '0945678901', N'90 Cầu Đất, Hải Phòng', N'Đại lý Hải Phòng', SYSDATETIMEOFFSET(), N'Đại lý Hải Phòng', SYSDATETIMEOFFSET());
 END;
 ALTER TABLE dbo.customer CHECK CONSTRAINT ALL;
 GO
@@ -190,7 +189,6 @@ CREATE TABLE dbo.dimension (
     length_mm            FLOAT NULL,
     length_in            FLOAT NULL,
     wheels_size_cm       FLOAT NULL
-
 );
 END;
 GO

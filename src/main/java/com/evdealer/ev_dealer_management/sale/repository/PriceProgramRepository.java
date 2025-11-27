@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.sale.repository;
 
 import com.evdealer.ev_dealer_management.sale.model.PriceProgram;
+import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

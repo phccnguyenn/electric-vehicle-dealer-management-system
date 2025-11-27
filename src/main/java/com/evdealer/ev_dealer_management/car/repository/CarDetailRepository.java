@@ -16,11 +16,6 @@ import java.util.Optional;
 public interface CarDetailRepository
         extends JpaRepository<CarDetail,Long> {
 
-    // CAST(... AS INT) -- converts that decimal number
-    // NEWID()    -- generates a random unique value (a GUID)
-    // CHECKSUM() -- Turns that random GUID into a random integer (positive or negative)
-    // RAND()     -- normally gives the same random number for every row in a single query
-    //            -- This gives a random float between 0 and 1.
     @Query(value = """
                 SELECT *
                 FROM car_detail

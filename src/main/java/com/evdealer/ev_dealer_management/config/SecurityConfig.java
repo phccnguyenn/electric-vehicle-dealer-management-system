@@ -62,6 +62,7 @@ public class SecurityConfig {
                                     "/api/v1/user/registry-dealer",
                                     "/api/v1/user/create-dealer-account",
                                     "/api/v1/user/create-evd-account").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
+                            .requestMatchers("/api/v1/user/customer-list").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .requestMatchers("/api/v1/user/**").hasAnyRole("EVM_ADMIN", "EVM_STAFF")
                             .requestMatchers(HttpMethod.GET, "/api/v1/dealer/staff").hasRole("DEALER_MANAGER")
                             .requestMatchers("/api/v1/dealer/**").hasAnyRole("DEALER_MANAGER", "DEALER_STAFF")
