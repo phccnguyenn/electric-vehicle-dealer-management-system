@@ -15,44 +15,46 @@ import java.util.List;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-//    @Query("""
-//        SELECT
-//            o.staff.id AS staffId,
-//            o.staff.fullName AS staffName,
-//            SUM(p.amount) AS revenue
-//        FROM Payment p
-//        JOIN p.order o
-//        WHERE (:staffId IS NULL OR o.staff.id = :staffId)
-//        AND o.staff.parent.id = :dealerId
-//        GROUP BY o.staff.id, o.staff.fullName
-//    """)
-//    List<RevenueByStaffDto> getRevenueByStaff(@Param("staffId") Long staffId, @Param("dealerId") Long dealerId);
+    @Query("""
+    SELECT 
+        s.id AS staffId,
+        s.fullName AS staffName,
+        SUM(o.totalAmount * dh.commissionRate) AS dealerRevenue
+    FROM Order o
+    JOIN o.staff s
+    JOIN o.dealerInfo d
+    JOIN d.dealerHierarchy dh
+    WHERE d.id = :dealerId
+      AND o.status = 'COMPLETED'
+    GROUP BY s.id, s.fullName
+""")
+    List<RevenueByStaffDto> getRevenueByStaff(@Param("dealerId") Long dealerId);
 
-//    @Query("""
-//        SELECT
-//            o.customer.id AS customerId,
-//            o.customer.fullName AS customerName,
-//            (o.totalAmount - COALESCE(SUM(p.amount), 0)) AS debt
-//        FROM Order o
-//        LEFT JOIN o.payments p
-//        WHERE o.customer.dealer.id = :dealerId
-//        GROUP BY o.customer.id, o.customer.fullName, o.totalAmount
-//        HAVING (o.totalAmount - COALESCE(SUM(p.amount), 0)) > 0
-//    """)
-//    List<CustomerDebtDto> getCustomerDebts(@Param("dealerId") Long dealerId);
+    @Query("""
+        SELECT
+            o.customer.id AS customerId,
+            o.customer.fullName AS customerName,
+            (o.totalAmount - COALESCE(SUM(p.amount), 0)) AS debt
+        FROM Order o
+        LEFT JOIN o.payments p
+        WHERE o.customer.dealer.id = :dealerId
+        GROUP BY o.customer.id, o.customer.fullName
+        HAVING (o.totalAmount - COALESCE(SUM(p.amount), 0)) > 0
+    """)
+    List<CustomerDebtDto> getCustomerDebts(@Param("dealerId") Long dealerId);
 
-//    @Query("""
-//    SELECT o.dealerInfo.id AS dealerId,
-//           o.dealerInfo.dealerName AS dealerName,
-//           SUM(p.amount) AS revenue
-//    FROM Payment p
-//    JOIN p.order o
-//    WHERE s.role IN ('DEALER_STAFF', 'DEALER_MANAGER')
-//      AND o.dealerInfo IS NOT NULL
-//      AND o.status IN ('DELIVERED', 'COMPLETED')
-//    GROUP BY o.dealerInfo.id, o.dealerInfo.dealerName
-//    """)
-//    List<RevenueByDealerDto> getRevenueByDealer();
+    // Cái này tính doanh thu thực nhận theo từng đợt khách thanh toán,
+    @Query("""
+    SELECT o.dealerInfo.id AS dealerId,
+           o.dealerInfo.dealerName AS dealerName,
+           SUM(p.amount * o.dealerInfo.dealerHierarchy.commissionRate) AS revenue
+    FROM Payment p
+    JOIN p.order o
+    WHERE o.dealerInfo IS NOT NULL
+      AND o.status = 'COMPLETED'
+    GROUP BY o.dealerInfo.id, o.dealerInfo.dealerName
+    """)
+    List<RevenueByDealerDto> getRevenueByDealer();
 //
 //    @Query("""
 //    SELECT o.dealerInfo.location AS city,

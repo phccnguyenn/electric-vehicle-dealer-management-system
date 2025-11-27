@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.order.repository;
 
 import com.evdealer.ev_dealer_management.order.model.Order;
+import com.evdealer.ev_dealer_management.order.model.dto.OrderDetailDto;
 import com.evdealer.ev_dealer_management.order.model.dto.OrderFileDto;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import org.springframework.data.domain.Pageable;
@@ -28,4 +29,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //      Page<Order> findAllPendingOrders(Pageable pageable);
 //
       Page<Order> findAllByStatus(OrderStatus status, Pageable pageable);
+
+      List<Order> findByDealerInfo_Id(Long dealerId);
 }

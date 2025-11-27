@@ -13,6 +13,7 @@ import com.evdealer.ev_dealer_management.order.model.dto.evm.OrderListDto;
 import com.evdealer.ev_dealer_management.order.model.dto.evm.OrderUpdateForEVMDto;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
+import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentType;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
 import com.evdealer.ev_dealer_management.sale.model.PriceProgram;
 import com.evdealer.ev_dealer_management.sale.model.ProgramDetail;
@@ -139,27 +140,7 @@ public class OrderService {
                 orderPage.isLast()
         );
     }
-//
-//    public OrderListDto getAllOrderWithPendingStatus(int pageNo, int pageSize) {
-//
-//        Pageable pageable = PageRequest.of(pageNo, pageSize);
-//        Page<Order> orderPage = orderRepository.findAllPendingOrders(pageable);
-//
-//        List<OrderDetailDto> orderDetailDtos = orderPage.getContent()
-//                .stream()
-//                .map(OrderDetailDto::fromModel)
-//                .toList();
-//
-//        return new OrderListDto (
-//                orderDetailDtos,
-//                orderPage.getNumber(),
-//                orderPage.getSize(),
-//                (int) orderPage.getTotalElements(),
-//                orderPage.getTotalPages(),
-//                orderPage.isLast()
-//        );
-//    }
-//
+
     public OrderDetailDto orderApprovalRequestByEVM(OrderUpdateForEVMDto dto) {
         Order order = orderRepository.findById(dto.orderId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.ORDER_NOT_FOUND, dto.orderId()));
@@ -249,7 +230,8 @@ public class OrderService {
             if (oldStatus == OrderStatus.DELIVERED &&
                     newStatus == OrderStatus.COMPLETED) {
 
-                if (totalPaid.compareTo(totalAmount) < 0) {
+                if (order.getPayments().stream().anyMatch(p -> p.getType() == PaymentType.IN_FULL)
+                && totalPaid.compareTo(totalAmount) < 0) {
                     throw new IllegalArgumentException(
                             "Không thể hoàn thành đơn khi chưa thanh toán đủ 100%."
                     );
@@ -292,11 +274,19 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-//    public List<OrderDetailDto> getOrdersByDealer() {
-//        return orderRepository.findAllOrdersByDealerAndStaff(dealerId)
-//                .stream()
-//                .map(OrderDetailDto::fromModel)
-//                .toList();
-//    }
+    public List<OrderDetailDto> getOrdersByDealer(Long dealerId) {
 
+        List<Order> orders;
+
+        // Hãng xe thì FE chỉ gần dealerId = null để lấy tất cả đơn hàng là được
+        if (dealerId == null) {
+            orders = orderRepository.findAll();
+        } else { // này thì đại lý nào chỉ được coi TẤT CẢ các đơn thuộc về đại lý đó th
+            orders = orderRepository.findByDealerInfo_Id(dealerId);
+        }
+
+        return orders.stream()
+                .map(OrderDetailDto::fromModel)
+                .toList();
+    }
 }

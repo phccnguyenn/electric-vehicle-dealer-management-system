@@ -34,6 +34,6 @@ public class Payment extends AbstractAuditEntity {
     private LocalDateTime paidAt;
 
     @Enumerated(EnumType.STRING)
-    private PaymentType type; // CASH, BANK_TRANSFER, etc.
+    private PaymentType type;
 
 }

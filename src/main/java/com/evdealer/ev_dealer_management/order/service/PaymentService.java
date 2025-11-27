@@ -74,33 +74,22 @@ public class PaymentService {
     }
 
     // Revenue / reporting
-//    public List<RevenueByStaffDto> getRevenueByStaff(Long staffId) {
-//        Long dealerId = dealerService.getCurrentUser().getId();
-//        return paymentRepository.getRevenueByStaff(staffId, dealerId);
-//    }
+    public List<RevenueByStaffDto> getRevenueByStaff(Long staffId) {
+        Long dealerId = dealerService.getCurrentDealerInfo().dealerInfoId();
+        return paymentRepository.getRevenueByStaff(dealerId);
+    }
 
-//    public List<RevenueByDealerDto> getRevenueByDealer() {
-//        return paymentRepository.getRevenueByDealer();
-//    }
-//
+    public List<RevenueByDealerDto> getRevenueByDealer() {
+        return paymentRepository.getRevenueByDealer();
+    }
+
 //    public List<RevenueByCityDto> getRevenueByCity(String city) {
 //        return paymentRepository.getRevenueByCity(city);
 //    }
 
-//    public List<CustomerDebtDto> getCustomerDebts() {
-//        User currentUser = dealerService.getCurrentUser();
-//        Long dealerId;
-//
-//        if (currentUser.getRole() == RoleType.DEALER_MANAGER) {
-//            dealerId = currentUser.getId();
-//        } else {
-//            dealerId = currentUser.getParent() != null ? currentUser.getParent().getId() : null;
-//        }
-//
-//        if (dealerId == null) {
-//            return Collections.emptyList();
-//        }
-//
-//        return paymentRepository.getCustomerDebts(dealerId);
-//    }
+    public List<CustomerDebtDto> getCustomerDebts() {
+        Long dealerId = dealerService.getCurrentDealerInfo().dealerInfoId();
+
+        return paymentRepository.getCustomerDebts(dealerId);
+    }
 }

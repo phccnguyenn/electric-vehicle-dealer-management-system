@@ -85,12 +85,12 @@ public class OrderController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-//    @Operation(summary = "Get orders by dealer")
-//    @GetMapping("/dealer")
-//    public List<OrderDetailDto> getOrdersByDealer() {
-//        return orderService.getOrdersByDealer();
-//    }
-//
+    @Operation(summary = "Get orders by dealer")
+    @GetMapping("/dealer")
+    public List<OrderDetailDto> getOrdersByDealer(@RequestParam(required = false) Long dealerId) {
+        return orderService.getOrdersByDealer(dealerId);
+    }
+
 //    @GetMapping("/files") // Nhân viên
 //    public ResponseEntity<List<OrderFileDto>> getFilesByCustomerPhone(
 //            @RequestParam String phone
