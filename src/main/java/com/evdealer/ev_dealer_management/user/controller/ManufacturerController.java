@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.user.controller;
 
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserPostDto;
+import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerInfoGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerRegistryDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerUserPostDto;
@@ -32,6 +33,14 @@ public class ManufacturerController {
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
     ) {
         return ResponseEntity.ok(manufacturerService.getAllUsers(pageNo, pageSize));
+    }
+
+    @GetMapping("/customer-list")
+    public ResponseEntity<CustomerListDto> getCustomerList(
+            @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize
+    ) {
+        return ResponseEntity.ok(manufacturerService.getAllCustomers(pageNo, pageSize));
     }
 
     @GetMapping("/filter-by-role")

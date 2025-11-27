@@ -3,13 +3,17 @@ package com.evdealer.ev_dealer_management.user.service;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
 import com.evdealer.ev_dealer_management.common.exception.NoPermissionException;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
+import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.DealerInfo;
+import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerDetailGetDto;
+import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerInfoGetDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerInfoPostDto;
 import com.evdealer.ev_dealer_management.user.model.dto.dealer.DealerUserPostDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.*;
 import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
+import com.evdealer.ev_dealer_management.user.repository.CustomerRepository;
 import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import com.evdealer.ev_dealer_management.user.repository.DealerInfoRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
@@ -33,15 +37,37 @@ public class ManufacturerService extends UserService {
 
     private final DealerInfoRepository dealerInfoRepository;
     private final RegistryFileGenerator registryFileGenerator;
+    private final CustomerRepository customerRepository;
 
     public ManufacturerService(PasswordEncoder passwordEncoder,
                                UserRepository userRepository,
                                DealerHierarchyRepository dealerHierarchyRepository,
                                DealerInfoRepository dealerInfoRepository,
-                               RegistryFileGenerator registryFileGenerator) {
+                               RegistryFileGenerator registryFileGenerator,
+                               CustomerRepository customerRepository) {
         super(passwordEncoder, userRepository, dealerHierarchyRepository);
         this.dealerInfoRepository = dealerInfoRepository;
         this.registryFileGenerator = registryFileGenerator;
+        this.customerRepository = customerRepository;
+    }
+
+    public CustomerListDto getAllCustomers(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
+
+        List<CustomerDetailGetDto> customerDetailGetDtos = customerPage.getContent()
+                .stream()
+                .map(CustomerDetailGetDto::fromModel)
+                .toList();
+
+        return new CustomerListDto(
+                customerDetailGetDtos,
+                customerPage.getNumber(),
+                customerPage.getSize(),
+                (int) customerPage.getTotalElements(),
+                customerPage.getTotalPages(),
+                customerPage.isLast()
+        );
     }
 
     public List<DealerInfoGetDto> getAllDealerInfo() {
