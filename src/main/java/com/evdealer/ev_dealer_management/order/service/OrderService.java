@@ -39,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,85 +64,88 @@ public class OrderService {
 
         OffsetDateTime currentDate = OffsetDateTime.now();
 
-        List<PriceProgramGetDto> pricePrograms = priceProgramService.getCurrentAndUpcomingPriceProgram();
+        // Lấy danh sách PriceProgram DTO
+        return priceProgramService.getCurrentAndUpcomingPriceProgram().stream()
+                // Chỉ lấy chương trình active và effectiveDate <= hiện tại
+                .filter(p -> !p.effectiveDate().isAfter(currentDate) && p.isActive())
+                // Lấy chương trình effectiveDate gần nhất
+                .max(Comparator.comparing(PriceProgramGetDto::effectiveDate))
+                // Nếu không có chương trình, trả về true
+                .map(ongoing -> {
+                    System.out.println("Checking program: " + ongoing.priceProgramName() + ", effectiveDate=" + ongoing.effectiveDate());
+                    ongoing.programDetails().forEach(d -> System.out.println(
+                            "Detail: carModel=" + d.carModelName() + ", specialColor=" + d.isSpecialColor() +
+                                    ", min=" + d.minPrice() + ", max=" + d.maxPrice()
+                    ));
+                    return ongoing.programDetails().stream()
+                            .filter(d -> d.carModelName().trim().equalsIgnoreCase(carModelName.trim())
+                                    && d.isSpecialColor() == isSpecialColor)
+                            .anyMatch(d -> totalAmount.compareTo(d.minPrice()) >= 0 &&
+                                    totalAmount.compareTo(d.maxPrice()) <= 0);
+                })
+                .orElse(true);
 
-        // Chỉ lấy chương trình đã bắt đầu (đang effective)
-        Optional<PriceProgramGetDto> ongoingProgramOpt = pricePrograms.stream()
-                .filter(p -> (p.effectiveDate().isBefore(currentDate) ||
-                        p.effectiveDate().isEqual(currentDate))
-                        && p.isActive())
-                .findFirst();
-
-        if (ongoingProgramOpt.isEmpty()) return true;
-
-        PriceProgramGetDto ongoing = ongoingProgramOpt.get();
-
-        // Lọc chi tiết đúng model + màu
-        List<ProgramDetailGetDto> detailsForCar = ongoing.programDetails().stream()
-                .filter(d -> d.carModelName().equals(carModelName)
-                        && d.isSpecialColor() == isSpecialColor)
-                .toList();
-
-        if (detailsForCar.isEmpty()) return true;
-
-        return detailsForCar.stream()
-                .anyMatch(d -> totalAmount.compareTo(d.minPrice()) >= 0 &&
-                        totalAmount.compareTo(d.maxPrice()) <= 0);
     }
 
     @Transactional
     public OrderDetailDto createOrderByStatus(OrderCreateDto orderCreateDto) {
-        OrderStatusCreate statusCreate = orderCreateDto.orderStatus();
-        OrderStatus status = OrderStatus.valueOf(statusCreate.name());
+        // OrderStatusCreate statusCreate = orderCreateDto.orderStatus();
+        // OrderStatus status = OrderStatus.valueOf(statusCreate.name());
 
-        OrderDetailDto orderDetailDto;
+//        if (status == OrderStatus.PENDING) {
+//
+//        } else if (status == OrderStatus.DEMO_AVAILABLE) {
+//            orderDetailDto = createOrderDemoAvailable(orderCreateDto);
+//        } else {
+//            throw new IllegalArgumentException("Unsupported order status: " + status);
+//        }
 
-        if (status == OrderStatus.PENDING) {
-            orderDetailDto = createOrderPendingWithManufacturer(orderCreateDto);
-        } else if (status == OrderStatus.DEMO_AVAILABLE) {
-            orderDetailDto = createOrderDemoAvailable(orderCreateDto);
-        } else {
-            throw new IllegalArgumentException("Unsupported order status: " + status);
-        }
-
-        return orderDetailDto;
+        return createOrderPendingWithManufacturer(orderCreateDto);
     }
 
-    @Transactional
-    public OrderDetailDto createOrderDemoAvailable(OrderCreateDto orderCreateDto) {
-
-        Customer customer = null;
-        try {
-            customer = dealerService.getCustomerByPhone(orderCreateDto.customerPhone(), Customer.class);
-        } catch (NotFoundException e) {
-            CustomerPostDto customerPostDto = new CustomerPostDto(orderCreateDto.customerName(), null, orderCreateDto.customerPhone(), null);
-            customer = dealerService.createCustomerIfNotExists(customerPostDto, Customer.class);
-        }
-
-        CarModel carModel = carModelRepository.findById(orderCreateDto.carModelId())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, orderCreateDto.carModelId()));
-
-        CarDetail carDetail = carDetailRepository.findById(orderCreateDto.carDetailId())
-                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, orderCreateDto.carDetailId()));
-
-        User user = dealerService.getCurrentUser();
-        Order order = Order.builder()
-                .dealerInfo(user.getDealerInfo())
-                .carDetail(carDetail)
-                .carModel(carModel)
-                .staff(user)
-                .customer(customer)
-                .totalAmount(orderCreateDto.totalAmount())
-                .amountPaid(BigDecimal.ZERO)
-                .status(OrderStatus.PENDING)
-                .paymentStatus(PaymentStatus.PENDING)
-                .build();
-
-        order = orderRepository.save(order);
-        orderActivityService.logActivity(order.getId(), OrderStatus.PENDING);
-
-        return OrderDetailDto.fromModel(order);
-    }
+//    @Transactional
+//    public OrderDetailDto createOrderDemoAvailable(OrderCreateDto orderCreateDto) {
+//
+//        Customer customer = null;
+//        try {
+//            customer = dealerService.getCustomerByPhone(orderCreateDto.customerPhone(), Customer.class);
+//        } catch (NotFoundException e) {
+//            CustomerPostDto customerPostDto = new CustomerPostDto(orderCreateDto.customerName(), null, orderCreateDto.customerPhone(), null);
+//            customer = dealerService.createCustomerIfNotExists(customerPostDto, Customer.class);
+//        }
+//
+//        CarModel carModel = carModelRepository.findById(orderCreateDto.carModelId())
+//                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, orderCreateDto.carModelId()));
+//
+//        CarDetail carDetail = carDetailRepository.findById(orderCreateDto.carDetailId())
+//                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, orderCreateDto.carDetailId()));
+//
+//        if (!constraintCarDetailPriceByPriceProgram(carModel.getCarModelName(), orderCreateDto.isSpecialColor(), orderCreateDto.totalAmount())) {
+//            throw new IllegalArgumentException(
+//                    String.format("Total amount %s is not valid for car model %s",
+//                            orderCreateDto.totalAmount(),
+//                            carModel.getCarModelName())
+//            );
+//        }
+//
+//        User user = dealerService.getCurrentUser();
+//        Order order = Order.builder()
+//                .dealerInfo(user.getDealerInfo())
+//                .carDetail(carDetail)
+//                .carModel(carModel)
+//                .staff(user)
+//                .customer(customer)
+//                .totalAmount(orderCreateDto.totalAmount())
+//                .amountPaid(BigDecimal.ZERO)
+//                .status(OrderStatus.PENDING)
+//                .paymentStatus(PaymentStatus.PENDING)
+//                .build();
+//
+//        order = orderRepository.save(order);
+//        orderActivityService.logActivity(order.getId(), OrderStatus.PENDING);
+//
+//        return OrderDetailDto.fromModel(order);
+//    }
 
     @Transactional
     public OrderDetailDto createOrderPendingWithManufacturer(OrderCreateDto dto) {
@@ -158,8 +162,13 @@ public class OrderService {
         CarModel carModel = carModelRepository.findById(dto.carModelId())
                 .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, dto.carModelId()));
 
-//        if (!constraintCarDetailPriceByPriceProgram(carModel.getCarModelName(), dto.isSpecialColor(), dto.totalAmount()))
-//            throw new PriceProgramViolationException("The total amount for this carDetail is not accepted");
+        if (!constraintCarDetailPriceByPriceProgram(carModel.getCarModelName(), dto.isSpecialColor(), dto.totalAmount())) {
+            throw new IllegalArgumentException(
+                    String.format("Total amount %s is not valid for car model %s",
+                            dto.totalAmount(),
+                            carModel.getCarModelName())
+            );
+        }
 
         // Create order
         User user = dealerService.getCurrentUser();
