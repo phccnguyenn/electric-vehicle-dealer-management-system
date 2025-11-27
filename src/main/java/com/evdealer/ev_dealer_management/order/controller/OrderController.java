@@ -116,18 +116,18 @@ public class OrderController {
         orderService.deleteOrder(id);
     }
 
-//    @Operation(summary = "Get revenue by staff") // Chỉ có dealer manager được coi
-//    @GetMapping("/reports/revenue/staff")
-//    public List<RevenueByStaffDto> getRevenueByStaff(@RequestParam(required = false) Long staffId) {
-//        return paymentService.getRevenueByStaff(staffId);
-//    }
+    @Operation(summary = "Get revenue by staff") // Chỉ có dealer manager được coi
+    @GetMapping("/reports/revenue/staff")
+    public List<RevenueByStaffDto> getRevenueByStaff() {
+        return paymentService.getRevenueByStaff();
+    }
 
     // ADMIN - DONE
-//    @Operation(summary = "Get revenue by dealers") // Bên hãng xe - admin
-//    @GetMapping("/reports/revenue/dealer")
-//    public List<RevenueByDealerDto> getRevenueByDealer() {
-//        return paymentService.getRevenueByDealer();
-//    }
+    @Operation(summary = "Get revenue by dealers") // Bên hãng xe - admin
+    @GetMapping("/reports/revenue/dealer")
+    public List<RevenueByDealerDto> getRevenueByDealer() {
+        return paymentService.getRevenueByDealer();
+    }
 //
 //    @Operation(summary = "Get revenue by city") // Bên hãng xe - admin
 //    @GetMapping("/reports/revenue/city")
@@ -135,25 +135,25 @@ public class OrderController {
 //        return paymentService.getRevenueByCity(city);
 //    }
 
-//    @Operation(summary = "Get debts of customers") // Bên hãng xe - admin và nhân viên EVM
-//    @GetMapping("/reports/customer-debts")
-//    public List<CustomerDebtDto> getCustomerDebts() {
-//
-//        return paymentService.getCustomerDebts();
-//    }
+    @Operation(summary = "Get debts of customers") // Bên hãng xe - admin và nhân viên EVM
+    @GetMapping("/reports/customer-debts")
+    public List<CustomerDebtDto> getCustomerDebts() {
 
-//    @GetMapping("/{orderId}/activities")
-//    public ResponseEntity<OrderActivitiesResponse> getOrderActivities(@PathVariable Long orderId) {
-//        List<OrderActivity> activities = orderActivityService.getActivities(orderId);
-//
-//        List<OrderActivityDto> dto = activities.stream()
-//                .map(a -> new OrderActivityDto(a.getId(), a.getOrderStatus(), a.getChangedAt()))
-//                .toList();
-//
-//        OrderActivitiesResponse response = new OrderActivitiesResponse(orderId, dto);
-//
-//        return ResponseEntity.ok(response);
-//    }
+        return paymentService.getCustomerDebts();
+    }
+
+    @GetMapping("/{orderId}/activities")
+    public ResponseEntity<OrderActivitiesResponse> getOrderActivities(@PathVariable Long orderId) {
+        List<OrderActivity> activities = orderActivityService.getActivities(orderId);
+
+        List<OrderActivityDto> dto = activities.stream()
+                .map(a -> new OrderActivityDto(a.getId(), a.getOrderStatus(), a.getChangedAt()))
+                .toList();
+
+        OrderActivitiesResponse response = new OrderActivitiesResponse(orderId, dto);
+
+        return ResponseEntity.ok(response);
+    }
 
 //    @GetMapping("/sales-speed")
 //    public ResponseEntity<List<SalesSpeedResponseDto>> getSalesSpeedByDealer(

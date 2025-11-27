@@ -193,6 +193,7 @@ public class OrderService {
 
         return new OrderListDto (
                 orderDetailDtos,
+
                 orderPage.getNumber(),
                 orderPage.getSize(),
                 (int) orderPage.getTotalElements(),

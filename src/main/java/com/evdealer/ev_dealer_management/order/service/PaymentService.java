@@ -74,7 +74,7 @@ public class PaymentService {
     }
 
     // Revenue / reporting
-    public List<RevenueByStaffDto> getRevenueByStaff(Long staffId) {
+    public List<RevenueByStaffDto> getRevenueByStaff() {
         Long dealerId = dealerService.getCurrentDealerInfo().dealerInfoId();
         return paymentRepository.getRevenueByStaff(dealerId);
     }
