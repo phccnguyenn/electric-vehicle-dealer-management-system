@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface WarehouseTransferRepository extends JpaRepository<WarehouseTransfer, Long> {
-    List<WarehouseTransfer> findByCarIdOrderByCreatedOnAsc(Long carId);
-    List<WarehouseTransfer> findByOrderIdOrderByCreatedOnAsc(Long orderId);
+    //List<WarehouseTransfer> findByCarIdOrderByCreatedOnAsc(Long carId);
+    //List<WarehouseTransfer> findByOrderIdOrderByCreatedOnAsc(Long orderId);
+    List<WarehouseTransfer> findByToLocation(String toLocation);
+    List<WarehouseTransfer> findAllByOrderByCreatedOnAsc();
 }

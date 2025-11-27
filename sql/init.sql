@@ -992,7 +992,7 @@ GO
 IF NOT EXISTS (SELECT 1 FROM dbo.warehouse)
 BEGIN
     INSERT INTO dbo.warehouse (warehouse_name)
-    VALUES (N'Kho Khu Vực TP. Hồ Chí Minh');
+    VALUES (N'Kho Tổng Khu Vực TP. Hồ Chí Minh');
 END;
 GO
 
@@ -1021,37 +1021,88 @@ BEGIN
 END;
 GO
 
---
---ALTER TABLE dbo.warehouse_car NOCHECK CONSTRAINT ALL;
---IF NOT EXISTS (SELECT 1 FROM dbo.warehouse_car)
---BEGIN
---    INSERT INTO dbo.warehouse_car (
---        warehouse_id,
---        car_model_id,
---        quantity,
---        warehouse_car_status,
---        created_by,
---        created_on,
---        last_modified_by,
---        last_modified_on
---    )
---    VALUES
---        (1, 2, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
---        (1, 3, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
---        (1, 16, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
---        (1, 1, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 4, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 5, 5, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 6, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 8, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 11, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 12, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 14, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 18, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 12, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 14, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
---        (1, 18, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
---END;
---GO
---ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.warehouse_transfer') AND type = 'U')
+BEGIN
+    CREATE TABLE dbo.warehouse_transfer (
+        id              BIGINT IDENTITY(1,1) PRIMARY KEY,
+        warehouse_id    BIGINT NOT NULL,
+        car_id          BIGINT NOT NULL,
+        from_location NVARCHAR(255) NOT NULL,
+        to_location NVARCHAR(255) NOT NULL,
+        note NVARCHAR(500) NULL,
+        created_by              NVARCHAR(100) NULL,
+        created_on              DATETIMEOFFSET NULL,
+        last_modified_by        NVARCHAR(100) NULL,
+        last_modified_on        DATETIMEOFFSET NULL,
+
+        CONSTRAINT fk_warehouse_id
+                    FOREIGN KEY (warehouse_id) REFERENCES dbo.warehouse(id)
+                    ON DELETE CASCADE,
+
+        CONSTRAINT fk_wc_car_id
+            FOREIGN KEY (car_id) REFERENCES dbo.car_detail(id)
+            ON DELETE CASCADE
+    );
+END;
+GO
+
+ALTER TABLE dbo.warehouse_transfer NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.warehouse_transfer)
+BEGIN
+    INSERT INTO dbo.warehouse_transfer (
+        warehouse_id,
+        car_id,
+        from_location,
+        to_location,
+        created_by,
+        created_on,
+        last_modified_by,
+        last_modified_on
+    )
+    VALUES
+        (1, 1, N'Kho Tổng Khu Vực TP. Hồ Chí Minh', N'123 Nguyễn Huệ, Q1, TP. HCM', N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET),  N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 10, N'Kho Tổng Khu Vực TP. Hồ Chí Minh', N'123 Nguyễn Huệ, Q1, TP. HCM', N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET),  N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 4, N'Kho Tổng Khu Vực TP. Hồ Chí Minh', N'123 Nguyễn Huệ, Q1, TP. HCM', N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET),  N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 5, N'Kho Tổng Khu Vực TP. Hồ Chí Minh', N'123 Nguyễn Huệ, Q1, TP. HCM', N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET),  N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 4, N'Kho Tổng Khu Vực TP. Hồ Chí Minh', N'123 Nguyễn Huệ, Q1, TP. HCM', N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET),  N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 6, N'Kho Tổng Khu Vực TP. Hồ Chí Minh', N'123 Nguyễn Huệ, Q1, TP. HCM', N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET),  N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET)),
+        (1, 15, N'Kho Tổng Khu Vực TP. Hồ Chí Minh', N'123 Nguyễn Huệ, Q1, TP. HCM', N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET),  N'Lê Lý Thị Mộng', CAST('2025-11-20T09:04:00+07:00' AS DATETIMEOFFSET));
+
+END;
+GO
+ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
+
+
+ALTER TABLE dbo.warehouse_car NOCHECK CONSTRAINT ALL;
+IF NOT EXISTS (SELECT 1 FROM dbo.warehouse_car)
+BEGIN
+    INSERT INTO dbo.warehouse_car (
+        warehouse_id,
+        car_model_id,
+        quantity,
+        warehouse_car_status,
+        created_by,
+        created_on,
+        last_modified_by,
+        last_modified_on
+    )
+    VALUES
+        (1, 2, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 3, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 16, 0, 'OUT_OF_STOCK', N'EVD Administrator', SYSDATETIMEOFFSET(), N'EVD Administrator', SYSDATETIMEOFFSET()),
+        (1, 1, 0, 'OUT_OF_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 4, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 5, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 6, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 8, 2, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 11, 4, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 12, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 14, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 18, 3, 'IN_STOCK', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 12, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 14, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE()),
+        (1, 18, 1, 'RESERVED', N'EVD Administrator', GETDATE(), N'EVD Administrator', GETDATE());
+END;
+GO
+ALTER TABLE dbo.warehouse_car CHECK CONSTRAINT ALL;
 -- 1 4 5 6 8 11 12 14 18 for sale

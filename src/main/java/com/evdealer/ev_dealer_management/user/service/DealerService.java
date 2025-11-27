@@ -18,16 +18,15 @@ import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyReposito
 import com.evdealer.ev_dealer_management.user.repository.DealerInfoRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
-import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -140,6 +139,7 @@ public class DealerService extends UserService {
 
     }
 
+    @Transactional
     public <T> T createCustomerIfNotExists(CustomerPostDto customerPostDto, Class<T> type) {
 
         Optional<Customer> existingCustomer =
@@ -155,10 +155,12 @@ public class DealerService extends UserService {
             }
         }
 
-        DealerInfo currentDealer = getCurrentUser().getDealerInfo();
+        Long dealerId = getCurrentUser().getDealerInfo().getId();
+        DealerInfo currentDealer = dealerInfoRepository.findById(dealerId)
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.DEALER_INFO_NOT_FOUND, dealerId));
 
-        // validateCustomerEmail(customerPostDto.email());
         validateCustomerPhone(customerPostDto.phone());
+
         Customer newCustomer = Customer.builder()
                 .dealer(currentDealer)
                 .fullName(customerPostDto.fullName())
@@ -166,6 +168,7 @@ public class DealerService extends UserService {
                 .phone(customerPostDto.phone())
                 .address(customerPostDto.address())
                 .build();
+
         Customer savedCustomer = customerRepository.save(newCustomer);
 
         currentDealer.getCustomers().add(savedCustomer);

@@ -1,12 +1,11 @@
 package com.evdealer.ev_dealer_management.warehouse.service;
 
+import com.evdealer.ev_dealer_management.warehouse.model.Warehouse;
 import com.evdealer.ev_dealer_management.warehouse.model.WarehouseTransfer;
-import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
+import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseTransferDto;
 import com.evdealer.ev_dealer_management.warehouse.repository.WarehouseTransferRepository;
 import com.evdealer.ev_dealer_management.car.model.CarDetail;
 import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
-import com.evdealer.ev_dealer_management.order.model.Order;
-import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,34 +18,40 @@ public class WarehouseTransferService {
 
     private final WarehouseTransferRepository warehouseTransferRepository;
     private final CarDetailRepository carDetailRepository;
-    private final OrderRepository orderRepository;
 
     /**
      * Ghi nhận chuyển trạng thái kho cho 1 xe trong đơn hàng
      */
     @Transactional
-    public void logTransfer(Long orderId, Long carId, WarehouseCarStatus newStatus, String note) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+    public void logTransfer (Warehouse warehouse, Long carId, String from, String to, String note) {
 
         CarDetail car = carDetailRepository.findById(carId)
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         // Tạo log mới
         WarehouseTransfer transfer = WarehouseTransfer.builder()
-                .order(order)
+                .warehouse(warehouse)
                 .car(car)
-                .warehouseCarStatus(newStatus)
+                .fromLocation(from)
+                .toLocation(to)
                 .note(note)
                 .build();
 
         warehouseTransferRepository.save(transfer);
     }
 
+    public List<WarehouseTransferDto> getWarehouseHistory() {
+        List<WarehouseTransfer> transfers = warehouseTransferRepository.findAllByOrderByCreatedOnAsc();
+
+        return transfers.stream()
+                .map(WarehouseTransferDto::fromModel)
+                .toList();
+    }
+
     /**
      * Lấy toàn bộ log chuyển trạng thái liên quan đến 1 đơn hàng
      */
-    public List<WarehouseTransfer> getTransfersByOrder(Long orderId) {
-        return warehouseTransferRepository.findByOrderIdOrderByCreatedOnAsc(orderId);
-    }
+//    public List<WarehouseTransfer> getTransfersByOrder(Long orderId) {
+//        return warehouseTransferRepository.findByOrderIdOrderByCreatedOnAsc(orderId);
+//    }
 }
