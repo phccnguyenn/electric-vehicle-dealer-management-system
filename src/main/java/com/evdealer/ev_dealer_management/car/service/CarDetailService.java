@@ -7,9 +7,13 @@ import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
+import com.evdealer.ev_dealer_management.user.service.DealerService;
+import com.evdealer.ev_dealer_management.warehouse.model.WarehouseTransfer;
 import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarUpdateDto;
 import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
+import com.evdealer.ev_dealer_management.warehouse.repository.WarehouseTransferRepository;
 import com.evdealer.ev_dealer_management.warehouse.service.WarehouseService;
+import com.evdealer.ev_dealer_management.warehouse.service.WarehouseTransferService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,13 +22,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CarDetailService {
 
+    private final DealerService dealerService;
+    private final WarehouseTransferService warehouseTransferService;
+    private final WarehouseTransferRepository warehouseTransferRepository;
     private final WarehouseService warehouseService;
     private final DimensionService dimensionService;
     private final PerformanceService performanceService;
@@ -46,6 +55,17 @@ public class CarDetailService {
         Page<CarDetail> carPage = carDetailRepository.findAllByCarModel(carModel, pageable);
 
         return toCarListGetDto(carPage);
+    }
+
+    @Transactional
+    public List<CarInfoGetDto> getAllCarDemoInDealer() {
+        String location = dealerService.getCurrentUser().getDealerInfo().getLocation();
+
+        List<WarehouseTransfer> warehouseTransfers = warehouseTransferRepository.findByToLocation(location);
+
+        return warehouseTransfers.stream()
+                .map(wt -> CarInfoGetDto.fromModel(wt.getCar()))
+                .collect(Collectors.toList());
     }
 
     public CarDetailGetDto getOneRandomCarDetail(Long carModelId, String color, CarStatus carDetailStatus) {

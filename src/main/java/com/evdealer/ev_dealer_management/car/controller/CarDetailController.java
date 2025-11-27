@@ -1,9 +1,6 @@
 package com.evdealer.ev_dealer_management.car.controller;
 
-import com.evdealer.ev_dealer_management.car.model.dto.details.CarDetailGetDto;
-import com.evdealer.ev_dealer_management.car.model.dto.details.CarListGetDto;
-import com.evdealer.ev_dealer_management.car.model.dto.details.CarPatchDto;
-import com.evdealer.ev_dealer_management.car.model.dto.details.CarDetailPostDto;
+import com.evdealer.ev_dealer_management.car.model.dto.details.*;
 import com.evdealer.ev_dealer_management.car.model.enumeration.CarStatus;
 import com.evdealer.ev_dealer_management.car.service.CarDetailService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -29,6 +28,11 @@ public class CarDetailController {
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
         return ResponseEntity.ok(carDetailService.getAllCars(pageNo, pageSize));
+    }
+
+    @GetMapping("/car-demo-in-dealer")
+    public ResponseEntity<List<CarInfoGetDto>> getAllCarDemoInDealer() {
+        return ResponseEntity.ok(carDetailService.getAllCarDemoInDealer());
     }
 
     @GetMapping("/filter-with-carDetail-model/{carModelId}")

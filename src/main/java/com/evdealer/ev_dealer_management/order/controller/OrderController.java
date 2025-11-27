@@ -72,7 +72,7 @@ public class OrderController {
     @Operation(summary = "Create a new order") // Nhân viên
     @PostMapping
     public OrderDetailDto createOrder(@RequestBody OrderCreateDto dto) {
-        return orderService.createOrder(dto);
+        return orderService.createOrderByStatus(dto);
     }
 
     @Operation(summary = "Update order details or change status") // Dealer Manager / Staff

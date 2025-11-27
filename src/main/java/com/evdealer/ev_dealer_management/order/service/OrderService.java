@@ -5,7 +5,6 @@ import com.evdealer.ev_dealer_management.car.model.CarModel;
 import com.evdealer.ev_dealer_management.car.repository.CarDetailRepository;
 import com.evdealer.ev_dealer_management.car.repository.CarModelRepository;
 import com.evdealer.ev_dealer_management.common.exception.NotFoundException;
-import com.evdealer.ev_dealer_management.common.exception.PriceProgramViolationException;
 import com.evdealer.ev_dealer_management.common.utils.Constants;
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.dto.*;
@@ -14,8 +13,6 @@ import com.evdealer.ev_dealer_management.order.model.dto.evm.OrderUpdateForEVMDt
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.model.enumeration.PaymentStatus;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
-import com.evdealer.ev_dealer_management.sale.model.PriceProgram;
-import com.evdealer.ev_dealer_management.sale.model.ProgramDetail;
 import com.evdealer.ev_dealer_management.sale.model.dto.PriceProgramGetDto;
 import com.evdealer.ev_dealer_management.sale.model.dto.ProgramDetailGetDto;
 import com.evdealer.ev_dealer_management.sale.service.PriceProgramService;
@@ -83,7 +80,61 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDetailDto createOrder(OrderCreateDto dto) {
+    public OrderDetailDto createOrderByStatus(OrderCreateDto orderCreateDto) {
+        OrderStatusCreate statusCreate = orderCreateDto.orderStatus();
+        OrderStatus status = OrderStatus.valueOf(statusCreate.name());
+
+        OrderDetailDto orderDetailDto;
+
+        if (status == OrderStatus.PENDING) {
+            orderDetailDto = createOrderPendingWithManufacturer(orderCreateDto);
+        } else if (status == OrderStatus.DEMO_AVAILABLE) {
+            orderDetailDto = createOrderDemoAvailable(orderCreateDto);
+        } else {
+            throw new IllegalArgumentException("Unsupported order status: " + status);
+        }
+
+        return orderDetailDto;
+    }
+
+    @Transactional
+    public OrderDetailDto createOrderDemoAvailable(OrderCreateDto orderCreateDto) {
+
+        Customer customer = null;
+        try {
+            customer = dealerService.getCustomerByPhone(orderCreateDto.customerPhone(), Customer.class);
+        } catch (NotFoundException e) {
+            CustomerPostDto customerPostDto = new CustomerPostDto(orderCreateDto.customerName(), null, orderCreateDto.customerPhone(), null);
+            customer = dealerService.createCustomerIfNotExists(customerPostDto, Customer.class);
+        }
+
+        CarModel carModel = carModelRepository.findById(orderCreateDto.carModelId())
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_MODEL_NOT_FOUND, orderCreateDto.carModelId()));
+
+        CarDetail carDetail = carDetailRepository.findById(orderCreateDto.carDetailId())
+                .orElseThrow(() -> new NotFoundException(Constants.ErrorCode.CAR_DETAIL_NOT_FOUND, orderCreateDto.carDetailId()));
+
+        User user = dealerService.getCurrentUser();
+        Order order = Order.builder()
+                .dealerInfo(user.getDealerInfo())
+                .carDetail(carDetail)
+                .carModel(carModel)
+                .staff(user)
+                .customer(customer)
+                .totalAmount(orderCreateDto.totalAmount())
+                .amountPaid(BigDecimal.ZERO)
+                .status(OrderStatus.PENDING)
+                .paymentStatus(PaymentStatus.PENDING)
+                .build();
+
+        order = orderRepository.save(order);
+        orderActivityService.logActivity(order.getId(), OrderStatus.PENDING);
+
+        return OrderDetailDto.fromModel(order);
+    }
+
+    @Transactional
+    public OrderDetailDto createOrderPendingWithManufacturer(OrderCreateDto dto) {
 
         Customer customer = null;
         try {
