@@ -1,16 +1,17 @@
 package com.evdealer.ev_dealer_management.warehouse.controller;
 
-import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarDetailsGetDto;
-import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarListDto;
-import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarPostDto;
-import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarUpdateDto;
+import com.evdealer.ev_dealer_management.warehouse.model.WarehouseTransfer;
+import com.evdealer.ev_dealer_management.warehouse.model.dto.*;
 import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
 import com.evdealer.ev_dealer_management.warehouse.service.WarehouseService;
+import com.evdealer.ev_dealer_management.warehouse.service.WarehouseTransferService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/warehouse-carDetail")
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Warehouse", description = "Warehouse Management for Manufacturer")
 public class WarehouseController {
 
+    private final WarehouseTransferService warehouseTransferService;
     private final WarehouseService warehouseService;
 
 //    @GetMapping(path = "/admin/{dealerId}")
@@ -33,6 +35,11 @@ public class WarehouseController {
             @RequestParam(name = "pageNo", defaultValue = "0", required = false) int pageNo,
             @RequestParam(name = "pageSize", defaultValue = "10", required = false) int pageSize) {
         return ResponseEntity.ok(warehouseService.getAllWarehouseCar(pageNo, pageSize));
+    }
+
+    @GetMapping("/admin/history")
+    public ResponseEntity<List<WarehouseTransferDto>> getWarehouseHistory() {
+        return ResponseEntity.ok(warehouseTransferService.getWarehouseHistory());
     }
 
     @GetMapping("/admin/warehouse-carDetail-status")

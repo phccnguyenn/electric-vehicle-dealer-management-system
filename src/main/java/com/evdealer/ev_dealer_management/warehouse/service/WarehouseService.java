@@ -111,7 +111,7 @@ public class WarehouseService {
         );
     }
 
-    public void updateWarehouseCar(Long warehouseCarId, WarehouseCarUpdateDto warehouseCarUpdateDto) {
+    public WarehouseCar updateWarehouseCar(Long warehouseCarId, WarehouseCarUpdateDto warehouseCarUpdateDto) {
 
         CarModel carModel = carModelService.getCarModelById(warehouseCarUpdateDto.carModelId(), CarModel.class);
 
@@ -129,7 +129,7 @@ public class WarehouseService {
         if (carModel != null && !warehouseCar.getCarModel().equals(carModel))
             warehouseCar.setCarModel(carModel);
 
-        warehouseCarRepository.save(warehouseCar);
+        return warehouseCarRepository.save(warehouseCar);
     }
 
     public WarehouseCarDetailsGetDto createWarehouseWithCarModel(WarehouseCarPostDto warehouseCarPostDto) {

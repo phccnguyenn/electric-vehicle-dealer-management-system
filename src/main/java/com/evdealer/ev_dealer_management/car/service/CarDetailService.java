@@ -87,14 +87,6 @@ public class CarDetailService {
             carDetail = carDetails.get(new Random().nextInt(carDetails.size()));
         }
 
-        // Due to random for creating order, decrease one unit in warehouse
-        WarehouseCarUpdateDto warehouseCarUpdateDto = new WarehouseCarUpdateDto(
-                carDetail.getCarModel().getId(),
-                carDetail.getCarModel().getCarDetails().isEmpty() ? 0 : carDetail.getCarModel().getCarDetails().size() - 1,
-                carDetail.getCarModel().getCarDetails().isEmpty() ? WarehouseCarStatus.OUT_OF_STOCK : WarehouseCarStatus.IN_STOCK
-        );
-        warehouseService.updateWarehouseCar(carDetail.getCarModel().getId(), warehouseCarUpdateDto);
-
         return CarDetailGetDto.fromModel(carDetail);
     }
 

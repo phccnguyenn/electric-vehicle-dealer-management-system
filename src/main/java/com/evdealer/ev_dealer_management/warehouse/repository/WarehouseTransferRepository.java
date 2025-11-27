@@ -9,4 +9,5 @@ public interface WarehouseTransferRepository extends JpaRepository<WarehouseTran
     //List<WarehouseTransfer> findByCarIdOrderByCreatedOnAsc(Long carId);
     //List<WarehouseTransfer> findByOrderIdOrderByCreatedOnAsc(Long orderId);
     List<WarehouseTransfer> findByToLocation(String toLocation);
+    List<WarehouseTransfer> findAllByOrderByCreatedOnAsc();
 }

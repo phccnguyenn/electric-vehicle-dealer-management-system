@@ -1,6 +1,7 @@
 package com.evdealer.ev_dealer_management.warehouse.model;
 
 import com.evdealer.ev_dealer_management.car.model.CarDetail;
+import com.evdealer.ev_dealer_management.common.model.AbstractAuditEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,11 +13,15 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class WarehouseTransfer {
+public class WarehouseTransfer extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse warehouse;
 
     // Xe liên quan
     @ManyToOne(fetch = FetchType.LAZY)

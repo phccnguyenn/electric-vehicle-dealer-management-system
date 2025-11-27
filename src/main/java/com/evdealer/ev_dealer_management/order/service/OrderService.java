@@ -20,6 +20,13 @@ import com.evdealer.ev_dealer_management.user.model.Customer;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.user.model.dto.customer.CustomerPostDto;
 import com.evdealer.ev_dealer_management.user.service.DealerService;
+import com.evdealer.ev_dealer_management.warehouse.model.Warehouse;
+import com.evdealer.ev_dealer_management.warehouse.model.WarehouseCar;
+import com.evdealer.ev_dealer_management.warehouse.model.WarehouseTransfer;
+import com.evdealer.ev_dealer_management.warehouse.model.dto.WarehouseCarUpdateDto;
+import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
+import com.evdealer.ev_dealer_management.warehouse.service.WarehouseService;
+import com.evdealer.ev_dealer_management.warehouse.service.WarehouseTransferService;
 import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -39,6 +46,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
 
+    private final WarehouseService warehouseService;
     private final OrderRepository orderRepository;
     private final FileGenerator fileGenerator;
     private final DealerService dealerService;
@@ -46,6 +54,7 @@ public class OrderService {
     private final CarDetailRepository carDetailRepository;
     private final OrderActivityService orderActivityService;
     private final PriceProgramService priceProgramService;
+    private final WarehouseTransferService warehouseTransferService;
 
     private boolean constraintCarDetailPriceByPriceProgram(String carModelName,
                                                            boolean isSpecialColor,
@@ -251,6 +260,24 @@ public class OrderService {
         Order savedOrder = orderRepository.save(order);
 
         generateQuotationAndContractFile(savedOrder);
+
+        // Due to random for creating order, decrease one unit in warehouse
+        // Log for car import & export for warehouse
+        WarehouseCarUpdateDto warehouseCarUpdateDto = new WarehouseCarUpdateDto(
+                carDetail.getCarModel().getId(),
+                carDetail.getCarModel().getCarDetails().isEmpty() ? 0 : carDetail.getCarModel().getCarDetails().size() - 1,
+                carDetail.getCarModel().getCarDetails().isEmpty() ? WarehouseCarStatus.OUT_OF_STOCK : WarehouseCarStatus.IN_STOCK
+        );
+        WarehouseCar warehouseCar = warehouseService.updateWarehouseCar(carDetail.getCarModel().getId(), warehouseCarUpdateDto);
+        Warehouse warehouse = warehouseCar.getWarehouse();
+        warehouseTransferService.logTransfer(
+                warehouse,
+                carDetail.getId(),
+                "Kho Tổng Khu Vực TP. Hồ Chí Minh",
+                order.getDealerInfo().getLocation(),
+                null
+        );
+        // ---
 
         return OrderDetailDto.fromModel(savedOrder);
     }
