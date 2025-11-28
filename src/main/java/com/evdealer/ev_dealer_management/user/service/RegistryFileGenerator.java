@@ -26,7 +26,8 @@ public class RegistryFileGenerator {
 
     private final DealerInfoRepository dealerInfoRepository;
 
-    private final static String URL_BASE = "http://localhost:8000/evdealer";
+    private final static String URL_BASE = "http://3.107.14.223:8000/evdealer";
+    // private final static String URL_BASE = "http://localhost:8000/evdealer";
     private final static String FONT_PATH = URL_BASE + "/uploads/arial-font/arial.ttf";
 
     public DealerInfo generateContract(User manufacturer, User dealer, DealerInfo dealerInfo) throws IOException, DocumentException {
@@ -212,11 +213,6 @@ public class RegistryFileGenerator {
         doc.add(new Paragraph(title, font));
         doc.add(new Paragraph(content, font));
         doc.add(Chunk.NEWLINE);
-    }
-
-    private void addSection(Document doc, String title, String content, Font font, boolean extra) throws DocumentException {
-        // overload kept for future use
-        addSection(doc, title, content, font);
     }
 
     // Convenience wrapper using default font

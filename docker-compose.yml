@@ -2,89 +2,89 @@ version: "3.9"
 
 services:
 
-  evdealer-mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: "evdealer-mssql"
-    ports:
-      - "14335:1433"
-    environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-    volumes:
-      - ./sql:/var/opt/sql
-    healthcheck:
-      test: [ "CMD-SHELL", "bash -c '</dev/tcp/localhost/1433'" ]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-      start_period: 20s
-    networks:
-      - evdealer-network
-
-  mssql-tool:
-    image: mcr.microsoft.com/mssql-tools:latest
-    container_name: "mssql-tool"
-    depends_on:
-      - evdealer-mssql
-    command: /opt/sql/wait-for-mssql.sh
-    volumes:
-      - ./sql:/opt/sql
-    networks:
-      - evdealer-network
-
-  evd-app:
-    build: .
-    container_name: "evd-app"
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./uploads:/app/uploads
-    depends_on:
-      evdealer-mssql:
-        condition: service_healthy
-    environment:
-      - MSSQL_ADDRESS=${MSSQL_ADDRESS}
-      - MSSQL_DB=${MSSQL_DB}
-      - MSSQL_SA_USERNAME=${MSSQL_SA_USERNAME}
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRATION=${JWT_EXPIRATION}
-      - JWT_REFRESH_EXPIRATION=${JWT_REFRESH_EXPIRATION}
-    networks:
-      - evdealer-network
-
-#
-#  evd-app-fe:
-#    container_name: "evd-app-fe"
-#    image: phccnguyenn/evd-app-fe:1.0.0
+#  evdealer-mssql:
+#    image: mcr.microsoft.com/mssql/server:2022-latest
+#    container_name: "evdealer-mssql"
 #    ports:
-#      - "5173:80"
+#      - "14335:1433"
+#    environment:
+#      - ACCEPT_EULA=Y
+#      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+#    volumes:
+#      - ./sql:/var/opt/sql
+#    healthcheck:
+#      test: [ "CMD-SHELL", "bash -c '</dev/tcp/localhost/1433'" ]
+#      interval: 10s
+#      timeout: 3s
+#      retries: 5
+#      start_period: 20s
 #    networks:
 #      - evdealer-network
 #
-#  evd-app-be:
+#  mssql-tool:
+#    image: mcr.microsoft.com/mssql-tools:latest
+#    container_name: "mssql-tool"
+#    depends_on:
+#      - evdealer-mssql
+#    command: /opt/sql/wait-for-mssql.sh
+#    volumes:
+#      - ./sql:/opt/sql
+#    networks:
+#      - evdealer-network
+#
+#  evd-app:
 #    build: .
 #    container_name: "evd-app"
 #    ports:
 #      - "8000:8000"
 #    volumes:
 #      - ./uploads:/app/uploads
+#    depends_on:
+#      evdealer-mssql:
+#        condition: service_healthy
 #    environment:
-#      - SERVER_PORT=${SERVER_PORT}
 #      - MSSQL_ADDRESS=${MSSQL_ADDRESS}
-#      - MSSQL_HOST=${MSSQL_HOST}
 #      - MSSQL_DB=${MSSQL_DB}
 #      - MSSQL_SA_USERNAME=${MSSQL_SA_USERNAME}
 #      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
 #      - JWT_SECRET=${JWT_SECRET}
 #      - JWT_EXPIRATION=${JWT_EXPIRATION}
 #      - JWT_REFRESH_EXPIRATION=${JWT_REFRESH_EXPIRATION}
-#      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
-#      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
-#      - FILE_UPLOAD_DIR=${FILE_UPLOAD_DIR}
-#      - FILE_CONTRACT_DIR=${FILE_CONTRACT_DIR}
 #    networks:
 #      - evdealer-network
+
+
+  evd-app-fe:
+    container_name: "evd-app-fe"
+    image: phccnguyenn/evd-app-fe:1.0.0
+    ports:
+      - "5173:80"
+    networks:
+      - evdealer-network
+
+  evd-app-be:
+    build: .
+    container_name: "evd-app"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - MSSQL_ADDRESS=${MSSQL_ADDRESS}
+      - MSSQL_HOST=${MSSQL_HOST}
+      - MSSQL_DB=${MSSQL_DB}
+      - MSSQL_SA_USERNAME=${MSSQL_SA_USERNAME}
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRATION=${JWT_EXPIRATION}
+      - JWT_REFRESH_EXPIRATION=${JWT_REFRESH_EXPIRATION}
+      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+      - FILE_UPLOAD_DIR=${FILE_UPLOAD_DIR}
+      - FILE_CONTRACT_DIR=${FILE_CONTRACT_DIR}
+    networks:
+      - evdealer-network
 
 networks:
   evdealer-network:

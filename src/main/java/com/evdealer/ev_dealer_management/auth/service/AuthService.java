@@ -6,15 +6,12 @@ import com.evdealer.ev_dealer_management.auth.model.dto.RegisterRequest;
 import com.evdealer.ev_dealer_management.auth.model.dto.RegisterResponse;
 import com.evdealer.ev_dealer_management.auth.model.Token;
 import com.evdealer.ev_dealer_management.common.exception.InvalidAuthenticationPrincipalException;
-import com.evdealer.ev_dealer_management.user.model.DealerHierarchy;
 import com.evdealer.ev_dealer_management.user.model.DealerInfo;
 import com.evdealer.ev_dealer_management.user.model.User;
 import com.evdealer.ev_dealer_management.auth.model.enumeration.TokenType;
 import com.evdealer.ev_dealer_management.auth.repository.TokenRepository;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserInfoListDto;
 import com.evdealer.ev_dealer_management.user.model.dto.account.UserProfileGetDto;
-import com.evdealer.ev_dealer_management.user.model.enumeration.RoleType;
-import com.evdealer.ev_dealer_management.user.repository.DealerHierarchyRepository;
 import com.evdealer.ev_dealer_management.user.repository.DealerInfoRepository;
 import com.evdealer.ev_dealer_management.user.repository.UserRepository;
 import com.evdealer.ev_dealer_management.common.exception.DuplicatedException;
@@ -51,7 +48,6 @@ public class AuthService {
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final DealerHierarchyRepository dealerHierarchyRepository;
 
     public UserInfoListDto getAllUser(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);

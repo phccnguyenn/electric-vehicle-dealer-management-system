@@ -2,13 +2,12 @@ package com.evdealer.ev_dealer_management.order.service;
 
 import com.evdealer.ev_dealer_management.order.model.Order;
 import com.evdealer.ev_dealer_management.order.model.OrderActivity;
-import com.evdealer.ev_dealer_management.order.model.dto.SalesSpeedResponseDto;
 import com.evdealer.ev_dealer_management.order.model.enumeration.OrderStatus;
 import com.evdealer.ev_dealer_management.order.repository.OrderActivityRepository;
 import com.evdealer.ev_dealer_management.order.repository.OrderRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;

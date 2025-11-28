@@ -1,6 +1,5 @@
 package com.evdealer.ev_dealer_management.warehouse.controller;
 
-import com.evdealer.ev_dealer_management.warehouse.model.WarehouseTransfer;
 import com.evdealer.ev_dealer_management.warehouse.model.dto.*;
 import com.evdealer.ev_dealer_management.warehouse.model.enumeration.WarehouseCarStatus;
 import com.evdealer.ev_dealer_management.warehouse.service.WarehouseService;

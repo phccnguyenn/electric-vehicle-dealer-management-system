@@ -22,8 +22,8 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class FileGenerator {
 
-    //private final static String URL_BASE = "http://3.107.12.96:8000/evdealer";
-    private final static String URL_BASE = "http://localhost:8000/evdealer";
+    private final static String URL_BASE = "http://3.107.14.223:8000/evdealer";
+    // private final static String URL_BASE = "http://localhost:8000/evdealer";
     private final static String FONT_PATH = URL_BASE + "/uploads/arial-font/arial.ttf";
     private final OrderRepository orderRepository;
 
@@ -155,9 +155,7 @@ public class FileGenerator {
             Font titleFont = new Font(baseFont, 16, Font.BOLD);
             Font normalFont = new Font(baseFont, 12);
             Font boldFont = new Font(baseFont, 12, Font.BOLD);
-            Font italicFont = new Font(baseFont, 12, Font.ITALIC, BaseColor.GRAY);
-            Font noteFont = new Font(baseFont, 12, Font.NORMAL, BaseColor.DARK_GRAY);
-
+        
             // --- Header công ty ---
             Paragraph company = new Paragraph("CÔNG TY TNHH VINFAST", boldFont);
             company.setAlignment(Element.ALIGN_CENTER);
@@ -182,12 +180,6 @@ public class FileGenerator {
             document.add(new Paragraph("Ngày ký: " +
                     LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")), normalFont));
             document.add(Chunk.NEWLINE);
-
-            // --- Bên bán ---
-//            document.add(new Paragraph("BÊN BÁN (BÊN A): CÔNG TY TNHH VINFAST", boldFont));
-//            document.add(new Paragraph("Đại diện: " + order.getStaff().getParent().getFullName(), normalFont));
-//            document.add(new Paragraph("Nhân viên kinh doanh: " + order.getStaff().getFullName(), normalFont));
-//            document.add(Chunk.NEWLINE);
 
             // --- Bên mua ---
             document.add(new Paragraph("BÊN MUA (BÊN B): " + order.getCustomer().getFullName(), boldFont));
