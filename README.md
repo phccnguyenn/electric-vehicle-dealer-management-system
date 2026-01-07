@@ -103,3 +103,4 @@ Once the application is running, you can access the Swagger UI to explore and te
 - Default port: `8000` (Context path: `/evdealer`)
 - DevTools are enabled for automatic restart during development.
 - PDF uploads and thumbnails are stored in the `/uploads` directory.
+- NHU SHIT
