@@ -284,8 +284,7 @@ public class SecurityConfig {
     private UrlBasedCorsConfigurationSource corsConfig() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://3.107.14.223:5173"
+                "http://localhost:5173"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));

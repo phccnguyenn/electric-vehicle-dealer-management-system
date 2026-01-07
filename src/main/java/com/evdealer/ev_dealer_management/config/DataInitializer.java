@@ -27,7 +27,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+//HANG XE
         List<RegisterRequest> requests = new ArrayList<>();
         requests.add(RegisterRequest.builder()
                 .username("evd.admin")
@@ -52,7 +52,7 @@ public class DataInitializer implements CommandLineRunner {
                 .role(RoleType.EVM_STAFF)
                 .dealerInfo(null)
                 .build());
-
+//DAI LY
         DealerInfo sgDealerInfo =  dealerInfoRepository.findById(1L).orElse(null);
         requests.add(RegisterRequest.builder()
                 .dealerInfo(sgDealerInfo)

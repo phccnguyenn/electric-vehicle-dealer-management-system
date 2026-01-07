@@ -22,8 +22,8 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class FileGenerator {
 
-    private final static String URL_BASE = "http://3.107.14.223:8000/evdealer";
-    // private final static String URL_BASE = "http://localhost:8000/evdealer";
+    //private final static String URL_BASE = "http://3.107.14.223:8000/evdealer";
+    private final static String URL_BASE = "http://localhost:8000/evdealer";
     private final static String FONT_PATH = URL_BASE + "/uploads/arial-font/arial.ttf";
     private final OrderRepository orderRepository;
 

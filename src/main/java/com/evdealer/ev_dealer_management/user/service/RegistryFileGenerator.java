@@ -26,8 +26,8 @@ public class RegistryFileGenerator {
 
     private final DealerInfoRepository dealerInfoRepository;
 
-    private final static String URL_BASE = "http://3.107.14.223:8000/evdealer";
-    // private final static String URL_BASE = "http://localhost:8000/evdealer";
+//    private final static String URL_BASE = "http://3.107.14.223:8000/evdealer";
+    private final static String URL_BASE = "http://localhost:8000/evdealer";
     private final static String FONT_PATH = URL_BASE + "/uploads/arial-font/arial.ttf";
 
     public DealerInfo generateContract(User manufacturer, User dealer, DealerInfo dealerInfo) throws IOException, DocumentException {
